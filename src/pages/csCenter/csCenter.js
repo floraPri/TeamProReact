@@ -1,4 +1,4 @@
-import Cscenter from "@/component/admin/csCenter"
+import Cscenter from "@/component/csCenter/csCenter"
 
 export default function test ({children}){
     return(

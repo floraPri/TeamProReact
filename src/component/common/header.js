@@ -123,7 +123,7 @@ export default function Header() {
                     <RightMenuTab onClick={() => router.push('/myPage/mail') }><BiMessageAlt style={{width:'20px',height:'20px'}}/></RightMenuTab>
                     <RightMenuTab><BsBell style={{width:'20px',height:'20px'}}/></RightMenuTab>
                     <RightMenuTab onClick={() => router.push('/myPage/myp') }><BiSolidUserCircle style={{width:'30px',height:'30px'}}/></RightMenuTab>
-                    <RightMenuTab onClick={() => router.push('/admin/csCenter') }>고객센터</RightMenuTab>
+                    <RightMenuTab onClick={() => router.push('/csCenter/csCenter') }>고객센터</RightMenuTab>
                     <RightMenuTab>글쓰기</RightMenuTab>
                 </RightMenu>
             </ContainerIn>
