@@ -121,7 +121,7 @@ export default function Header(){
                     <SearchInput></SearchInput>
                 </SearchBar>
                 <RightMenu>
-                    <RightMenuIcon><Link href="/myPage/mail"><BiMessageAlt /></Link></RightMenuIcon>
+                    <RightMenuIcon><Link href="/message/sendMessage"><BiMessageAlt /></Link></RightMenuIcon>
                     <RightMenuIcon><BsBell /></RightMenuIcon>
                     <RightMenuTab>내채널</RightMenuTab>
                     <RightMenuTab><Link href="/myPage/myp">마이페이지</Link></RightMenuTab>
