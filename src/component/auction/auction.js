@@ -90,8 +90,8 @@ function Auction() {
             title="나의 경매"
             id="bg-vertical-dropdown-1"
           >
-            <Dropdown.Item eventKey="1">HOST</Dropdown.Item>
-            <Dropdown.Item eventKey="2">GUEST</Dropdown.Item>
+            <Dropdown.Item eventKey="1" onClick={() => router.push('/auction/auctionHost') }>HOST</Dropdown.Item>
+            <Dropdown.Item eventKey="2" onClick={() => router.push('/auction/auctionGuest') }>GUEST</Dropdown.Item>
           </DropdownButton>
           </ButtonGroup>
         </Container__2>
