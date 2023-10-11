@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import MyLeftMenu from "./myLeftMenu";
 
 const Container = styled.div`
   display: flex;
@@ -9,10 +10,8 @@ const Cap = styled.img`
   width: 1600px;
 `;
 
-export default function AdminUser (){
+export default function AdminSearchUser (){
     return(
-      <Container>
-        <Cap src="/assets/images/admin/adminUser.PNG" />
-      </Container>
+      <MyLeftMenu />
     )
 }

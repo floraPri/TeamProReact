@@ -3,6 +3,9 @@ import styled from "styled-components";
 import { BiSearch, BiMessageAlt, BiSolidUserCircle } from "react-icons/bi";
 import { BsBell } from "react-icons/bs";
 import { useRouter } from "next/router";
+import Dropdown from 'react-bootstrap/Dropdown';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import React, { useState } from 'react';
 
 
 const Container = styled.div`
@@ -92,7 +95,6 @@ const RightMenu = styled.div`
     width: 300px;
 `;
 
-
 const RightMenuTab = styled.div`
     cursor: pointer;
     display: flex;
@@ -102,8 +104,30 @@ const RightMenuTab = styled.div`
     }
 `;
 
+const StyledDropdown = styled(Dropdown)`
+    .dropdown-toggle::after {
+        content: none;
+    }
+    margin-top: -5px;
+`;
+
+const StyledDropdownToggle  = styled(Dropdown.Toggle)` 
+    border: none;
+`;
+
+const RedDot = styled.div`
+  background-color: red;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  position: absolute;
+  top: -5;
+  right: 0;
+`;
+
 export default function Header() {
     const router = useRouter();
+    const [hasNotification] = useState(true);
 
     return(
         
@@ -111,7 +135,7 @@ export default function Header() {
             <ContainerIn>
                 <Title onClick={() => router.push('/main/main') }>weAround</Title>
                 <LeftMenu>
-                <LeftMenuTab onClick={() => router.push('/channel/commain') }>커뮤니티</LeftMenuTab>
+                    <LeftMenuTab onClick={() => router.push('/channel/commain') }>커뮤니티</LeftMenuTab>
                     <LeftMenuTab onClick={() => router.push('/product/product') }>중고거래</LeftMenuTab>
                     <LeftMenuTab onClick={() => router.push('/auction/auction') }>경매</LeftMenuTab>
                 </LeftMenu>
@@ -121,10 +145,33 @@ export default function Header() {
                 </SearchBar>
                 <RightMenu>
                     <RightMenuTab onClick={() => router.push('/myPage/mail') }><BiMessageAlt style={{width:'20px',height:'20px'}}/></RightMenuTab>
-                    <RightMenuTab><BsBell style={{width:'20px',height:'20px'}}/></RightMenuTab>
+                    <RightMenuTab>
+                        <StyledDropdown>
+                            <StyledDropdownToggle  variant="white">
+                                {hasNotification && <RedDot />}
+                                <BsBell style={{width:'20px',height:'20px'}}/>
+                            </StyledDropdownToggle >
+                            <Dropdown.Menu>
+                                <Dropdown.Item href="#/action-1">새 글이 등록되었습니다.</Dropdown.Item>
+                                <Dropdown.Item href="#/action-1">읽지 않은 채팅이 있습니다.</Dropdown.Item>
+                            </Dropdown.Menu>
+                        </StyledDropdown>
+                    </RightMenuTab>
                     <RightMenuTab onClick={() => router.push('/myPage/myp') }><BiSolidUserCircle style={{width:'30px',height:'30px'}}/></RightMenuTab>
                     <RightMenuTab onClick={() => router.push('/csCenter/csCenter') }>고객센터</RightMenuTab>
-                    <RightMenuTab>글쓰기</RightMenuTab>
+                    <RightMenuTab>
+                        <Dropdown>
+                            <StyledDropdownToggle variant="success">
+                                글쓰기
+                            </StyledDropdownToggle>
+
+                            <Dropdown.Menu>
+                                <Dropdown.Item href="#/action-1">커뮤니티</Dropdown.Item>
+                                <Dropdown.Item href="#/action-2">중고거래</Dropdown.Item>
+                                <Dropdown.Item href="#/action-3">경매</Dropdown.Item>
+                            </Dropdown.Menu>
+                        </Dropdown>
+                    </RightMenuTab>
                 </RightMenu>
             </ContainerIn>
         </Container>

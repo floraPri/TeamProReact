@@ -1,7 +1,7 @@
-import AdminUser from "@/component/admin/adminSearchUser"
+import AdminSearchUser from "@/component/admin/adminSearchUser"
 
 export default function test ({children}){
     return(
-        <adminSearchUser />
+        <AdminSearchUser />
     )
 }

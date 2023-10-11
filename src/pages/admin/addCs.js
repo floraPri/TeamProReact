@@ -1,7 +1,7 @@
-import Cscenter from "@/component/admin/addCs"
+import AddCs from "@/component/admin/addCs"
 
 export default function test ({children}){
     return(
-        <addCs />
+            <AddCs />
     )
 }

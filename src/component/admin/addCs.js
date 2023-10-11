@@ -1,18 +1,10 @@
 import styled from "styled-components";
+import MyLeftMenu from "./myLeftMenu";
 
-const Container = styled.div`
-  display: flex;
-  justify-content: center;
-`;
 
-const Cap = styled.img`
-  width: 1600px;
-`;
 
-export default function Cscenter (){
+export default function AddCs (){
     return(
-      <Container>
-        <Cap src="/assets/images/admin/csCenter.PNG" />
-      </Container>
+      <MyLeftMenu />
     )
 }
