@@ -1,5 +1,6 @@
-import Link from "next/link";
+import React from "react";
 import styled from "styled-components";
+import Link from "next/link";
 
 const Container = styled.div`
   width: 100%;
@@ -163,21 +164,46 @@ const LoginButton = styled.button`
     word-wrap: break-word;
   }
 `;
+export default class LoginForm extends React.Component {
 
-export default function Login (){
-    return(
+constructor(props) {
+    super(props);
+    this.state = {
+        active: "login",
+        email: "",    // login: "" -> id: ""
+        password: "",
+        phone: "",
+        name: "",
+        onLogin: props.onLogin, // 사용자가 자격증명을 보낸후 상위구성요소가 로그인 양식을 숨길수 있다.
+    };
+};
+
+// 필드의 업데이트된 값을 state에 저장
+onChangeHandler = (event) => {
+    let name = event.target.name;
+    let value = event.target.value;
+    this.setState({[name]: value});
+};
+
+// 로그인 처리
+onSubmitLogin = (e) => {
+    this.state.onLogin(e, this.state.email, this.state.password);  // this.state.login-> this.state.id
+};
+
+  render() {
+    return (
       <div>
         <Container>
-            <form action="/first/first" method="post">
+            <form onSubmit={this.onSubmitLogin}>
                 <Card>
                     <Title>weAround</Title>
                     <EmailInput>
-                    <input type="text" placeholder="email" required />
+                    <input type="text" name= "email" placeholder="email" onChange={this.onChangeHandler} required />
                     </EmailInput>
                     <PasswordInput>
-                    <input type="text" placeholder="password" required />
+                    <input type="text" name="password" placeholder="password" onChange={this.onChangeHandler} required />
                     </PasswordInput>
-                    <LoginButton>
+                    <LoginButton type="submit">
                     <div></div>
                     <div>Login</div>
                     </LoginButton>
@@ -194,4 +220,5 @@ export default function Login (){
         <Link href="/admin/adminUser">adminuser</Link>
       </div>
     )
-}      
+  }
+}
