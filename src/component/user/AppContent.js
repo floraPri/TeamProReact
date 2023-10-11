@@ -1,42 +1,24 @@
 import React, {Component} from 'react';
-import LoginForm from './join/join';
+import JoinForm from './join/join';
 import { request, setAuthToken } from './axios_helper';
 import MainPages from '@/pages/main/main';
+import LoginPages from '@/pages/user/login/login';
 
 class AppContent extends Component {
 
     constructor(props) {
         super(props);
         this.state = {
-            componentToShow: "login"
+            componentToShow: "join"
         }
     }
 
     login = () => {
-        this.setState({componentToShow: "login"})
+        this.setState({componentToShow: "join"})
     }
 
     logout = () => {
         this.setState({componentToShow: "main"})
-    }
-    onLogin = (e, email, password) => {
-        e.preventDefault();
-        request(
-            "POST",
-            "/login",
-            {
-                email: email,
-                password: password
-            })
-            .then((response) => {
-                this.setState({componentToShow: "main"});
-                setAuthToken(response.data.token);
-            }) 
-            .catch((error) => {
-                this.setState({componentToShow: "main"});
-                setAuthToken(null);
-            }
-        );
     }
     
     onRegister = (event, email, password, phone, name, ) => {
@@ -66,7 +48,8 @@ class AppContent extends Component {
         return (  
             <div> 
                 {this.state.componentToShow === "main" && <MainPages /> }
-                {this.state.componentToShow === "login" && <LoginForm onLogin={this.onLogin} onRegister={this.onRegister} />}
+                {this.state.componentToShow === "login" && <LoginPages /> }
+                {this.state.componentToShow === "join" && <JoinForm onRegister={this.onRegister} />}
             </div>
         );
     };
