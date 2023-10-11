@@ -50,7 +50,7 @@ const LeftMenuTab = styled.div`
     word-wrap: break-word;
     cursor: pointer;
     &:hover {
-        color: #1877F2;
+        color: #03C179;
     }
 `;
 
@@ -67,8 +67,9 @@ const SearchBar = styled.div`
 const SearchIcon = styled.div`
     padding: 5px 5px 2px 5px;
     cursor: pointer;
+    color: #8b8b8b;
     &:hover {
-        color: #1877F2;
+        color: #03C179;
     }
 `;
 
@@ -98,7 +99,7 @@ const RightMenuTab = styled.div`
     display: flex;
     align-items: center;
     &:hover {
-        color: #1877F2;
+        color: #03C179;
     }
 `;
 
@@ -120,8 +121,8 @@ export default function Header() {
                     <SearchInput></SearchInput>
                 </SearchBar>
                 <RightMenu>
-                    <RightMenuTab onClick={() => router.push('/myPage/mail') }><BiMessageAlt style={{width:'20px',height:'20px'}}/></RightMenuTab>
                     <RightMenuTab><BsBell style={{width:'20px',height:'20px'}}/></RightMenuTab>
+                    <RightMenuTab onClick={() => router.push('/myPage/mail') }><BiMessageAlt style={{width:'20px',height:'20px'}}/></RightMenuTab>
                     <RightMenuTab onClick={() => router.push('/myPage/myp') }><BiSolidUserCircle style={{width:'30px',height:'30px'}}/></RightMenuTab>
                     <RightMenuTab onClick={() => router.push('/admin/csCenter') }>고객센터</RightMenuTab>
                     <RightMenuTab>글쓰기</RightMenuTab>
