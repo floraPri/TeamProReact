@@ -6,6 +6,7 @@ const Container = styled.div`
   justify-content: center;
 `;
 const ContainerIn = styled.div`
+  margin-left: 400px;
   width: 100%; 
   height: 100%;
   display: flex;
