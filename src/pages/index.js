@@ -13,8 +13,8 @@ export default function Home() {
       <main>
         <Link href="/first/first"> 첫번째 </Link>
         <Link href="/main/main"> 메인 </Link>
-        <Link href="/login/login"> 로그인 </Link>
-        <Link href="/join/join"> 회원가입 </Link>
+        <Link href="/user/login/login"> 로그인 </Link>
+        <Link href="/user/join/join"> 회원가입 </Link>
         <Link href="/login/test"> 테스트 </Link>
       </main>
     </>
