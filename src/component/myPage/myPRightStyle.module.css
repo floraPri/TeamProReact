@@ -1,0 +1,107 @@
+/*
+마이페이지 오른쪽 영역 css
+**/
+
+.welcomeTitle {
+    width: 960px;
+    height: 50px;
+    line-height: 50px;
+    background: #03C179;
+    color: white;
+    box-sizing: border-box;
+    padding-left: 30px;
+}
+
+.welcomeBox {
+    width: 960px;
+    height: 100px;
+    line-height: 100px;
+    background: #FBFBFB;
+    box-sizing: border-box;
+    display: flex;
+    justify-content: center;
+}
+
+.welcomeBox > p {
+    font-size: 1.1em;
+    height: 100px;
+    line-height: 100px;
+    padding: 0 20px;
+}
+
+.txtNumber {
+    font-size: 2em;
+    color: #DE1B1B;
+    font-weight: bold;
+}
+
+.h3_title {
+    font-size: 1.5em;
+    font-weight: bold;
+}
+
+/*
+    마이 피드 부분 css
+*/
+
+.feedImgWrap {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+}
+
+ul.feedImgWrap li {
+    width: 300x;
+    height: 300px;
+    margin-bottom: 30px;
+    overflow: hidden;
+    border-radius: 5%;
+}
+
+
+ul.productImgWrap {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+}
+ul.productImgWrap li {
+    width: 180px;
+    height: 180px;
+    overflow:hidden;
+    border-radius: 10px;
+    margin-bottom: 15px;
+}
+
+/* 후기부분 */
+.reviewUlWrap {
+
+}
+
+.reviewUlWrap li {
+    display: flex;
+    justify-content: start;
+    flex-wrap: wrap;
+    margin-bottom: 20px;
+}
+
+.reviewProductImg {
+    width: 160px;
+    height: 160px;
+    overflow: hidden;
+    border-radius: 10px;
+}
+
+.reviewWrap {
+    margin-left: 30px;
+    padding-top: 20px;
+}
+
+.h2Title {
+    font-size : 1.1em;
+    color:darkgray;
+}
+
+.reviewTxt {
+    width: 700px;
+    font-size: 1.2em;
+}

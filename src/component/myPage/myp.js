@@ -1,9 +1,14 @@
 import Link from "next/link";
 import styled from "styled-components";
+import MyPagesMenu from "./myPagesMenu";
+import MyPageRight from "./myPageRight";
 
 const Container = styled.div`
+  min-width: 1280px;
+  width: 100%;
   display: flex;
   justify-content: center;
+  padding-top: 50px;
 `;
 
 const Cap = styled.img`
@@ -13,10 +18,14 @@ const Cap = styled.img`
 export default function MyPages (){
     return(
       <Container>
-        <Cap src="/assets/images/mypage/mypage.PNG" />
+        <MyPagesMenu />
+        
+        <MyPageRight />
+      {/**   <div>
         <Link href="/myPage/cart">찜목록  </Link>
         <Link href="/myPage/order">주문목록 </Link>
         <Link href="/myPage/userInfo">내정보 </Link>
+        </div> */}
       </Container>
     )
 }
