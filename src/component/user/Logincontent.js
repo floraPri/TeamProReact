@@ -43,4 +43,4 @@ const Logincontent = () => {
         );
 }
 
-export default Logincontent;
+export default Logincontent; 

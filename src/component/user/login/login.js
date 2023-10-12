@@ -77,13 +77,14 @@ const Title = styled.div`
 `;
 
 const InputField = styled.input`
-  width: 200px;
+  width: 230px;
   height: 31px;
   margin: 5px 32px 0px 32px;
   padding: 0px 15px;
   border-radius: 2px;
   border: 1px #DFDFDF solid;
   background: #FAFAFA;
+  font-size: 14px;
 `;
 
 const GreenButton = styled.button`
@@ -94,7 +95,7 @@ const GreenButton = styled.button`
   border-radius: 8px;
   border: none;
   color: white;
-  font-size: 9px;
+  font-size: 15px;
   font-family: 'Inter', sans-serif;
   font-weight: 600;
   text-align: center;
@@ -129,7 +130,7 @@ const BorderLine = styled.div`
 const CreateAccountLink = styled.a`
   width: 113.14px;
   height: 14.23px;
-  margin: 0px 105.6px;
+  margin: 0px 104.6px;
   text-align: center;
   color: #1997F6;
   font-size: 8px;
