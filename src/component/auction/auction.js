@@ -76,7 +76,32 @@ function Auction() {
     setSelectedOption(event.target.value);
   };
 
+  const LastTime = styled.span`
+  color: green;
+  font-weight: bold;
+`;
+
   const router = useRouter();
+  
+  const [remainingTime, setRemainingTime] = useState({ hours: 60, minutes: 0, seconds: 0 });
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      if (remainingTime.seconds > 0) {
+        setRemainingTime(prevTime => ({ ...prevTime, seconds: prevTime.seconds - 1 }));
+      } else if (remainingTime.minutes > 0) {
+        setRemainingTime(prevTime => ({ ...prevTime, minutes: prevTime.minutes - 1, seconds: 59 }));
+      } else if (remainingTime.hours > 0) {
+        setRemainingTime(prevTime => ({ ...prevTime, hours: prevTime.hours - 1, minutes: 59, seconds: 59 }));
+      }
+    }, 1000);
+
+    return () => {
+      clearInterval(interval);
+    };
+  }, [remainingTime]);
+
+  const lastTimeColor = remainingTime.hours < 1 ? "red" : "green";
 
   return (
     <Container>
@@ -97,7 +122,7 @@ function Auction() {
         </Container__2>
         <Container__3>
           <AuctionDiv className="auctionDiv">
-            <AuctionDiv__1 className="auctionDiv__1">3</AuctionDiv__1>개
+            <AuctionDiv__1 className="auctionDiv__1">1</AuctionDiv__1>개
           </AuctionDiv>
           <ConstituencyDiv class="constituency">
             <select value={selectedOption} onChange={handleSelectChange}>
@@ -120,7 +145,10 @@ function Auction() {
                 <Card.Text>
                   참여자 : 55 명<br/>
                   시작금액 : 650000 원<br/>
-                  경매 남은 시간 : 55 : 38 : 51 : 13<br/>
+                  경매 남은 시간&nbsp;
+                  <LastTime color={lastTimeColor}>
+                    {String(remainingTime.hours).padStart(2, '0')} : {String(remainingTime.minutes).padStart(2, '0')} : {String(remainingTime.seconds).padStart(2, '0')}
+                  </LastTime>
                 </Card.Text>
               </Card.Body>
             </Card>

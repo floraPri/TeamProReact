@@ -1,225 +1,231 @@
 import styled from "styled-components";
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import Card from 'react-bootstrap/Card';
+import Col from 'react-bootstrap/Col';
+import Row from 'react-bootstrap/Row';
+import ListGroup from 'react-bootstrap/ListGroup';
 
-const Container = styled.div`
+import Form from "react-bootstrap/Form"; 
+import Button from "react-bootstrap/Button";
+import Container from 'react-bootstrap/Container';
+
+import Chat from './Chat'
+
+const Container_ = styled.div`
   display: flex;
+  flex-direction: row;
+
   justify-content: center;
-  flex-direction: column;
-  margin-right: 50px;
-  margin-left: 50px;
+  align-items: flex-start;
+
+  width: 1000px;
+  
+  margin: auto;
+  margin-top: 50px;
+  overflow: hidden;
 `;
 
-const ToDayAcuti = styled.div`
-  font-size: 21px;
+const AcuDiv_1 = styled.div`
+  // padding-top: 20px;
+  // padding-bottom: 20px;
+  margin-right: 10px;
+  flex: 1;
 `;
 
-const Back = styled.div`
-  padding: 20px;
-  background-color: #e0fdff;
-  width: 1100px; /* 화면 가로 크기의 50%로 설정 */
-  margin: 0 auto; /* 가운데 정렬을 위한 스타일 */
-`;
-
-const ToDayAcuBo = styled.div`
-  display: flex; 
-  padding-top: 30px;
-  flex-direction: column;
-`;
-
-const AcuName = styled.div`
-  display: flex; 
-  padding-bottom:90x;
-`;
-
-const AcuName__1 = styled.div`
-  font-size: 30px;
+const LastTime = styled.span`
+  color: green;
   font-weight: bold;
+  font-size: 20px;
 `;
 
-const AcuName__2 = styled.div`
-  padding-right: 12px;
-  padding-left: 12px;
-`;
-
-const AcuName__3 = styled.div`
-`;
-
-const AcuImg = styled.div`
-`;
-
-const AcuInfo = styled.div`
-  display: flex; 
-  padding: 10px;
-  padding-left: 12px;
-`;
-
-const AcuTa = styled.div`
-  display: flex; 
-  flex-direction: column;
-  padding-left: 15px;
-  padding-right: 15px;
-  font-size: 23px;
-`;
-
-const TrC = styled.tr`
-  display: flex; 
-  background-color: white;
-  font-size: 19px;
-  width: 350px;
-  height: 180px;
-  padding: 9px;
-`;
-
-const AcuInfo2 = styled.div`
-`;
-
-
-const AcuInfo3 = styled.div`
-padding-left: 180px;
-padding-right: 170px;
-`;
-
-const AcuInfo4 = styled.div`
-`;
-
-const AcuInfoBo = styled.div`
-  display: flex; 
-`;
-
-const Cheat = styled.div`
-  background-color: white;
-`;
-
-const Seller = styled.div`
-  width: 180px;
-  display: flex;
-  font-size: 27px;
+const CardTitle = styled.div`
   font-weight: bold;
+  font-size: 25px;
 `;
 
-const LastP = styled.div`
-  width: 200px;
-  display: flex;
+const Id_name = styled.div`
+  font-weight: bold;
+  font-size: 25px;
 `;
 
-const NowBy = styled.div`
-  display: flex;
+const Id = styled.div`
+  font-size: 20px;
 `;
 
-const Buy = styled.div`
-  padding-top: 20px;
-  display: flex;
+const AcuDiv_2 = styled.div`
+  flex: 1;
 `;
+
+const ListGroupItem = styled(ListGroup.Item)`
+  span {
+    margin-left: 10px;
+  }
+`;
+
+const AcuDiv_3 = styled.div`
+`;
+
+
 export default function AuctionDetail (){
+
+  const [remainingTime, setRemainingTime] = useState({ hours: 60, minutes: 0, seconds: 0 });
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      if (remainingTime.seconds > 0) {
+        setRemainingTime(prevTime => ({ ...prevTime, seconds: prevTime.seconds - 1 }));
+      } else if (remainingTime.minutes > 0) {
+        setRemainingTime(prevTime => ({ ...prevTime, minutes: prevTime.minutes - 1, seconds: 59 }));
+      } else if (remainingTime.hours > 0) {
+        setRemainingTime(prevTime => ({ ...prevTime, hours: prevTime.hours - 1, minutes: 59, seconds: 59 }));
+      }
+    }, 1000);
+
+    return () => {
+      clearInterval(interval);
+    };
+  }, [remainingTime]);
+
+  const lastTimeColor = remainingTime.hours < 1 ? "red" : "green";
+
     return(
-      <Container>
-        <ToDayAcuti>
-          <h3>오늘의 경매 PARTY</h3><br/>
-        </ToDayAcuti>
-        <Back>
-          <ToDayAcuBo>
-            <AcuName>
-              <AcuName__1>
-                자퇴서
-              </AcuName__1>
-              <AcuName__2>
-                경매 남은 시간
-              </AcuName__2>
-              <AcuName__3>
-                55 : 38 : 51 : 13
-              </AcuName__3>
-            </AcuName>
-            <AcuInfo>
-              <AcuImg><img src="/assets/images/auction/ac1.PNG"/></AcuImg>
-              <AcuTa>
-                <table>
-                  <tbody>
-                    <tr>
-                      <td>
-                        <span>현재 경매 참여자 :</span> 
-                        <span>55</span>
-                        <span>명</span>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>
-                        <span>시작 금액 : </span>
-                        <span>650000</span>
-                        <span>원</span> 
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>
-                        <span>즉시 구매가 : </span>
-                        <span>1000000</span>
-                        <span>원</span>
-                      </td>
-                    </tr>              
-                    <tr>
-                      <td>
-                        <span>현재 최소 입찰가 : </span>
-                        <span>50000</span>
-                        <span>원</span>
-                      </td>
-                    </tr>
-                    <TrC>
-                      <td colSpan="3">
-                        자퇴서 입니다 <br/>
-                        유용하게 사용하세요
-                      </td>
-                    </TrC>
-                  </tbody>
-                </table>
-              </AcuTa>
-              <Cheat>
-                <div>
-                  <div>
-                    <p>aaa</p>
-                    <span> : </span>
-                    <span>진심 이 가격까지 오른다고?</span>
-                  </div>
-                </div>
-                <div>
-                  <div>
-                    <p>aab</p>
-                    <span> : </span>
-                    <span>자퇴서를 왜 사?</span>
-                  </div>
-                </div>
-                <div>
-                  <input type="text" className="msg" />
-                  <button>전송</button>
-                </div>
-              </Cheat>
-            </AcuInfo>
-          </ToDayAcuBo>
-          <AcuInfoBo>
-            <AcuInfo2>
-              <Seller>
-                <p>판매자 : </p>
-                <p>화석</p>
-              </Seller>
-            </AcuInfo2>
-            <AcuInfo3>
-              <LastP>
-                <p>현재 최종가 : </p>
-                <p>1150000</p>
-                <p>원</p>
-              </LastP>
-              <NowBy>
-                <p>입찰자 : </p>
-                <p>yebiFossil19</p>
-              </NowBy>
-            </AcuInfo3>
-            <AcuInfo4>
-              <Buy>
-                <input type="text" className="AcP" />
-                <button>입찰하기</button>
-              </Buy>
-            </AcuInfo4>
-          </AcuInfoBo>
-          {/* <Cap src="/assets/images/auction/auctionDetail.PNG" /> */}
-        </Back>
-    </Container>
+      <Container_>
+        <AcuDiv_1>
+          <div>
+            <Row xs={1} md={1} className="g-1">
+              {Array.from({ length: 1 }).map((_, idx) => (
+                <Col key={idx}>
+                  <Card>
+                    <Card.Img variant="top" src="/assets/images/auction/ac1.PNG" />
+                    <Card.Body>
+                      <h2>오늘의 물품</h2>
+                      <CardTitle>
+                        자퇴서&nbsp;
+                      </CardTitle>
+                      <span>
+                          경매 남은 시간&nbsp;
+                      </span>
+                      <LastTime color={lastTimeColor}>
+                        {String(remainingTime.hours).padStart(2, '0')} : {String(remainingTime.minutes).padStart(2, '0')} : {String(remainingTime.seconds).padStart(2, '0')}
+                      </LastTime>
+                      <hr></hr>
+                      <span>물품 설명</span>
+                      <br></br>
+                      <Card.Text>
+                        자신의 책무에서 벗어나게 해줄 수 있는 마법의 종이
+                        <br></br>
+                        보통은 눈에 띄지 않으나, 꿈을 잃어 캠퍼스를 방황하는 이들에게 종이가 찾아간다는 전설이 있다
+                        <br></br>
+                        모든 것을 잃은 자들의 두 눈과 귀를 속여 돌이킬 수 없는 선택을 하게 만든다
+                      </Card.Text>
+                    </Card.Body>
+                  </Card>
+                </Col>
+              ))}
+            </Row>            
+          </div>
+          <br></br>
+          <div>
+              <Row xs={1} md={1} className="g-1">
+                <Col>
+                  <Card>
+                    <Card.Body>
+                      <Id_name><span className="id">판매자</span></Id_name>
+                      <hr></hr>
+                      <Id onClick={() => router.push('') }>화석</Id>
+                    </Card.Body>
+                  </Card>
+                </Col>
+              </Row>
+          </div>
+        </AcuDiv_1>
+        <AcuDiv_2>
+          <div>
+            <Row xs={1} md={1} className="g-1">
+              <Col>
+                <ListGroup >
+                  <ListGroupItem >
+                    현재 경매 참여자 : 
+                    <span>
+                      6
+                    </span>
+                    명
+                  </ListGroupItem>
+
+                  <ListGroupItem >
+                    시작 금액 : 
+                    <span>
+                      650000
+                    </span>
+                    원
+                  </ListGroupItem>
+
+                  <ListGroupItem >
+                    즉시 구매가 :
+                    <span>
+                      1000000
+                    </span>
+                    원
+                  </ListGroupItem>
+
+                  <ListGroupItem >
+                    현재 최소 입찰가 :
+                    <span>
+                      50000
+                    </span>
+                    원
+                  </ListGroupItem>
+
+                  <ListGroupItem >
+                    현재 최종가 :
+                    <span>
+                      1150000
+                    </span>
+                    원
+                  </ListGroupItem>
+
+                  <ListGroupItem >
+                    입찰자 :
+                    <span>
+                      yebiFossil19
+                    </span>
+                  </ListGroupItem>
+                </ListGroup>
+              </Col>
+            </Row>            
+          </div>
+          <br></br>
+          <div>
+          <Container className="panel">
+            <Row xs={1} md={1} className="g-1">
+            <Col>
+            <Form>
+              <Form.Group as={Row} className="mb-3" controlId="formPlaintextPassword">
+                <Col sm>
+                  <Form.Control type="password" placeholder="입찰금액을 입력하세요" />
+                </Col>
+              </Form.Group>
+              <div className="d-grid gap-1">
+                  <Button variant="secondary" type="submit" >
+                    입찰하기
+                  </Button>
+              </div>
+            </Form>
+            </Col>
+            </Row>
+          </Container>
+          </div>
+          <hr></hr>
+          <div>
+            <Row xs={1} md={1} className="g-1">
+              <Col>
+                <Chat/>
+              </Col>
+            </Row>
+          </div>
+        </AcuDiv_2>
+        <AcuDiv_3>
+        </AcuDiv_3>
+      </Container_>
     )
 }
