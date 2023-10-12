@@ -2,11 +2,11 @@ import styled from "styled-components";
 import { useRouter } from "next/router";
 
 const Container = styled.div`
+  margin-left: -100px;
   display: flex;
   justify-content: center;
 `;
 const ContainerIn = styled.div`
-  margin-left: 400px;
   width: 100%; 
   height: 100%;
   display: flex;
@@ -15,7 +15,7 @@ const ContainerIn = styled.div`
 `;
 const LeftMenu = styled.div`
   display: block;
-  background-color: #999999;
+  background-color: #D9D9D9;
   width: 200px;
   height: 1000px;
     

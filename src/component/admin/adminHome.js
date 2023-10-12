@@ -4,7 +4,10 @@ import MyLeftMenu from './myLeftMenu';
 import { Chart } from 'react-google-charts';
 
 const Container = styled.div`
-  display: flex;
+    width: 1280px;
+    height: 100%;
+    display: flex;
+    margin: 0 auto;
 `;
 
 const AdminHome = () => {

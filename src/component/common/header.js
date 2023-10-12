@@ -157,7 +157,17 @@ export default function Header() {
                             </Dropdown.Menu>
                         </StyledDropdown>
                     </RightMenuTab>
-                    <RightMenuTab onClick={() => router.push('/myPage/myp') }><BiSolidUserCircle style={{width:'30px',height:'30px'}}/></RightMenuTab>
+                    <RightMenuTab>
+                        <StyledDropdown>
+                            <StyledDropdownToggle  variant="white">
+                                <BiSolidUserCircle style={{width:'30px',height:'30px'}}/>
+                            </StyledDropdownToggle >
+                            <Dropdown.Menu>
+                                <Dropdown.Item onClick={() => router.push('/myPage/myp') }>마이페이지</Dropdown.Item>
+                                <Dropdown.Item href="#/action-1">로그아웃</Dropdown.Item>
+                            </Dropdown.Menu>
+                        </StyledDropdown>
+                    </RightMenuTab>
                     <RightMenuTab onClick={() => router.push('/csCenter/csCenter') }>고객센터</RightMenuTab>
                     <RightMenuTab>
                         <Dropdown>
