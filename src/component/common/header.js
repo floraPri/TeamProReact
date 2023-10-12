@@ -145,7 +145,6 @@ export default function Header() {
                     <SearchInput></SearchInput>
                 </SearchBar>
                 <RightMenu>
-                    <RightMenuTab><BsBell style={{width:'20px',height:'20px'}}/></RightMenuTab>
                     <RightMenuTab onClick={() => router.push('/myPage/mail') }><BiMessageAlt style={{width:'20px',height:'20px'}}/></RightMenuTab>
                     <RightMenuTab>
                         <StyledDropdown>
