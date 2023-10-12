@@ -12,6 +12,7 @@ const Container = styled.div`
   `;
 const Container2 = styled.div`
   grid-template-rows: repeat(2, 1fr);
+  align-items: center;
 
 `;
 const space = "\n";
@@ -22,13 +23,13 @@ export default function MessageRoom (){
         <Container2>
         <Left>
             <ReiceiveMsg>
-                <p>받음</p>
+                <p>수신 msg</p>
             </ReiceiveMsg>
         </Left>
 
         <Right>
                 <SendMsg>
-                    <p>보냄</p>
+                <p>발신 msg</p>
                 </SendMsg>
         </Right>
         </Container2>
@@ -72,7 +73,7 @@ const ReiceiveMsg = styled.div`
     
 const SendMsg = styled.div`
     align: "right";
-    background: skyblue;
+    background: rgb(155, 232, 242);
     align-items: right;
     text-align: right;
     margin: 5px 10px 5px 10px;

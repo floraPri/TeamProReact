@@ -16,10 +16,15 @@ export default function MessageList (){
     return(
       <Container>
         <List>
-            <p> 목록 </p>
+            <p> messageList.js </p>
+            <RoomList>
+            <ProfileImg> img </ProfileImg> 수신자 정보
+            <p> content </p>
+            <p> 23.10.12 </p>
+            </RoomList>
         </List>
         <Room>
-        <p>수신자</p>
+        <p>messageRoom.js</p>
             <MessageRoom/>
         </Room>
       </Container>
@@ -41,3 +46,18 @@ const Room = styled.div`
     height: 650px;
     padding: 20px 10px 20px 10px;
 `;
+
+const RoomList = styled.div`
+  margin: 10px 10px 10px 10px;
+  width: 370px;
+  height : 100px;
+  background: rgb(255, 255, 255, 0.6)
+`;
+const ProfileImg = styled.div`
+  margin: 0px 5px 5px 5px;
+  margin-top: 5px;
+  width: 30px;
+  height: 30px;
+  background: #FFFFFF;
+`;
+
