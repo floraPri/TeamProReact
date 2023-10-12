@@ -1,26 +1,22 @@
-import React, {Component} from 'react';
+import React from 'react';
 import LoginForm from './login/login';
 import { request, setAuthToken } from './axios_helper';
-import MainPages from '@/pages/main/main';
+import { useState } from 'react';
 
-class Logincontent extends Component {
+const Logincontent = () => {
 
-    constructor(props) {
-        super(props);
-        this.state = {
-            componentToShow: "login"
-        }
+    const [componentToShow, setComponentToShow] = useState("login");
+
+    const login = () => {
+        setComponentToShow("login");
     }
 
-    login = () => {
-        this.setState({componentToShow: "login"})
+    const logout = () => {
+        setComponentToShow("main");
     }
 
-    logout = () => {
-        this.setState({componentToShow: "main"})
-    }
-    onLogin = (e, email, password) => {
-        e.preventDefault();
+    const onLogin = (email, password) => {
+        // e.preventDefault();
         request(
             "POST",
             "/login",
@@ -29,25 +25,22 @@ class Logincontent extends Component {
                 password: password
             })
             .then((response) => {
-                this.setState({componentToShow: "main"});
+                setComponentToShow("main");
                 setAuthToken(response.data.token);
             }) 
             .catch((error) => {
-                this.setState({componentToShow: "main"});
+                setComponentToShow("main");
                 setAuthToken(null);
             }
         );
     }
     
 
-    render() {
         return (  
             <div> 
-                {this.state.componentToShow === "main" && <MainPages /> }
-                {this.state.componentToShow === "login" && <LoginForm onLogin={this.onLogin} />}
+                {componentToShow === "login" && <LoginForm onLogin={onLogin} />}
             </div>
         );
-    };
 }
 
 export default Logincontent;
