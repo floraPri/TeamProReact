@@ -113,7 +113,7 @@ export default function Header() {
                 <Title onClick={() => router.push('/main/main') }>weAround</Title>
                 <LeftMenu>
                 <LeftMenuTab onClick={() => router.push('/channel/commain') }>커뮤니티</LeftMenuTab>
-                    <LeftMenuTab onClick={() => router.push('/product/product') }>중고거래</LeftMenuTab>
+                    <LeftMenuTab onClick={() => router.push('/channel/product') }>중고거래</LeftMenuTab>
                     <LeftMenuTab onClick={() => router.push('/auction/auction') }>경매</LeftMenuTab>
                 </LeftMenu>
                 <SearchBar>
