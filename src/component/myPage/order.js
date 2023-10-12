@@ -1,8 +1,12 @@
 import styled from "styled-components";
+import MyPagesMenu from "./myPagesMenu";
 
 const Container = styled.div`
+  min-width: 1280px;
+  width: 100%;
   display: flex;
   justify-content: center;
+  padding-top: 50px;
 `;
 
 const Cap = styled.img`
@@ -12,7 +16,9 @@ const Cap = styled.img`
 export default function Order (){
     return(
       <Container>
-        <Cap src="/assets/images/mypage/order.PNG" />
+        <MyPagesMenu />
+        주문내역 페이지
+        
       </Container>
     )
 }

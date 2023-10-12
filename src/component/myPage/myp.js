@@ -11,10 +11,6 @@ const Container = styled.div`
   padding-top: 50px;
 `;
 
-const Cap = styled.img`
-  width: 1000px;
-`;
-
 export default function MyPages (){
     return(
       <Container>
