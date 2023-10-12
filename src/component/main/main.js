@@ -1,20 +1,98 @@
 import styled from "styled-components"
+import LoginPages from "@/pages/user/login/login";
+import { request } from "../user/axios_helper";
+import { useEffect ,useState } from "react";
 
 const Container = styled.div`
-  display: flex;
-  justify-content: center;
+margin:  100px auto 0 auto;
+display: flex;
+width: 940px;
+height: auto;
+justify-content: space-between;
+`;
+const Feed = styled.div`
+  width: 600px;
+  height: 2000px;
+  border: 1px solid black;
+`;
+const LoginTab = styled.div`
+  width: 300px;
+  height: 300px;
+  /* border: 1px solid black; */
+  margin-bottom: 40px;
 `;
 
-const Cap = styled.img`
-  width: 2000px;
-  height: 1000px;
+const SideTab = styled.div`
+
 `;
+const Weather = styled.div`
+  width: 300px;
+  height: 180px;
+  border: 1px solid black;
+  margin-bottom: 40px;
+`;
+const Recommend = styled.div`
+  width: 300px;
+  height: 180px;
+  border: 1px solid black;
+`;
+const Logout = styled.button`
+  width: 300px;
+  height: 180px;
+  border: 1px solid black;
+  background-color: pink;
+`;
+
 
 
 export default function Main (){
+
+  const [token, setToken] = useState(null);
+
+  useEffect(() => {
+    const tokenFromLocalStorage = localStorage.getItem('auth_token');
+    setToken(tokenFromLocalStorage);
+  }, [])
+
+  const handleLogout = async () => {
+    request(
+      "POST",
+      "/logout",
+      {
+        // 다른 요청 헤더도 필요하다면 여기에 추가
+      },
+      {
+        Authorization: `Bearer ${token}`
+      }
+    )
+      .then((response) => {
+        if (response.status === 200) {
+          // 로그아웃 성공
+          localStorage.removeItem('auth_token');
+          // 다른 로직을 수행하거나 리디렉션할 수 있습니다
+          window.location.href = '/'; // 예: 홈페이지로 리디렉션
+        } else {
+          // 로그아웃 실패
+          console.error('로그아웃 실패');
+        }
+      })
+      .catch((error) => {
+        console.error('로그아웃 요청 중 오류 발생', error);
+      });
+  };
+
     return(
       <Container>
-        <Cap src="/assets/images/mainImg.PNG" />
+        <Feed>
+        </Feed>
+        <SideTab>
+         {token === null || token === 'null' ? <LoginTab>
+          <LoginPages />
+          </LoginTab> : null } 
+          <Weather />
+          <Recommend />
+          <Logout onClick={handleLogout}></Logout>
+        </SideTab>
       </Container>
     )
 }      

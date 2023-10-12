@@ -34,12 +34,10 @@ class AppContent extends Component {
                
             })
             .then((response) => {                
-                this.setState({componentToShow: "login"});
-                setAuthToken(response.data.token);
+                this.setState({componentToShow: "main"});
             })
             .catch((error) => {                
                 this.setState({componentToShow: "main"});
-               setAuthToken(null);
             }
         );
     };
