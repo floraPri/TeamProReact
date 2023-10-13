@@ -1,4 +1,4 @@
-import UserInfo from "@/component/myPage/userInfo"
+import UserInfo from "@/component/myPage/myInfo/userInfo"
 
 export default function test ({children}){
     return(

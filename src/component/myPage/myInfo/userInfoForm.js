@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import * as React from 'react';
 import {Table ,TableCell, TableRow, TableBody, TableHead, TableContainer} from "@mui/material";
-import { Input , TextField, Box } from '@mui/material';
+import { Input , TextField, Box, Button } from '@mui/material';
 
 const RightContainer = styled.div`
     width: 960px;
@@ -92,6 +92,7 @@ export default function MyInfoEdit(){
                 </TableRow>
             </Table>
         </Box>
+        <Button variant="contained" size="medium">수정</Button>
     </RightContainer>
     );
 }

@@ -1,6 +1,6 @@
 import styled from "styled-components";
-import MyPagesMenu from "./myPagesMenu";
-import MyInfoEdit from "./userInfoForm";
+import MyPagesMenu from "../myPagesMenu";
+import OrderListPage from "./orderListPage";
 
 const Container = styled.div`
   min-width: 1280px;
@@ -10,19 +10,12 @@ const Container = styled.div`
   padding-top: 50px;
 `;
 
-const Cap = styled.img`
-  width: 1000px;
-`;
-const Fl = styled.div`
-  display: flex;
-  flex-direction: column;
-`;
 
-export default function UserInfo (){
+export default function Order (){
     return(
       <Container>
         <MyPagesMenu />
-        <MyInfoEdit />
+        <OrderListPage />
       </Container>
     )
 }

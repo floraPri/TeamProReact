@@ -15,7 +15,6 @@ export default function MyPages (){
     return(
       <Container>
         <MyPagesMenu />
-        
         <MyPageRight />
       {/**   <div>
         <Link href="/myPage/cart">찜목록  </Link>

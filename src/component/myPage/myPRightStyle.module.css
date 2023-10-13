@@ -79,7 +79,7 @@ ul.productImgWrap li {
 
 .reviewUlWrap li {
     display: flex;
-    justify-content: start;
+    justify-content: flex-start;
     flex-wrap: wrap;
     margin-bottom: 20px;
 }
