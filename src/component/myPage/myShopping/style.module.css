@@ -1,0 +1,16 @@
+.ulStyle {
+    width: 100%;
+    height: 100%;
+    background: #ececec;
+    box-sizing: border-box;
+    padding-top: 20px;
+}
+
+.ulStyle li {
+    width: 900px;
+    margin: 0 auto;
+}
+
+.borderLine {
+    border-bottom: 1px solid #ececec;
+}
