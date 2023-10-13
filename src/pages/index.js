@@ -1,5 +1,6 @@
 import Head from 'next/head'
 import Link from 'next/link'
+import MainPages from './main/main'
 
 export default function Home() {
   return (
@@ -11,11 +12,7 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main>
-        <Link href="/first/first"> 첫번째 </Link>
-        <Link href="/main/main"> 메인 </Link>
-        <Link href="/user/login/login"> 로그인 </Link>
-        <Link href="/user/join/join"> 회원가입 </Link>
-        <Link href="/login/test"> 테스트 </Link>
+        <MainPages />
       </main>
     </>
   )
