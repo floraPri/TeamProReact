@@ -1,8 +1,13 @@
 import styled from "styled-components";
+import MyPagesMenu from "./myPagesMenu";
+import MyInfoEdit from "./userInfoForm";
 
 const Container = styled.div`
+  min-width: 1280px;
+  width: 100%;
   display: flex;
   justify-content: center;
+  padding-top: 50px;
 `;
 
 const Cap = styled.img`
@@ -16,9 +21,8 @@ const Fl = styled.div`
 export default function UserInfo (){
     return(
       <Container>
-        <Fl>
-        <Cap src="/assets/images/mypage/user.PNG" />
-        </Fl>
+        <MyPagesMenu />
+        <MyInfoEdit />
       </Container>
     )
 }
