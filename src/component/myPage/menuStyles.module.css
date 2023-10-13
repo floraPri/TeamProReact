@@ -1,0 +1,41 @@
+/*
+    왼쪽메뉴 css
+*/
+
+.memberWrap {
+    background-color: #ddd;
+    width: 20%;
+    min-width: 240px;
+    height: 176px;
+    text-align: center;
+}
+
+.spanWrap {
+    display: inline-block;
+    background: white;
+    border-radius: 100%;
+    width: 80px;
+    height: 80px;
+    margin-top:20px;
+}
+
+span.memberID_wrap {
+    font-size: 1.5em;
+    font-weight: bold;
+}
+
+.h3_title {
+    margin-top: 30px;
+    font-weight: bold;
+    font-size: 1.5em;
+}
+
+.ul_class {
+    padding-top: 15px;
+    font-size: 1.2em;
+}
+
+
+
+
+

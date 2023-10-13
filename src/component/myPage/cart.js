@@ -1,8 +1,13 @@
 import styled from "styled-components";
+import MyPagesMenu from "./myPagesMenu";
+import CartListPage from "./cartList";
 
 const Container = styled.div`
+  min-width: 1280px;
+  width: 100%;
   display: flex;
   justify-content: center;
+  padding-top: 50px;
 `;
 
 const Cap = styled.img`
@@ -16,9 +21,8 @@ const Fl = styled.div`
 export default function Cart (){
     return(
       <Container>
-        <Fl>
-        <Cap src="/assets/images/mypage/cart.PNG" />
-        </Fl>
+        <MyPagesMenu />
+        <CartListPage />
       </Container>
     )
 }
