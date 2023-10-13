@@ -54,18 +54,14 @@ export default function Main (){
     setToken(tokenFromLocalStorage);
   }, [])
 
-  const handleLogout = async () => {
+  const handleLogout = () => {
     request(
       "POST",
-      "/logout",
-      {
-        // 다른 요청 헤더도 필요하다면 여기에 추가
-      },
+      "/logout/",
       {
         Authorization: `Bearer ${token}`
       }
-    )
-      .then((response) => {
+    ).then((response) => {
         if (response.status === 200) {
           // 로그아웃 성공
           localStorage.removeItem('auth_token');

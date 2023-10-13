@@ -9,7 +9,6 @@ const Container = styled.div`
   padding-top: 30px;
   padding-bottom: 30px;
   grid-template-columns: repeat(2, 1fr);
-  border: 1px solid black;
 `;
 
 export default function MessageList (){
