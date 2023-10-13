@@ -37,10 +37,7 @@ const Recommend = styled.div`
   border: 1px solid black;
 `;
 const Logout = styled.button`
-  width: 300px;
-  height: 180px;
-  border: 1px solid black;
-  background-color: pink;
+  color: red;
 `;
 
 
@@ -87,7 +84,7 @@ export default function Main (){
           </LoginTab> : null } 
           <Weather />
           <Recommend />
-          <Logout onClick={handleLogout}></Logout>
+          <Logout onClick={handleLogout}>로그아웃</Logout>
         </SideTab>
       </Container>
     )
