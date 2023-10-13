@@ -2,6 +2,7 @@ import styled from "styled-components"
 import LoginPages from "@/pages/user/login/login";
 import { request } from "../user/axios_helper";
 import { useEffect ,useState } from "react";
+import Weather from "../auction/weather";
 
 const Container = styled.div`
 margin:  100px auto 0 auto;
@@ -25,7 +26,7 @@ const LoginTab = styled.div`
 const SideTab = styled.div`
 
 `;
-const Weather = styled.div`
+const WeatherTab = styled.div`
   width: 300px;
   height: 180px;
   border: 1px solid black;
@@ -38,6 +39,8 @@ const Recommend = styled.div`
 `;
 const Logout = styled.button`
   color: red;
+  background-color: white;
+  border: none;
 `;
 
 
@@ -48,6 +51,7 @@ export default function Main (){
 
   useEffect(() => {
     const tokenFromLocalStorage = localStorage.getItem('auth_token');
+    console.log(tokenFromLocalStorage);
     setToken(tokenFromLocalStorage);
   }, [])
 
@@ -82,8 +86,10 @@ export default function Main (){
          {token === null || token === 'null' ? <LoginTab>
           <LoginPages />
           </LoginTab> : null } 
-          <Weather />
-          <Recommend />
+          {/* <WeatherTab> */}
+            {/* <Weather /> */}
+          {/* </WeatherTab> */}
+          {/* <Recommend /> */}
           <Logout onClick={handleLogout}>로그아웃</Logout>
         </SideTab>
       </Container>
