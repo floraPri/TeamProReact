@@ -10,12 +10,6 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import { useRouter } from "next/router";
 
 function AuctionGuest() {
-
-  const regions = [
-    "강북구", "강남구", "강동구", "강서구", "관악구", "광진구", "구로구", "금천구",
-    "노원구", "도봉구", "동대문구", "동작구", "마포구", "서대문구", "서초구", "성동구",
-    "성북구", "송파구", "양천구", "영등포구", "용산구", "은평구", "종로구", "중구", "중랑구"
-  ];
   
   const Container__1 = styled.div`
     display: flex;      /* 한줄(수평)로 배치 */
@@ -126,7 +120,7 @@ function AuctionGuest() {
                   <TableD img src="/assets/images/auction/ac1.PNG" alt="magic mouse" />
                 </TableC>
                 <TableB style={{ width: '35%' }}>
-                  <p>자퇴서</p>
+                  <p onClick={() => router.push('/auction/auctionGuest_chat') }>자퇴서</p>
                 </TableB>
                 <TableA className="cart__list__option" style={{ width: '27%' }}>
                   <p>2000000 원</p>

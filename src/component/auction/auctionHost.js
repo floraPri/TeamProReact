@@ -8,12 +8,6 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import { useRouter } from "next/router";
 
 function AuctionHost() {
-
-  const regions = [
-    "강북구", "강남구", "강동구", "강서구", "관악구", "광진구", "구로구", "금천구",
-    "노원구", "도봉구", "동대문구", "동작구", "마포구", "서대문구", "서초구", "성동구",
-    "성북구", "송파구", "양천구", "영등포구", "용산구", "은평구", "종로구", "중구", "중랑구"
-  ];
   
   const Container__1 = styled.div`
     display: flex;      /* 한줄(수평)로 배치 */
@@ -132,7 +126,7 @@ function AuctionHost() {
                 <TableA style={{ width: '15%' }}>
                   <span className="price">01 : 35 : 01 : 10</span><br />
                 </TableA>
-                <TableA style={{ width: '15%' }}>Jangu06</TableA>
+                <TableA style={{ width: '15%' }} onClick={() => router.push('/auction/auctionHost_chat') }>Jangu06</TableA>
               </tr>
             </tbody>
         </TableF>

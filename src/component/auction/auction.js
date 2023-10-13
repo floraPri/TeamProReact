@@ -36,7 +36,6 @@ function Auction() {
   `;
 
     const Acu = styled.div`
-    margin-top: 10px;
     margin-left: 200px;
     text-decoration: none;
   `;
@@ -65,10 +64,7 @@ function Auction() {
   const ConstituencyDiv = styled.div`
     font-size: 19px;
   `;
-    
-  const Cap = styled.img`
-    width: 1800px;
-  `;
+
 
   const [selectedOption, setSelectedOption] = useState('');
 
@@ -120,23 +116,23 @@ function Auction() {
           </DropdownButton>
           </ButtonGroup>
         </Container__2>
-        <Container__3>
-          <AuctionDiv className="auctionDiv">
-            <AuctionDiv__1 className="auctionDiv__1">1</AuctionDiv__1>개
-          </AuctionDiv>
-          <ConstituencyDiv class="constituency">
-            <select value={selectedOption} onChange={handleSelectChange}>
-              <option value="">지역구</option>
-              {regions.map((region, index) => (
-                <option key={index} value={region}>
-                  {region}
-                </option>
-              ))}
-            </select>
-          </ConstituencyDiv>
-        </Container__3>
-      </Container__1>  
+      </Container__1> 
         <Acu class="acu">
+          <Container__3>
+            <AuctionDiv className="auctionDiv">
+              <AuctionDiv__1 className="auctionDiv__1">1</AuctionDiv__1>개
+            </AuctionDiv>
+            <ConstituencyDiv class="constituency">
+              <select value={selectedOption} onChange={handleSelectChange}>
+                <option value="">지역구</option>
+                {regions.map((region, index) => (
+                  <option key={index} value={region}>
+                    {region}
+                  </option>
+                ))}
+              </select>
+            </ConstituencyDiv>
+          </Container__3>
           <Link href="/auction/auctionDetail">
             <Card style={{ width: '18rem' }}>
               <Card.Img variant="top" src="/assets/images/auction/ac1.PNG" />

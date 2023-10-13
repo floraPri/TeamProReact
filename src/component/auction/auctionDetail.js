@@ -4,12 +4,11 @@ import Card from 'react-bootstrap/Card';
 import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row';
 import ListGroup from 'react-bootstrap/ListGroup';
-
 import Form from "react-bootstrap/Form"; 
 import Button from "react-bootstrap/Button";
 import Container from 'react-bootstrap/Container';
 
-import Chat from './Chat'
+import Chat from './chat'
 
 const Container_ = styled.div`
   display: flex;
@@ -60,6 +59,10 @@ const ListGroupItem = styled(ListGroup.Item)`
   span {
     margin-left: 10px;
   }
+`;
+
+const AcuInfo = styled.div`
+  padding-left: 12px;
 `;
 
 const AcuDiv_3 = styled.div`
@@ -140,7 +143,7 @@ export default function AuctionDetail (){
           </div>
         </AcuDiv_1>
         <AcuDiv_2>
-          <div>
+          <AcuInfo>
             <Row xs={1} md={1} className="g-1">
               <Col>
                 <ListGroup >
@@ -193,7 +196,7 @@ export default function AuctionDetail (){
                 </ListGroup>
               </Col>
             </Row>            
-          </div>
+          </AcuInfo>
           <br></br>
           <div>
           <Container className="panel">

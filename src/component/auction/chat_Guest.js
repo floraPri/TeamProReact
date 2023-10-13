@@ -56,7 +56,7 @@ const chat = () => {
 
     return (
         <div>
-        <h1>경매 채팅창</h1>
+        <h1>GUEST</h1>
         <ChatContainer id="chat-container">
             {messages.map((message, index) => (
             <MessageItem key={index} userName={message.NickName} message={message.message} />
