@@ -23,21 +23,21 @@ export default function MyPagesMenu(){
 
             <h3 className={menuStyles.h3_title}>나의 피드</h3>
             <ul className={menuStyles.ul_class}>
-                <li><Link href="">피드 등록</Link></li>
-                <li><Link href="">내 피드 목록</Link></li>
+                <li><Link href="/myPage/feedAdd">피드 등록</Link></li>
+                <li><Link href="/myPage/myFeeds">내 피드 목록</Link></li>
             </ul>
 
             <h3 className={menuStyles.h3_title}>나의 상점</h3>
             <ul className={menuStyles.ul_class}>
-                <li><Link href="">내 상품</Link></li>
-                <li><Link href="">판매 내역</Link></li>
-                <li><Link href="">판매 리뷰</Link></li>
+                <li><Link href="/myPage/myProduct">내 상품</Link></li>
+                <li><Link href="/myPage/mySales">판매 내역</Link></li>
+                <li><Link href="/myPage/mySalseReviews">판매 리뷰</Link></li>
             </ul>
 
             <h3 className={menuStyles.h3_title}>나의 쇼핑</h3>
             <ul className={menuStyles.ul_class}>
                 <li><Link href="/myPage/order">구매 내역</Link></li>
-                <li><Link href="">내가 쓴 리뷰</Link></li>
+                <li><Link href="/myPage/myReviews">내가 쓴 리뷰</Link></li>
             </ul>
 
             <h3 className={menuStyles.h3_title}><Link href="">지역 인증</Link></h3>

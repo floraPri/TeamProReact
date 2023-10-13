@@ -1,6 +1,6 @@
 import styled from "styled-components";
-import MyPagesMenu from "./myPagesMenu";
-import CartListPage from "./cartList";
+import MyPagesMenu from "../myPagesMenu";
+import MyInfoEdit from "./userInfoForm";
 
 const Container = styled.div`
   min-width: 1280px;
@@ -18,11 +18,11 @@ const Fl = styled.div`
   flex-direction: column;
 `;
 
-export default function Cart (){
+export default function UserInfo (){
     return(
       <Container>
         <MyPagesMenu />
-        <CartListPage />
+        <MyInfoEdit />
       </Container>
     )
 }

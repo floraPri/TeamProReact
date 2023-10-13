@@ -1,4 +1,4 @@
-import Order from "@/component/myPage/order"
+import Order from "@/component/myPage/myShopping/order"
 
 export default function test ({children}){
     return(
