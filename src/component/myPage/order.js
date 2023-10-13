@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import MyPagesMenu from "./myPagesMenu";
+import OrderListPage from "./orderListPage";
 
 const Container = styled.div`
   min-width: 1280px;
@@ -9,16 +10,12 @@ const Container = styled.div`
   padding-top: 50px;
 `;
 
-const Cap = styled.img`
-  width: 1000px;
-`;
 
 export default function Order (){
     return(
       <Container>
         <MyPagesMenu />
-        주문내역 페이지
-        
+        <OrderListPage />
       </Container>
     )
 }
