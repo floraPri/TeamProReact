@@ -13,14 +13,14 @@ export const setAuthToken = (token) => {
    window.localStorage.setItem("auth_token", token);
 }
 
-export const request = (method, url, data) => {
+export const request = (method, url, data) => {     
 
-    // let headers = {};
+    let headers = {};
 
-    // if(getAuthToken() !== null && getAuthToken !=="null") {
-    //     headers = {"Authorization": 'Bearer ${getAuthToken()}'};
-    //     console.log('headers : ', headers);
-    // }
+    if(getAuthToken() !== null && getAuthToken !=="null") {
+        headers = {"Authorization": `Bearer ${getAuthToken()}`};
+        console.log('headers : ', headers);
+    }
     
     console.log('axios~~~');
     console.log('method : ', method );
@@ -29,7 +29,7 @@ export const request = (method, url, data) => {
 
     return axios({
         method: method,
-    //    headers: headers,
+        headers: headers,
         url: url,
         data: data
     });
