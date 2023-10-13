@@ -1,18 +1,23 @@
 import { Righteous } from "next/font/google";
-import Link from "next/link";
 import styled from "styled-components";
-import { BiSearch, BiMessageAlt } from "react-icons/bi";
+import { BiSearch, BiMessageAlt, BiSolidUserCircle } from "react-icons/bi";
 import { BsBell } from "react-icons/bs";
+import { useRouter } from "next/router";
+import Dropdown from 'react-bootstrap/Dropdown';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import React, { useState } from 'react';
+
 
 const Container = styled.div`
     width: 100%; 
-    height: 100px; 
+    min-width: 1280px; 
+    height: 80px; 
     display: flex;
     justify-content: center;
     align-items: center;
     background: white;
-    padding : 10px 88px;
-    border : 1px solid #E7E7E7;
+    border-bottom : 1px solid #E7E7E7;
+    padding-bottom: 10px;
 `;
 const ContainerIn = styled.div`
     width: 1280px; 
@@ -30,12 +35,13 @@ const Title = styled.div`
     font-weight: 900;
     word-wrap: break-word;
     cursor:pointer;
+    text-decoration-line:none;
 `;
 
 const LeftMenu = styled.div`
     display: flex;
     /* width: 206px; */
-    width: 300px;
+    width: 250px;
     justify-content: space-between
 `;
 
@@ -47,7 +53,7 @@ const LeftMenuTab = styled.div`
     word-wrap: break-word;
     cursor: pointer;
     &:hover {
-        color: #1877F2;
+        color: #03C179;
     }
 `;
 
@@ -59,23 +65,23 @@ const SearchBar = styled.div`
     padding: 0px 10px;
     display: flex;
     align-items: center;
-    
-
 `;
 
 const SearchIcon = styled.div`
-    padding: 5px;
+    padding: 5px 5px 2px 5px;
     cursor: pointer;
+    color: #8b8b8b;
     &:hover {
-        color: #1877F2;
+        color: #03C179;
     }
 `;
 
 const SearchInput = styled.input`
     width: 100%;
-    height: 100%;
+    height: 90%;
     border: none;
     outline: none;
+    padding-left: 10px;
 `;
 
 const RightMenu = styled.div`
@@ -87,46 +93,96 @@ const RightMenu = styled.div`
     font-weight: 400;
     word-wrap: break-word;
     /* width: 350px; */
-    width: 400px;
-`;
-
-const RightMenuIcon = styled.div`
-    cursor: pointer;
-    &:hover {
-        color: #1877F2;
-    }
+    width: 300px;
 `;
 
 const RightMenuTab = styled.div`
     cursor: pointer;
+    display: flex;
+    align-items: center;
     &:hover {
-        color: #1877F2;
+        color: #03C179;
     }
 `;
 
+const StyledDropdown = styled(Dropdown)`
+    .dropdown-toggle::after {
+        content: none;
+    }
+    margin-top: -5px;
+`;
 
-export default function Header(){
+const StyledDropdownToggle  = styled(Dropdown.Toggle)` 
+    border: none;
+`;
+
+const RedDot = styled.div`
+  background-color: red;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  position: absolute;
+  top: -5;
+  right: 0;
+`;
+
+export default function Header() {
+    const router = useRouter();
+    const [hasNotification] = useState(true);
+
     return(
+        
         <Container>
             <ContainerIn>
-                <Title><Link href="/main/main">weAround</Link></Title>
+                <Title onClick={() => router.push('/main/main') }>weAround</Title>
                 <LeftMenu>
-                    <LeftMenuTab><Link href="/channel/commain">커뮤니티</Link></LeftMenuTab>
-                    <LeftMenuTab>채널</LeftMenuTab>
-                    <LeftMenuTab><Link href="/product/product">새상품</Link></LeftMenuTab>
-                    <LeftMenuTab><Link href="/auction/auction">경매</Link></LeftMenuTab>
+                    <LeftMenuTab onClick={() => router.push('/channel/commain') }>커뮤니티</LeftMenuTab>
+                    <LeftMenuTab onClick={() => router.push('/product/product') }>중고거래</LeftMenuTab>
+                    <LeftMenuTab onClick={() => router.push('/auction/auction') }>경매</LeftMenuTab>
                 </LeftMenu>
                 <SearchBar>
-                    <SearchIcon><BiSearch /></SearchIcon>
+                <SearchIcon><BiSearch style={{width:'20px',height:'20px'}} /></SearchIcon>
                     <SearchInput></SearchInput>
                 </SearchBar>
                 <RightMenu>
-                    <RightMenuIcon><Link href="/message/messageList"><BiMessageAlt /></Link></RightMenuIcon>
-                    <RightMenuIcon><BsBell /></RightMenuIcon>
-                    <RightMenuTab>내채널</RightMenuTab>
-                    <RightMenuTab><Link href="/myPage/myp">마이페이지</Link></RightMenuTab>
-                    <RightMenuTab><Link href="/admin/csCenter">고객센터</Link></RightMenuTab>
-                    <RightMenuTab><Link href="/user/login/login">로그인</Link></RightMenuTab>
+                    <RightMenuTab onClick={() => router.push('/message/messageList') }><BiMessageAlt style={{width:'20px',height:'20px'}}/></RightMenuTab>
+                    <RightMenuTab>
+                        <StyledDropdown>
+                            <StyledDropdownToggle  variant="white">
+                                {hasNotification && <RedDot />}
+                                <BsBell style={{width:'20px',height:'20px'}}/>
+                            </StyledDropdownToggle >
+                            <Dropdown.Menu>
+                                <Dropdown.Item href="#/action-1">새 글이 등록되었습니다.</Dropdown.Item>
+                                <Dropdown.Item href="#/action-1">읽지 않은 채팅이 있습니다.</Dropdown.Item>
+                            </Dropdown.Menu>
+                        </StyledDropdown>
+                    </RightMenuTab>
+                    <RightMenuTab>
+                        <StyledDropdown>
+                            <StyledDropdownToggle  variant="white">
+                                <BiSolidUserCircle style={{width:'30px',height:'30px'}}/>
+                            </StyledDropdownToggle >
+                            <Dropdown.Menu>
+                                <Dropdown.Item onClick={() => router.push('/myPage/myp') }>마이페이지</Dropdown.Item>
+                                <Dropdown.Item href="#/action-1">로그아웃</Dropdown.Item>
+                            </Dropdown.Menu>
+                        </StyledDropdown>
+                    </RightMenuTab>
+                    <RightMenuTab onClick={() => router.push('/csCenter/csCenter') }>고객센터</RightMenuTab>
+                    <RightMenuTab>
+                        <Dropdown>
+                            <StyledDropdownToggle variant="success">
+                                글쓰기
+                            </StyledDropdownToggle>
+
+                            <Dropdown.Menu>
+                                <Dropdown.Item href="#/action-1">커뮤니티</Dropdown.Item>
+                                <Dropdown.Item href="#/action-2">중고거래</Dropdown.Item>
+                                <Dropdown.Item href="#/action-3">경매</Dropdown.Item>
+                            </Dropdown.Menu>
+                        </Dropdown>
+                    </RightMenuTab>
                 </RightMenu>
             </ContainerIn>
         </Container>
