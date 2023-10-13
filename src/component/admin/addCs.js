@@ -1,7 +1,8 @@
 import styled from "styled-components";
 import MyLeftMenu from "./myLeftMenu";
-import {Accordion, Form, Button} from 'react-bootstrap';
+import {Accordion, Form} from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import {Button} from "@mui/material";
 
 const Container = styled.div`
   width: 1280px;
@@ -52,6 +53,12 @@ const StyledAccordionBody = styled(Accordion.Body)`
 
 `;
 
+const SearchButton = styled(Button)`
+  background-color: #D9D9D9;
+  color: black;
+  font-weight: bold;
+`;
+
 export default function AddCs (){
     return(
       <Container>
@@ -66,7 +73,7 @@ export default function AddCs (){
               <Form.Label>내용</Form.Label>
               <Form.Control as="textarea" rows={3} />
             </Form.Group>
-            <Button variant="primary" type="submit">등록</Button>
+            <SearchButton type="submit">등록</SearchButton>
           </Form>
           <StyledAccordion>
               <StyledAccordionTopHeader>등록된 리스트</StyledAccordionTopHeader>

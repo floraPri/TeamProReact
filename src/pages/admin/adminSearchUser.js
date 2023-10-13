@@ -1,6 +1,6 @@
 import AdminSearchUser from "@/component/admin/adminSearchUser"
 
-export default function test ({children}){
+export default function test (){
     return(
         <AdminSearchUser />
     )
