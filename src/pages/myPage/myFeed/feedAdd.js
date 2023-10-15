@@ -1,7 +1,6 @@
 import styled from "styled-components";
-import MyPagesMenu from "../myPagesMenu";
-import MyProductList from "./myProductList";
-
+import MyPagesMenu from "@/component/myPage/myPagesMenu";
+import MyFeedForm from "@/component/myPage/myFeed/myFeedForm";
 
 const Container = styled.div`
   min-width: 1280px;
@@ -11,11 +10,12 @@ const Container = styled.div`
   padding-top: 50px;
 `;
 
-export default function MyProduct(){
+//피드 등록
+export default function MyFeedAdd(){
     return(
         <Container>
             <MyPagesMenu />
-            <MyProductList />
+            <MyFeedForm />
         </Container>
     );
 }

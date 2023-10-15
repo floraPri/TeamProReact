@@ -1,6 +1,6 @@
 import styled from "styled-components";
-import MyPagesMenu from "../myPagesMenu";
-import MyInfoEdit from "./userInfoForm";
+import MyPagesMenu from "@/component/myPage/myPagesMenu";
+import MyInfoEdit from "@/component/myPage/myInfo/userInfoForm";
 
 const Container = styled.div`
   min-width: 1280px;

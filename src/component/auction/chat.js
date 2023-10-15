@@ -30,7 +30,7 @@ const SendButton = styled.button`
     cursor: pointer;
 `;
 
-const chat = () => {
+const Chat = () => {
     const [messages, setMessages] = useState([]);
     const [newMessage, setNewMessage] = useState('');
 
@@ -75,4 +75,4 @@ const chat = () => {
     );
 };
 
-export default chat;
+export default Chat;

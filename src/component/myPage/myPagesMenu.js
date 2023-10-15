@@ -23,30 +23,30 @@ export default function MyPagesMenu(){
 
             <h3 className={menuStyles.h3_title}>나의 피드</h3>
             <ul className={menuStyles.ul_class}>
-                <li><Link href="/myPage/feedAdd">피드 등록</Link></li>
-                <li><Link href="/myPage/myFeeds">내 피드 목록</Link></li>
+                <li><Link href="/myPage/myFeed/feedAdd">피드 등록</Link></li>
+                <li><Link href="/myPage/myFeed/myFeeds">내 피드 목록</Link></li>
             </ul>
 
             <h3 className={menuStyles.h3_title}>나의 상점</h3>
             <ul className={menuStyles.ul_class}>
-                <li><Link href="/myPage/myProduct">내 상품</Link></li>
-                <li><Link href="/myPage/mySales">판매 내역</Link></li>
-                <li><Link href="/myPage/mySalseReviews">판매 리뷰</Link></li>
+                <li><Link href="/myPage/myStore/myProduct">내 상품</Link></li>
+                <li><Link href="/myPage/myStore/mySales">판매 내역</Link></li>
+                <li><Link href="/myPage/myStore/mySalseReviews">판매 리뷰</Link></li>
             </ul>
 
             <h3 className={menuStyles.h3_title}>나의 쇼핑</h3>
             <ul className={menuStyles.ul_class}>
-                <li><Link href="/myPage/order">구매 내역</Link></li>
-                <li><Link href="/myPage/myReviews">내가 쓴 리뷰</Link></li>
+                <li><Link href="/myPage/myShopping/order">구매 내역</Link></li>
+                <li><Link href="/myPage/myShopping/myReviews">내가 쓴 리뷰</Link></li>
             </ul>
 
             <h3 className={menuStyles.h3_title}><Link href="">지역 인증</Link></h3>
 
-            <h3 className={menuStyles.h3_title}><Link href="/myPage/cart">내가 찜한 상품</Link></h3>
+            <h3 className={menuStyles.h3_title}><Link href="/myPage/cart/cart">내가 찜한 상품</Link></h3>
 
             <h3 className={menuStyles.h3_title}>회원 정보</h3>
             <ul className={menuStyles.ul_class}>
-                <li><Link href="/myPage/userInfo">회원정보 수정</Link></li>
+                <li><Link href="/myPage/myInfo/userInfo">회원정보 수정</Link></li>
                 <li><Link href="">회원 탈퇴</Link></li>
             </ul>
 

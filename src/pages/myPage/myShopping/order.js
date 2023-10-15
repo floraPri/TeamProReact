@@ -1,6 +1,6 @@
 import styled from "styled-components";
-import MyPagesMenu from "../myPagesMenu";
-import CartListPage from "./cartList";
+import MyPagesMenu from "@/component/myPage/myPagesMenu";
+import OrderListPage from "@/component/myPage/myShopping/orderListPage";
 
 const Container = styled.div`
   min-width: 1280px;
@@ -10,19 +10,12 @@ const Container = styled.div`
   padding-top: 50px;
 `;
 
-const Cap = styled.img`
-  width: 1000px;
-`;
-const Fl = styled.div`
-  display: flex;
-  flex-direction: column;
-`;
 
-export default function Cart (){
+export default function Order (){
     return(
       <Container>
         <MyPagesMenu />
-        <CartListPage />
+        <OrderListPage />
       </Container>
     )
 }

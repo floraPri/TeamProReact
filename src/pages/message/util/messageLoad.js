@@ -1,7 +1,16 @@
-import MessageLoad from "@/component/message/util/messageLoad"
+// 불러오기
+import styled from "styled-components";
 
-export default function test ({children}){
+const Container = styled.div`
+  display: flex;
+  justify-content: center;
+`;
+
+export default function MessageLoad (){
     return(
-        <MessageLoad />
+      <Container>
+        <div><p>12</p></div><br/><br/>
+        <div>34</div>
+      </Container>
     )
 }
