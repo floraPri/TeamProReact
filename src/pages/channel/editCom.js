@@ -36,7 +36,7 @@ const Button = styled.button`
     }
 `;
 
-export default function editCom() {
+export default function EditCom() {
  const [title, setTitle] = useState("");
  const [content, setContent] = useState("");
  const [imageURL, setImageURL] = useState("");

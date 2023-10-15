@@ -36,7 +36,7 @@ const Button = styled.button`
     }
 `;
 
-export default function editProduct() {
+export default function EditProduct() {
  const [title, setTitle] = useState("");
  const [imageURL, setImageURL] = useState("");
  const [price, setPrice] = useState("");

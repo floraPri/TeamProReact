@@ -20,7 +20,6 @@ function AuctionHost() {
   `;
 
   const Container__3 = styled.div`
-    width: 85%;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -33,6 +32,7 @@ function AuctionHost() {
     `;
 
     const Container = styled.div`
+    width: 1200px;
     margin-top: 10px;
     margin-bottom: 10px;
     margin-right: 50px;
@@ -61,6 +61,27 @@ function AuctionHost() {
         font-weight: bold;
         border-top: 1px solid lightgrey;
         border-bottom: 1px solid lightgrey;
+    `;
+
+    const TaB_div = styled.div`
+        display:flex;
+    `;
+
+    const Tab_div_b = styled.div`
+        margin-left:70px;
+    `;
+
+    const Button_ = styled.button`
+      background-color: #198754;
+      color: white;
+      border-radius: 8px;
+      padding: 3px 20px;
+      border: none;
+      cursor: pointer;
+
+      &:hover {
+        background-color: #0056b3;
+      }
     `;
 
     const TableC = styled.td`
@@ -95,13 +116,13 @@ function AuctionHost() {
             </DropdownButton>
           </ButtonGroup>
         </Container__2>
+      </Container__1>
+      <Host className="Host">
         <Container__3>
           <MyAcu>
             AUCTION HOST
           </MyAcu>
         </Container__3>
-      </Container__1>
-      <Host className="Host">
         <TableF className="cart__list">
             <thead>
               <TableE>
@@ -118,7 +139,14 @@ function AuctionHost() {
                   <TableD img src="/assets/images/auction/ac1.PNG" alt="magic mouse" />
                 </TableC>
                 <TableB style={{ width: '35%' }}>
-                  <p>자퇴서</p>
+                  <TaB_div>
+                    <p>자퇴서</p>
+                    <Tab_div_b>
+                      <Button_ onClick={() => router.push('/auction/auctionEdit')}>
+                        경매 수정
+                      </Button_> 
+                    </Tab_div_b>
+                  </TaB_div>
                 </TableB>
                 <TableA className="cart__list__option" style={{ width: '27%' }}>
                   <p>2000000 원</p>

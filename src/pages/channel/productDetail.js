@@ -1,6 +1,5 @@
 import styled from "styled-components"
 import React, { useState } from "react";
-import { useRouter } from "next/router";
 
 const Cap = styled.img`
   width: 300px;
@@ -79,7 +78,7 @@ const LikeButton = styled.button`
     }
 `;
 
-export default function commain() {
+export default function Commain() {
 
   const [likes, setLikes] = useState(0);
   const [comments, setComments] = useState([]);

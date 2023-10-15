@@ -1,4 +1,3 @@
-import Link from "next/link";
 import styled from "styled-components";
 import MyPagesMenu from "@/component/myPage/myPagesMenu";
 import MyPageRight from "@/component/myPage/myPageRight";
