@@ -1,4 +1,3 @@
-import Link from "next/link";
 import styled from "styled-components"
 import React, { useState } from "react";
 import { useRouter } from "next/router";
@@ -67,7 +66,7 @@ const Button = styled.button`
     }
 `;
 
-export default function commain() {
+export default function Commain() {
 
   const router = useRouter();
 

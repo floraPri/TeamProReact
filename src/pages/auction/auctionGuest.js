@@ -22,7 +22,6 @@ function AuctionGuest() {
   `;
 
   const Container__3 = styled.div`
-    width: 85%;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -35,6 +34,7 @@ function AuctionGuest() {
     `;
 
     const Container = styled.div`
+    width: 1200px;
     margin-top: 10px;
     margin-bottom: 10px;
     margin-right: 50px;
@@ -97,13 +97,13 @@ function AuctionGuest() {
             </DropdownButton>
           </ButtonGroup>
         </Container__2>
+      </Container__1> 
+      <Host className="Host">
         <Container__3>
           <MyAcu>
             AUCTION GUEST
           </MyAcu>
         </Container__3>
-      </Container__1>
-      <Host className="Host">
         <TableF className="cart__list">
             <thead>
               <TableE>
