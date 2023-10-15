@@ -5,8 +5,102 @@ import { BsBell } from "react-icons/bs";
 import { useRouter } from "next/router";
 import Dropdown from 'react-bootstrap/Dropdown';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { request } from "../user/axios_helper";
 
+export default function Header() {
+    const router = useRouter();
+    const [hasNotification] = useState(true);
+
+    const [token, setToken] = useState(null);
+
+  useEffect(() => {
+    const tokenFromLocalStorage = localStorage.getItem('auth_token');
+    console.log(tokenFromLocalStorage);
+    setToken(tokenFromLocalStorage);
+  }, [])
+    
+    const handleLogout = () => {
+        request(
+          "POST",
+          "/logout/",
+          {
+            Authorization: `Bearer ${token}`
+          }
+        ).then((response) => {
+            if (response.status === 200) {
+              // 로그아웃 성공
+              localStorage.removeItem('auth_token');
+              // 다른 로직을 수행하거나 리디렉션할 수 있습니다
+              window.location.href = '/'; // 예: 홈페이지로 리디렉션
+            } else {
+              // 로그아웃 실패
+              console.error('로그아웃 실패');
+            }
+          })
+          .catch((error) => {
+            console.error('로그아웃 요청 중 오류 발생', error);
+          });
+      };
+
+    return(
+        
+        <Container>
+            <ContainerIn>
+                <Title onClick={() => router.push('/main/main') }>weAround</Title>
+                <LeftMenu>
+                <LeftMenuTab onClick={() => router.push('/channel/commain') }>커뮤니티</LeftMenuTab>
+                    <LeftMenuTab onClick={() => router.push('/channel/product') }>중고거래</LeftMenuTab>
+                    <LeftMenuTab onClick={() => router.push('/auction/auction') }>경매</LeftMenuTab>
+                </LeftMenu>
+                <SearchBar>
+                <SearchIcon><BiSearch style={{width:'20px',height:'20px'}} /></SearchIcon>
+                    <SearchInput></SearchInput>
+                </SearchBar>
+                <RightMenu>
+                    <RightMenuTab onClick={() => router.push('/message/messageList') }><BiMessageAlt style={{width:'20px',height:'20px'}}/></RightMenuTab>
+                    <RightMenuTab>
+                        <StyledDropdown>
+                            <StyledDropdownToggle  variant="white">
+                                {hasNotification && <RedDot />}
+                                <BsBell style={{width:'20px',height:'20px'}}/>
+                            </StyledDropdownToggle >
+                            <Dropdown.Menu>
+                                <Dropdown.Item href="#/action-1">새 글이 등록되었습니다.</Dropdown.Item>
+                                <Dropdown.Item href="#/action-1">읽지 않은 채팅이 있습니다.</Dropdown.Item>
+                            </Dropdown.Menu>
+                        </StyledDropdown>
+                    </RightMenuTab>
+                    <RightMenuTab>
+                        <StyledDropdown>
+                            <StyledDropdownToggle  variant="white">
+                                <BiSolidUserCircle style={{width:'30px',height:'30px'}}/>
+                            </StyledDropdownToggle >
+                            <Dropdown.Menu>
+                                <Dropdown.Item onClick={() => router.push('/myPage/myp') }>마이페이지</Dropdown.Item>
+                                <Dropdown.Item onClick={handleLogout}>로그아웃</Dropdown.Item>
+                            </Dropdown.Menu>
+                        </StyledDropdown>
+                    </RightMenuTab>
+                    <RightMenuTab onClick={() => router.push('/csCenter/csCenter') }>고객센터</RightMenuTab>
+                    <RightMenuTab>
+                        <Dropdown>
+                            <StyledDropdownToggle variant="success">
+                                글쓰기
+                            </StyledDropdownToggle>
+
+                            <Dropdown.Menu>
+                                <Dropdown.Item href="#/action-1">커뮤니티</Dropdown.Item>
+                                <Dropdown.Item href="#/action-2">중고거래</Dropdown.Item>
+                                <Dropdown.Item href="#/action-3">경매</Dropdown.Item>
+                            </Dropdown.Menu>
+                        </Dropdown>
+                    </RightMenuTab>
+                </RightMenu>
+            </ContainerIn>
+        </Container>
+    )
+}
 
 const Container = styled.div`
     width: 100%; 
@@ -125,67 +219,3 @@ const RedDot = styled.div`
   top: -5;
   right: 0;
 `;
-
-export default function Header() {
-    const router = useRouter();
-    const [hasNotification] = useState(true);
-    
-
-    return(
-        
-        <Container>
-            <ContainerIn>
-                <Title onClick={() => router.push('/main/main') }>weAround</Title>
-                <LeftMenu>
-                <LeftMenuTab onClick={() => router.push('/channel/commain') }>커뮤니티</LeftMenuTab>
-                    <LeftMenuTab onClick={() => router.push('/channel/product') }>중고거래</LeftMenuTab>
-                    <LeftMenuTab onClick={() => router.push('/auction/auction') }>경매</LeftMenuTab>
-                </LeftMenu>
-                <SearchBar>
-                <SearchIcon><BiSearch style={{width:'20px',height:'20px'}} /></SearchIcon>
-                    <SearchInput></SearchInput>
-                </SearchBar>
-                <RightMenu>
-                    <RightMenuTab onClick={() => router.push('/message/messageList') }><BiMessageAlt style={{width:'20px',height:'20px'}}/></RightMenuTab>
-                    <RightMenuTab>
-                        <StyledDropdown>
-                            <StyledDropdownToggle  variant="white">
-                                {hasNotification && <RedDot />}
-                                <BsBell style={{width:'20px',height:'20px'}}/>
-                            </StyledDropdownToggle >
-                            <Dropdown.Menu>
-                                <Dropdown.Item href="#/action-1">새 글이 등록되었습니다.</Dropdown.Item>
-                                <Dropdown.Item href="#/action-1">읽지 않은 채팅이 있습니다.</Dropdown.Item>
-                            </Dropdown.Menu>
-                        </StyledDropdown>
-                    </RightMenuTab>
-                    <RightMenuTab>
-                        <StyledDropdown>
-                            <StyledDropdownToggle  variant="white">
-                                <BiSolidUserCircle style={{width:'30px',height:'30px'}}/>
-                            </StyledDropdownToggle >
-                            <Dropdown.Menu>
-                                <Dropdown.Item onClick={() => router.push('/myPage/myp') }>마이페이지</Dropdown.Item>
-                                <Dropdown.Item href="#/action-1">로그아웃</Dropdown.Item>
-                            </Dropdown.Menu>
-                        </StyledDropdown>
-                    </RightMenuTab>
-                    <RightMenuTab onClick={() => router.push('/csCenter/csCenter') }>고객센터</RightMenuTab>
-                    <RightMenuTab>
-                        <Dropdown>
-                            <StyledDropdownToggle variant="success">
-                                글쓰기
-                            </StyledDropdownToggle>
-
-                            <Dropdown.Menu>
-                                <Dropdown.Item href="#/action-1">커뮤니티</Dropdown.Item>
-                                <Dropdown.Item href="#/action-2">중고거래</Dropdown.Item>
-                                <Dropdown.Item href="#/action-3">경매</Dropdown.Item>
-                            </Dropdown.Menu>
-                        </Dropdown>
-                    </RightMenuTab>
-                </RightMenu>
-            </ContainerIn>
-        </Container>
-    )
-}

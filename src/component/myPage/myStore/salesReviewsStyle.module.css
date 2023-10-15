@@ -1,0 +1,13 @@
+.listUl {
+    background: #ececec;
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    padding: 20px;
+}
+
+.listUl li {
+    margin-top:20px;
+    width: 450px;
+}

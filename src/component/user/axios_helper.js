@@ -24,6 +24,7 @@ export const request = (method, url, data) => {
     
     console.log('axios~~~');
     console.log('method : ', method );
+    console.log('headers : ', headers );
     console.log('url : ', url );
     console.log('data : ', data );
 

@@ -22,3 +22,5 @@ export default function FISRT (){
         </Help>
     )
 }
+
+// axios 사용예제

@@ -4,6 +4,7 @@ import styled, { css } from "styled-components";
 const Header = styled.span`
     font-weight: bold;
     font-size: 18px;
+    
 `;
 
 const TodayTemper = styled.span`
@@ -22,7 +23,7 @@ const Text_1 = styled.span`
 
 `;
 
-function weather() {
+function Weather() {
 
     const Temper = 5;
 
@@ -59,7 +60,7 @@ function weather() {
   return (
     <>
       <Card border="primary" style={{ width: '18rem' , height: '280px'}}>
-        <Card.Header>
+        <Card.Header style={{ backgroundColor: '#9AE6C9'}}>
             <Header>
                 오늘의 추천 옷차림
             </Header>
@@ -91,4 +92,4 @@ function weather() {
   );
 }
 
-export default weather;
+export default Weather;

@@ -25,7 +25,7 @@ const Logincontent = () => {
                 password: password
             })
             .then((response) => {
-                setComponentToShow("main");
+                window.location.href = '/';
                 setAuthToken(response.data.token);
             }) 
             .catch((error) => {
