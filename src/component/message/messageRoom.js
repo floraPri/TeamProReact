@@ -3,11 +3,11 @@ import styled from "styled-components";
 import { BsSend } from "react-icons/bs";
 
 const Container = styled.div`
+  margin: 5px 15px 5px 5px;
   padding: 20px 5px 20px 5px;
   background: rgba(209,240,228,0.7);
-  margin: 5px 5px 5px 5px;
   white-space: pre-line;
-  height: 580px;
+  height: 95%;
   width: 480px;
   `;
 const Container2 = styled.div`
@@ -68,7 +68,7 @@ const ReiceiveMsg = styled.div`
     text-align: left;
     margin: 5px 10px 5px 10px;
     width: 300px;
-    padding: 5px 10px 5px 10px;
+    padding: 5px 5px 5px 5px;
     `;
     
 const SendMsg = styled.div`
@@ -78,7 +78,7 @@ const SendMsg = styled.div`
     text-align: right;
     margin: 5px 10px 5px 10px;
     width: 300px;
-    padding: 5px 10px 5px 10px;
+    padding: 5px 5px 5px 5px;
     `;
 const SendBar = styled.div`
     width: 440px;
