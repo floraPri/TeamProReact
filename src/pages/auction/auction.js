@@ -8,6 +8,7 @@ import React, { useEffect, useState, useCallback } from 'react';
 import styled from "styled-components";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { useRouter } from "next/router";
+import axios from 'axios';
 
 function Auction() {
 
@@ -65,6 +66,11 @@ function Auction() {
     font-size: 19px;
   `;
 
+  const CardDiv = styled.div`
+    display: flex;
+    padding-top: 30px;
+  `;
+
 
   const [selectedOption, setSelectedOption] = useState('');
 
@@ -78,10 +84,23 @@ function Auction() {
 `;
 
   const router = useRouter();
+
+  const [auctions, setAuctions] = useState([]);
+
   
   const [remainingTime, setRemainingTime] = useState({ hours: 60, minutes: 0, seconds: 0 });
 
   useEffect(() => {
+    
+    axios.get('http://localhost:8081/auction/auction')
+      .then((response) => {
+          setAuctions(response.data);
+      })
+      .catch((error) => {
+          console.error('Error fetching auction data: ', error);
+      });
+
+
     const interval = setInterval(() => {
       if (remainingTime.seconds > 0) {
         setRemainingTime(prevTime => ({ ...prevTime, seconds: prevTime.seconds - 1 }));
@@ -96,7 +115,6 @@ function Auction() {
       clearInterval(interval);
     };
   }, [remainingTime]);
-
   const lastTimeColor = remainingTime.hours < 1 ? "red" : "green";
 
   return (
@@ -133,22 +151,26 @@ function Auction() {
               </select>
             </ConstituencyDiv>
           </Container__3>
-          <Link href="/auction/auctionDetail">
-            <Card style={{ width: '18rem' }}>
-              <Card.Img variant="top" src="/assets/images/auction/ac1.PNG" />
-              <Card.Body>
-                <Card.Title>자퇴서</Card.Title>
-                <Card.Text>
-                  참여자 : 55 명<br/>
-                  시작금액 : 650000 원<br/>
-                  경매 남은 시간&nbsp;
-                  <LastTime color={lastTimeColor}>
-                    {String(remainingTime.hours).padStart(2, '0')} : {String(remainingTime.minutes).padStart(2, '0')} : {String(remainingTime.seconds).padStart(2, '0')}
-                  </LastTime>
-                </Card.Text>
-              </Card.Body>
-            </Card>
-          </Link>
+            <CardDiv>
+            {auctions.map((auction) => (
+            <Link href="/auction/auctionDetail/">
+              <Card key={auction.auctionno} style={{ width: '18rem' }}>
+                    {/* <Card.Img variant="top" src={auction.image} /> */}
+                    <Card.Body>
+                      <Card.Title>{auction.auctiontitle}</Card.Title>
+                      <Card.Text>
+                        참여자: {auction.cham} 명<br />
+                        시작금액: {auction.startprice} 원<br />
+                        경매 남은 시간&nbsp;
+                        <LastTime color={lastTimeColor}>
+                          {auction.lasttime}
+                        </LastTime>
+                      </Card.Text>
+                    </Card.Body>
+                 </Card>
+                 </Link>
+              ))}
+              </CardDiv>
         </Acu>
     </Container>
   );

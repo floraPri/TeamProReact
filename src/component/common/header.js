@@ -92,7 +92,7 @@ export default function Header() {
                             <Dropdown.Menu>
                                 <Dropdown.Item href="#/action-1">커뮤니티</Dropdown.Item>
                                 <Dropdown.Item href="#/action-2">중고거래</Dropdown.Item>
-                                <Dropdown.Item href="#/action-3">경매</Dropdown.Item>
+                                <Dropdown.Item href="/auction/auctionAdd">경매</Dropdown.Item>
                             </Dropdown.Menu>
                         </Dropdown>
                     </RightMenuTab>
