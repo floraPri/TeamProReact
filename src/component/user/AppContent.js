@@ -35,6 +35,7 @@ class AppContent extends Component {
             })
             .then((response) => {                
                 this.setState({componentToShow: "main"});
+                window.location.href = '/';
             })
             .catch((error) => {                
                 this.setState({componentToShow: "main"});
@@ -45,8 +46,6 @@ class AppContent extends Component {
     render() {
         return (  
             <div> 
-                {this.state.componentToShow === "main" && <MainPages /> }
-                {this.state.componentToShow === "login" && <LoginPages /> }
                 {this.state.componentToShow === "join" && <JoinForm onRegister={this.onRegister} />}
             </div>
         );
