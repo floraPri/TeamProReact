@@ -1,8 +1,25 @@
 import React, {Component} from 'react';
 import JoinForm from './join/join';
-import { request } from './axios_helper';
+import { request, setAuthToken } from './axios_helper';
+import MainPages from '@/pages/main/main';
+import LoginPages from '@/pages/user/login/login';
 
 class AppContent extends Component {
+
+    constructor(props) {
+        super(props);
+        this.state = {
+            componentToShow: "join"
+        }
+    }
+
+    login = () => {
+        this.setState({componentToShow: "join"})
+    }
+
+    logout = () => {
+        this.setState({componentToShow: "main"})
+    }
     
     onRegister = (event, email, password, phone, name, ) => {
         event.preventDefault();
@@ -17,16 +34,11 @@ class AppContent extends Component {
                
             })
             .then((response) => {                
-<<<<<<< HEAD
                 this.setState({componentToShow: "main"});
-=======
->>>>>>> 1e07264d6b9c68b0508c0579e8156727e4125afb
                 window.location.href = '/';
             })
-            .catch((error) => {
-                console.log(error.response.data.message);
-                alert(error.response.data.message);
-                window.location.reload();          
+            .catch((error) => {                
+                this.setState({componentToShow: "main"});
             }
         );
     };
@@ -34,11 +46,7 @@ class AppContent extends Component {
     render() {
         return (  
             <div> 
-<<<<<<< HEAD
                 {this.state.componentToShow === "join" && <JoinForm onRegister={this.onRegister} />}
-=======
-                <JoinForm onRegister={this.onRegister} />
->>>>>>> 1e07264d6b9c68b0508c0579e8156727e4125afb
             </div>
         );
     };
