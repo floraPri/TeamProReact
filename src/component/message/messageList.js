@@ -1,4 +1,4 @@
-// 메세지 목록(main) 검색!
+// 데이터 가져오기 , 테스트 해야함
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import MessageRoom from "./messageRoom";
@@ -16,23 +16,26 @@ const Container = styled.div`
 `;
 
 export default function MessageList (){
+  const [responseData, setResponseData] = useState([])
   const [msgno, setMsgno] = useState('')
-    const [room, setRoom] = useState('')
-    const [sender, setSender] = useState('')
-    const [reicever, setReicever] = useState('')
-    const [sendtime, setSendtime] = useState('')
-    const [content, setContent] = useState('')
-    const [readchk, setReadChk] = useState('')
-    const router = useRouter();
+  const [room, setRoom] = useState('')
+  const [sender, setSender] = useState('')
+  const [reicever, setReicever] = useState('')
+  const [sendtime, setSendtime] = useState('')
+  const [content, setContent] = useState('')
+  const [readchk, setReadChk] = useState('')
+  const router = useRouter();
   
     useEffect(() => {
-      // 페이지가 로드될 때 userNo 파라미터를 확인하고 데이터를 가져오는 로직을 수행
-      const { room } = router.query;
-  
-      if (room) {
-        msgList(room);
-      }
-    }, []);
+      // 페이지가 로드될 때 파라미터를 확인하고 데이터를 가져오는 로직을 수행
+      axios.get(`http://localhost:3000/message/messageList`).then(response => {
+      // 응답 데이터를 상태에 저장
+      setResponseData(response.data);
+    })
+    .catch(error => {
+      console.error('데이터 가져오기 실패:', error);
+    });
+  });
 
     const msgList = (room) =>{
         console.log("msglist 호출");
@@ -54,60 +57,13 @@ export default function MessageList (){
 
     }
   
-    function formatDate(epochTime) {
-      const date = new Date(epochTime);
-      const year = date.getFullYear();
-      const month = String(date.getMonth() + 1).padStart(2, '0');
-      const day = String(date.getDate()).padStart(2, '0');
-      return `${year}-${month}-${day}`;
-    }
-  // const [searchValue, setSearchValue] = useState(''); // 추가: 검색어 상태
-  // const [showResult, setShowResult] = useState(false); // 검색 결과를 나타내는 상태
-  // const router = useRouter();
-  
-  // useEffect(() => {
-  //   // 페이지가 로드될 때 userNo 파라미터를 확인하고 데이터를 가져오는 로직을 수행
-  //   const { userno } = router.query;
-
-  //   if (userno) {
-  //     handleSearch(userno);
-  //   }
-  // }, []);
-
-  // function formatDate(epochTime) {
-  //   const date = new Date(epochTime);
-  //   const year = date.getFullYear();
-  //   const month = String(date.getMonth() + 1).padStart(2, '0');
-  //   const day = String(date.getDate()).padStart(2, '0');
-  //   return `${year}-${month}-${day}`;
-  // }
-  
-  // const handleSearch = (userno) => {
-  //   console.log("시작")
-  //   console.log(searchValue)
-  //   axios.get(`http://localhost:8081/admin/adminSearchUser?userno=${searchValue}`)
-  //     .then(response => {
-  //       console.log("axios")
-  //       setUserno(response.data.userno);
-  //       setEmail(response.data.email);
-  //       setName(response.data.name);
-  //       setPhone(response.data.phone);
-  //       const formattedJoinDate = formatDate(response.data.joindate);
-  //       setJoindate(formattedJoinDate); // 변환된 날짜를 상태에 업데이트
-  //       setShowResult(true); // 검색 결과가 있을 때 상태 업데이트
-  //     })
-  //     .catch(error => {
-  //       console.log(error);
-  //       setShowResult(false); // 검색 결과가 없을 때 상태 업데이트
-  //     });
-  // };
 
     return(
       <Container>
         <List>
             <p> messageList.js </p>
-            <RoomList>
-            <ProfileImg> </ProfileImg> 
+            <RoomList> <msgList/>
+            <ProfileImg> ad </ProfileImg> 
             <p> {reicever} </p>
             <p> {content} </p>
             <p> {sendtime} </p>
@@ -156,3 +112,4 @@ const ProfileImg = styled.div`
   background: rgba(0,0,0,0.4);
   border-radius:50px;
 `;
+
