@@ -1,6 +1,10 @@
 // 메세지 세부
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import { BsSend } from "react-icons/bs";
+import axios from "axios";
+import { useRouter } from 'next/router';
+
 
 const Container = styled.div`
   margin: 5px 15px 5px 5px;
@@ -15,27 +19,79 @@ const Container2 = styled.div`
   align-items: center;
 
 `;
-const space = "\n";
 
 export default function MessageRoom (){
+
+    const [msgno, setMsgno] = useState('')
+    const [room, setRoom] = useState('')
+    const [sender, setSender] = useState('')
+    const [reicever, setReicever] = useState('')
+    const [sendtime, setSendtime] = useState('')
+    const [content, setContent] = useState('')
+    const [readchk, setReadChk] = useState('')
+    const router = useRouter();
+  
+    useEffect(() => {
+      // 페이지가 로드될 때 userNo 파라미터를 확인하고 데이터를 가져오는 로직을 수행
+      const { userno } = router.query;
+  
+      if (userno) {
+        msgList(userno);
+      }
+    }, []);
+
+    const msgList = (userno) =>{
+        console.log("msglist 호출");
+        console.log("no :", userno);
+        axios.get(` `).then(response => {
+            console.log("axios");
+            setMsgno(response.data.msgno)
+            setRoom(response.data.room)
+            setSender(response.data.sender)
+            setReicever(response.data.reicever)
+            setSendtime(response.data.sendtime)
+            setContent(response.data.content)
+            setReadChk(response.data.readchk)
+
+        })
+        .catch(error => {
+            console.log(error);
+        })
+
+    }
+  
+    function formatDate(epochTime) {
+      const date = new Date(epochTime);
+      const year = date.getFullYear();
+      const month = String(date.getMonth() + 1).padStart(2, '0');
+      const day = String(date.getDate()).padStart(2, '0');
+      return `${year}-${month}-${day}`;
+    }
+  
+
+
+
     return(
       <Container>
         <Container2>
         <Left>
-            <ReiceiveMsg>
-                <p>수신 msg</p>
-            </ReiceiveMsg>
+            <ReceiveMsg1>
+                <p>수신자:{reicever}</p><p>{content}</p>&nbsp;&nbsp;{sendtime}
+                <p>읽음확인:{readchk}</p>
+                <p>re</p>
+            </ReceiveMsg1>
         </Left>
 
         <Right>
                 <SendMsg>
-                <p>발신 msg</p>
+                <p>발신자:{sender}</p><p>{content}</p>&nbsp;&nbsp;{sendtime}
+                <p>se</p>
                 </SendMsg>
         </Right>
         </Container2>
         <Center>
             <SendBar>
-                <SendInput>
+                <SendInput placeholder="메세지를 입력하세요">
                 </SendInput>
                 <SendIcon><BsSend style={{width:'20px',height:'20px'}}/> </SendIcon>
             </SendBar>
@@ -61,7 +117,7 @@ const Center = styled.div`
     grid-template-columns: repeat(2, 1fr);
 `;
 
-const ReiceiveMsg = styled.div`
+const ReceiveMsg1 = styled.div`
     align: "left";
     background: white;
     align-items: left;
