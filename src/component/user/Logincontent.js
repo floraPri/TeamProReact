@@ -1,22 +1,10 @@
 import React from 'react';
 import LoginForm from './login/login';
 import { request, setAuthToken } from './axios_helper';
-import { useState } from 'react';
 
 const Logincontent = () => {
 
-    const [componentToShow, setComponentToShow] = useState("login");
-
-    const login = () => {
-        setComponentToShow("login");
-    }
-
-    const logout = () => {
-        setComponentToShow("main");
-    }
-
     const onLogin = (email, password) => {
-        // e.preventDefault();
         request(
             "POST",
             "/login",
@@ -27,10 +15,16 @@ const Logincontent = () => {
             .then((response) => {
                 window.location.href = '/';
                 setAuthToken(response.data.token);
+                window.localStorage.setItem("userno", response.data.userno);
+                window.localStorage.setItem("email", response.data.email);
+                window.localStorage.setItem("name", response.data.name);
+                window.localStorage.setItem("phone", response.data.phone);
+                window.localStorage.setItem("address", response.data.address);
+                window.localStorage.setItem("joindate", response.data.joindate);
             }) 
             .catch((error) => {
-                setComponentToShow("main");
-                setAuthToken(null);
+                alert(error.response.data.message);
+                window.location.href = '/';
             }
         );
     }
@@ -38,7 +32,7 @@ const Logincontent = () => {
 
         return (  
             <div> 
-                {componentToShow === "login" && <LoginForm onLogin={onLogin} />}
+                <LoginForm onLogin={onLogin} />
             </div>
         );
 }

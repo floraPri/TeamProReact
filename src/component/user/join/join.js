@@ -1,6 +1,68 @@
 import React from "react";
 import styled from "styled-components";
 
+
+export default class JoinForm extends React.Component {
+
+constructor(props) {
+    super(props);
+    this.state = {
+        active: "join",
+        email: "",    // login: "" -> id: ""
+        password: "",
+        phone: "",
+        name: "",
+        onRegister: props.onRegister// 사용자가 자격증명을 보낸후 상위구성요소가 로그인 양식을 숨길수 있다.
+    };
+};
+
+// 필드의 업데이트된 값을 state에 저장
+onChangeHandler = (event) => {
+    let name = event.target.name;
+    let value = event.target.value;
+    this.setState({[name]: value});
+};
+
+// 등록 처리
+onSubmitRegister = (e) => {
+    console.log('onSubmitRegister~~~~~~~~~~~');
+    this.state.onRegister(
+        e,            
+        this.state.email,    // this.state.login-> this.state.id 
+        this.state.password,
+        this.state.phone,
+        this.state.name
+    );
+};
+
+render() {
+    return (
+      <Container>
+          <form onSubmit={this.onSubmitRegister}>
+              <Card>
+                  <Title>weAround</Title>
+                  <EmailInput>
+                    <input type="text" name="email" placeholder="email" onChange={this.onChangeHandler} required/>
+                  </EmailInput>
+                  <PasswordInput>
+                    <input type="text" name="password" placeholder="password" onChange={this.onChangeHandler} required/>
+                  </PasswordInput>
+                  <PhoneInput>
+                    <input type="text" name="phone" placeholder="phone" onChange={this.onChangeHandler} required/>
+                  </PhoneInput>
+                  <NameInput>
+                    <input type="text" name="name" placeholder="name" onChange={this.onChangeHandler} required/>
+                  </NameInput>
+                  <LoginButton type="submit">
+                  <div></div>
+                  <div>join</div>
+                  </LoginButton>
+              </Card>
+          </form>
+      </Container>
+    )
+  }
+}
 const Container = styled.div`
   width: 100%;
   height: 100%;
@@ -151,64 +213,3 @@ const NameInput = styled.div`
     color: black;
   }
 `;
-export default class JoinForm extends React.Component {
-
-constructor(props) {
-    super(props);
-    this.state = {
-        active: "join",
-        email: "",    // login: "" -> id: ""
-        password: "",
-        phone: "",
-        name: "",
-        onRegister: props.onRegister// 사용자가 자격증명을 보낸후 상위구성요소가 로그인 양식을 숨길수 있다.
-    };
-};
-
-// 필드의 업데이트된 값을 state에 저장
-onChangeHandler = (event) => {
-    let name = event.target.name;
-    let value = event.target.value;
-    this.setState({[name]: value});
-};
-
-// 등록 처리
-onSubmitRegister = (e) => {
-    console.log('onSubmitRegister~~~~~~~~~~~');
-    this.state.onRegister(
-        e,            
-        this.state.email,    // this.state.login-> this.state.id 
-        this.state.password,
-        this.state.phone,
-        this.state.name
-    );
-};
-
-render() {
-    return (
-      <Container>
-          <form onSubmit={this.onSubmitRegister}>
-              <Card>
-                  <Title>weAround</Title>
-                  <EmailInput>
-                    <input type="text" name="email" placeholder="email" onChange={this.onChangeHandler} required/>
-                  </EmailInput>
-                  <PasswordInput>
-                    <input type="text" name="password" placeholder="password" onChange={this.onChangeHandler} required/>
-                  </PasswordInput>
-                  <PhoneInput>
-                    <input type="text" name="phone" placeholder="phone" onChange={this.onChangeHandler} required/>
-                  </PhoneInput>
-                  <NameInput>
-                    <input type="text" name="name" placeholder="name" onChange={this.onChangeHandler} required/>
-                  </NameInput>
-                  <LoginButton type="submit">
-                  <div></div>
-                  <div>join</div>
-                  </LoginButton>
-              </Card>
-          </form>
-      </Container>
-    )
-}
-}
