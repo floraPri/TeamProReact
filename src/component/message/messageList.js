@@ -1,4 +1,4 @@
-// 데이터 가져오기 , insert 해야함
+// 데이터 가져오기 , 테스트 해야함
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import MessageRoom from "./messageRoom";

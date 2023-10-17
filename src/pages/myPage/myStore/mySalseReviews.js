@@ -1,6 +1,6 @@
 import styled from "styled-components";
-import MyPagesMenu from "../myPagesMenu";
-import SalesReviewList from "./salesReviewList";
+import MyPagesMenu from "@/component/myPage/myPagesMenu";
+import SalesReviewList from "@/component/myPage/myStore/salesReviewList";
 
 const Container = styled.div`
   min-width: 1280px;

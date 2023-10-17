@@ -1,6 +1,6 @@
+import MyPagesMenu from "@/component/myPage/myPagesMenu";
 import styled from "styled-components";
-import MyPagesMenu from "../myPagesMenu";
-import MyReviewList from "./myReviesList";
+import MySalesList from "@/component/myPage/myStore/mySalesList";
 
 const Container = styled.div`
   min-width: 1280px;
@@ -10,12 +10,11 @@ const Container = styled.div`
   padding-top: 50px;
 `;
 
-
-export default function MyReview(){
+export default function MySales(){
     return(
         <Container>
             <MyPagesMenu />
-            <MyReviewList />
+            <MySalesList />
         </Container>
     )
 }
