@@ -104,6 +104,8 @@ function AuctionGuest() {
             AUCTION GUEST
           </MyAcu>
         </Container__3>
+        <br></br>
+        <h3>낙찰 완료</h3>
         <TableF className="cart__list">
             <thead>
               <TableE>
@@ -126,9 +128,40 @@ function AuctionGuest() {
                   <p>2000000 원</p>
                 </TableA>
                 <TableA style={{ width: '15%' }}>
-                  <span className="price">01 : 35 : 01 : 10</span><br />
+                  <span className="price">01 : 35 : 01</span><br />
                 </TableA>
                 <TableA style={{ width: '15%' }}>800000 원</TableA>
+              </tr>
+            </tbody>
+        </TableF>
+        <br></br>
+        <hr></hr>
+        <h3>참여중인 경매</h3>
+        <TableF className="cart__list">
+            <thead>
+              <TableE>
+                <td>이미지</td>
+                <td>경매 물품</td>
+                <td>최고 입찰 금액</td>
+                <td>남은 시간</td>
+                <td>나의 입찰 금액</td>
+              </TableE>
+            </thead>
+            <tbody>
+              <tr className="cart__list__detail">
+                <TableC>
+                  <TableD img src="/assets/images/auction/ac1.PNG" alt="magic mouse" />
+                </TableC>
+                <TableB style={{ width: '35%' }}>
+                  <p onClick={() => router.push('/auction/auctionDetail') }>자퇴서2</p>
+                </TableB>
+                <TableA className="cart__list__option" style={{ width: '27%' }}>
+                  <p>2000000 원</p>
+                </TableA>
+                <TableA style={{ width: '15%' }}>
+                  <span className="price">07 : 35 : 01</span><br />
+                </TableA>
+                <TableA style={{ width: '15%' }}>8000 원</TableA>
               </tr>
             </tbody>
         </TableF>
