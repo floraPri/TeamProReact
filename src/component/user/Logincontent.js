@@ -27,6 +27,9 @@ const Logincontent = () => {
             .then((response) => {
                 window.location.href = '/';
                 setAuthToken(response.data.token);
+                window.localStorage.setItem("email", response.data.email);
+                window.localStorage.setItem("name", response.data.name);
+                window.localStorage.setItem("userno", response.data.userno);
             }) 
             .catch((error) => {
                 setComponentToShow("main");
