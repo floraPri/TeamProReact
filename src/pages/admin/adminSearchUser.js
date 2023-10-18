@@ -113,7 +113,7 @@ const TableCellContent  = styled(TableCell)`
   text-align: center;
 `;
 
-const CellButton  = styled(Button)`
+const StyledButton = styled(Button)`
   background-color: #D9D9D9;
   color: black;
   font-weight: bold;
@@ -126,6 +126,7 @@ export default function AdminSearchUser (){
   const [name, setName] = useState('')
   const [phone, setPhone] = useState('')
   const [joindate, setJoindate] = useState('')
+  const [enabled, setEnabled] = useState('')
   const [searchValue, setSearchValue] = useState(''); // 추가: 검색어 상태
   const [showResult, setShowResult] = useState(false); // 검색 결과를 나타내는 상태
   const router = useRouter();
@@ -147,24 +148,68 @@ export default function AdminSearchUser (){
     return `${year}-${month}-${day}`;
   }
 
-  const handleSearch = (userno) => {
+  const handleSearch = () => {
     console.log("시작")
     console.log(searchValue)
     axios.get(`http://localhost:8081/admin/adminSearchUser?userno=${searchValue}`)
       .then(response => {
-        console.log("axios")
+        
+        console.log("axios");
         setUserno(response.data.userno);
         setEmail(response.data.email);
         setName(response.data.name);
         setPhone(response.data.phone);
         const formattedJoinDate = formatDate(response.data.joindate);
         setJoindate(formattedJoinDate); // 변환된 날짜를 상태에 업데이트
+        setEnabled(response.data.enabled);
         setShowResult(true); // 검색 결과가 있을 때 상태 업데이트
       })
       .catch(error => {
         console.log(error);
         alert("존재하지 않는 회원번호")
         setShowResult(false); // 검색 결과가 없을 때 상태 업데이트
+      });
+  };
+  
+  // 유저 밴
+  const handleBan = () => {
+    console.log("유저 밴")
+    console.log(userno)
+    axios.put(`http://localhost:8081/admin/userBan`,{
+      userno: userno,
+      enabled: '1'
+    })
+    
+      .then(response => {
+        console.log("axios");
+        setUserno('');
+        setEnabled('');
+        setShowResult(false); // 검색 결과 감추기
+        alert("정지 성공");
+      })
+      .catch(error => {
+        alert("정지 실패");
+        console.log(error);
+      });
+  };
+
+  // 유저 릴리즈
+  const handleRelease = () => {
+    console.log("유저 릴리즈")
+    axios.put(`http://localhost:8081/admin/userRelease`,{
+      userno: userno,
+      enabled: '0'
+    })
+      .then(response => {
+        console.log("axios");
+        setUserno('');
+        setEnabled('');
+        setShowResult(false); // 검색 결과 감추기
+        alert("해제 성공");
+      })
+      .catch(error => {
+        alert("해제 실패");
+        console.log(error);
       });
   };
 
@@ -186,34 +231,43 @@ export default function AdminSearchUser (){
           </SearchBox>
         </SearchBoxContainer>
         <SearchResultText>검색결과</SearchResultText>
+        {showResult && ( // showResult 상태가 true일 때만 결과를 렌더링
         <SearchResultContainer>
-          <StyledTable >
-            <StyledTableHead>
-              <TableRow>
-                <TableCellTitle>UserNumber</TableCellTitle>
-                <TableCellTitle>Email</TableCellTitle>
-                <TableCellTitle>Name</TableCellTitle>
-                <TableCellTitle>PhoneNumber</TableCellTitle>
-                <TableCellTitle>JoinDate</TableCellTitle>
-                <TableCell></TableCell>
-                <TableCell></TableCell>
-              </TableRow>
-            </StyledTableHead>
-            {showResult && ( // showResult 상태가 true일 때만 결과를 렌더링
-            <TableBody>
-              <TableRow>
-                <TableCellContent>{userno}</TableCellContent>
-                <TableCellContent>{email}</TableCellContent>
-                <TableCellContent>{name}</TableCellContent>
-                <TableCellContent>{phone}</TableCellContent>
-                <TableCellContent>{joindate}</TableCellContent>
-                <TableCellContent><CellButton type="submit">채팅</CellButton></TableCellContent>
-                <TableCellContent><CellButton type="submit">정지</CellButton></TableCellContent>
-              </TableRow>
-            </TableBody>
-            )}
-          </StyledTable >
+            <StyledTable>
+              <StyledTableHead>
+                <TableRow>
+                  <TableCellTitle>UserNumber</TableCellTitle>
+                  <TableCellTitle>Email</TableCellTitle>
+                  <TableCellTitle>Name</TableCellTitle>
+                  <TableCellTitle>PhoneNumber</TableCellTitle>
+                  <TableCellTitle>JoinDate</TableCellTitle>
+                  <TableCellTitle>state</TableCellTitle>
+                  <TableCell></TableCell>
+                  <TableCell></TableCell>
+                </TableRow>
+              </StyledTableHead>
+              <TableBody>
+                <TableRow>
+                  <TableCellContent>{userno}</TableCellContent>
+                  <TableCellContent>{email}</TableCellContent>
+                  <TableCellContent>{name}</TableCellContent>
+                  <TableCellContent>{phone}</TableCellContent>
+                  <TableCellContent>{joindate}</TableCellContent>
+                  <TableCellContent>
+                    {enabled === '0' ? "이용중" : enabled === '1' ? "정지" : ''}
+                  </TableCellContent>
+                  <TableCellContent>
+                    {enabled === '0' ? (
+                      <StyledButton type="button" onClick={handleBan}>정지</StyledButton>
+                    ) : enabled === '1' ? (
+                      <StyledButton type="button" onClick={handleRelease}>해제</StyledButton>
+                    ) : null}
+                  </TableCellContent>
+                </TableRow>
+              </TableBody>
+            </StyledTable>
         </SearchResultContainer>
+        )}
       </Main>
     </Container>
   )

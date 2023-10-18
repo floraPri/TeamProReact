@@ -17,7 +17,7 @@ const LeftMenu = styled.div`
   display: block;
   background-color: #D9D9D9;
   width: 200px;
-  height: 1000px;
+  height: 1200px;
     
 `;
 

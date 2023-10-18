@@ -61,11 +61,18 @@ const SearchButton = styled(Button)`
   font-weight: bold;
 `;
 
+const StyledButton = styled(Button)`
+  background-color: #D9D9D9;
+  color: black;
+  font-weight: bold;
+`;
 export default function AddCs() {
 
   const [questions, setQuestions] = useState([]);
+  const [questionnum, setQuestionnum] = useState('');
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
+  const [selectedQuestion, setSelectedQuestion] = useState(null);
 
   const onChange = (e) => {
     if (e.target.name === "title") {
@@ -88,6 +95,7 @@ export default function AddCs() {
         setContent('');
         alert("등록 성공")
         console.log("axios")
+        window.location.reload();
       })
       .catch(error => {
         alert("등록 실패")
@@ -109,13 +117,87 @@ export default function AddCs() {
       })
   }, []);
 
+  // 수정
+  const handleRewrite = (e) => {
+    setSelectedQuestion(e);
+    setTitle(e.title);
+    setContent(e.content);
+    setQuestionnum(e.questionnum);
+  };
+
+
+
+  const handleSaveUpdate = (e) => {
+    e.preventDefault();
   
+    if (selectedQuestion) {
+      axios.put(`http://localhost:8081/admin/updateCs`, {
+        questionnum: selectedQuestion.questionnum,
+        title: title,
+        content: content
+      })
+        .then(response => {
+          setSelectedQuestion(null);
+          setTitle('');
+          setContent('');
+          alert("수정 성공");
+          window.location.reload();
+        })
+        .catch(error => {
+          alert("수정 실패");
+          console.log(error);
+        });
+    } else {
+      // 등록 버튼의 로직을 여기에 유지하고, 선택한 질문이 없을 때 실행
+      axios.post(`http://localhost:8081/admin/add`,{
+        questionnum: questionnum,
+        title: title,
+        content: content
+      })
+        .then(response => {
+          setTitle('');
+          setContent('');
+          alert("등록 성공");
+          window.location.reload();
+        })
+        .catch(error => {
+          alert("등록 실패");
+          console.log(error);
+        });
+    }
+  };
+
+  // 삭제
+  const handleRemove = () => {
+    console.log("삭제")
+    console.log(userno)
+    axios.put(`http://localhost:8081/admin/userBan`,{
+      userno: userno,
+      enabled: '1'
+    })
+    
+      .then(response => {
+        console.log("axios");
+        setUserno('');
+        setEnabled('');
+        setShowResult(false); // 검색 결과 감추기
+        alert("정지 성공");
+      })
+      .catch(error => {
+        alert("정지 실패");
+        console.log(error);
+      });
+  };
 
     return(
       <Container>
         <MyLeftMenu />
         <Main>
-          <Form method="post" onSubmit={saveCs}>
+          <Form method="post" onSubmit={handleSaveUpdate}>
+            <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
+              <Form.Label>번호</Form.Label>
+              <div>{questionnum}</div>
+            </Form.Group>
             <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
               <Form.Label>제목</Form.Label>
               <Form.Control type="text" name="title" value={title} onChange={onChange}/>
@@ -126,7 +208,7 @@ export default function AddCs() {
             </Form.Group>
             <SearchButton type="submit">등록</SearchButton>
           </Form>
-          <StyledAccordion>
+          <StyledAccordion activeKey={questions.map(question => question.questionnum)}>
               <StyledAccordionTopHeader>등록된 리스트</StyledAccordionTopHeader>
               {questions.map(question => 
                 <StyledAccordionItem key={question.questionnum} eventKey={question.questionnum}>
@@ -134,6 +216,8 @@ export default function AddCs() {
                     <StyledAccordionBody>
                     {question.content}
                     </StyledAccordionBody>
+                    <StyledButton type="button" onClick={() => handleRewrite(question)}>수정</StyledButton>
+                    <StyledButton type="button" onClick={handleRemove}>삭제</StyledButton>
                 </StyledAccordionItem >
               )}
           </StyledAccordion>

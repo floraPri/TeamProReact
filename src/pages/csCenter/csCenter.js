@@ -1,7 +1,8 @@
 import styled from "styled-components";
-import React from 'react';
 import BootstrapAccordion from 'react-bootstrap/Accordion';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import React, { useState, useEffect} from "react";
+import axios from "axios";
 
 const Container = styled.div`
   display: flex;
@@ -45,23 +46,35 @@ const StyledAccordionBody = styled(BootstrapAccordion.Body)`
 `;
 
 export default function Cscenter() {
+
+  const [questions, setQuestions] = useState([]);
+  
+  useEffect(() => {
+    console.log("useEffect 시작")
+    axios.get(`http://localhost:8081/admin/addCs`)
+      .then(response => {
+        console.log("api응답:", response.data)
+        if (Array.isArray(response.data)) {
+          setQuestions(response.data);
+        }
+      })
+      .catch(error => {
+        console.log(error);
+      })
+  }, []);
+
   return (
     <Container>
         <StyledAccordion>
             <StyledAccordionTopHeader>무엇을 도와드릴까요?</StyledAccordionTopHeader>
-            <StyledAccordionItem eventKey="0">
-                <StyledAccordionHeader>주문 내역은 어떻게 확인할 수 있나요?</StyledAccordionHeader>
-                <StyledAccordionBody>
-                우측 상단 프로필 사진을 클릭 후 [나의쇼핑]을 통해 확인 가능합니다
-                </StyledAccordionBody>
-            </StyledAccordionItem >
-            <StyledAccordionItem  eventKey="1">
-                <StyledAccordionHeader>제품의 자세한 정보는 어떻게 알 수 있나요?</StyledAccordionHeader>
-                <StyledAccordionBody>
-                각 제품의 상세 페이지에서 확인 가능하며, 
-                더욱 자세한 정보는 제품상세페이지 내 문의하기를 통해 판매 업체에 문의 가능합니다.
-                </StyledAccordionBody>
-            </StyledAccordionItem >
+            {questions.map(question => 
+                <StyledAccordionItem key={question.questionnum} eventKey={question.questionnum}>
+                    <StyledAccordionHeader>{question.title}</StyledAccordionHeader>
+                    <StyledAccordionBody>
+                    {question.content}
+                    </StyledAccordionBody>
+                </StyledAccordionItem >
+              )}
         </StyledAccordion>
     </Container>
   )
