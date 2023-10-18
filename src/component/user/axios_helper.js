@@ -22,7 +22,7 @@ export const request = (method, url, data) => {
         console.log('headers : ', headers);
     }
     
-    console.log('axios~~~');
+    console.log('axios~!');
     console.log('method : ', method );
     console.log('headers : ', headers );
     console.log('url : ', url );

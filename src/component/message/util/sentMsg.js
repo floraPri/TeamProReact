@@ -1,4 +1,3 @@
-// 불러오기
 import styled from "styled-components";
 
 const Container = styled.div`
@@ -6,11 +5,14 @@ const Container = styled.div`
   justify-content: center;
 `;
 
-export default function MessageLoad (){
+const Cap = styled.img`
+  width: 1600px;
+`;
+
+export default function SentMsg (){
     return(
       <Container>
-        <div><p>12</p></div><br/><br/>
-        <div>34</div>
+        
       </Container>
     )
 }
