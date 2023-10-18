@@ -67,14 +67,14 @@ export default function MessageRoom (){
             <ReceiveMsg1>
                 <p>수신자:{reicever}</p><p>{content}</p>&nbsp;&nbsp;{sendtime}
                 <p>읽음확인:{readchk}</p>
-                <p>re</p>
+                <p>recieve</p>
             </ReceiveMsg1>
         </Left>
 
         <Right>
                 <SendMsg>
                 <p>발신자:{sender}</p><p>{content}</p>&nbsp;&nbsp;{sendtime}
-                <p>se</p>
+                <p>send</p>
                 </SendMsg>
         </Right>
         </Container2>
