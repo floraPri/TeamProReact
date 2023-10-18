@@ -2,10 +2,11 @@ import Button from 'react-bootstrap/Button';
 import ButtonGroup from 'react-bootstrap/ButtonGroup';
 import Dropdown from 'react-bootstrap/Dropdown';
 import DropdownButton from 'react-bootstrap/DropdownButton';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from "styled-components";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { useRouter } from "next/router";
+import axios from 'axios';
 
 function AuctionHost() {
   
@@ -44,8 +45,6 @@ function AuctionHost() {
     font-weight: bold;
     font-size: 33px;
     `;
-
-    const router = useRouter();
 
     const TableA = styled.td`
         border-left: 2px solid whitesmoke;
@@ -100,6 +99,26 @@ function AuctionHost() {
     const TableF = styled.table`
     `;
 
+    const router = useRouter();
+    const [auctionHostData, setAuctionHostData] = useState([]);
+
+    const userno = 1; // 유저번호 일단 하드코딩
+
+    useEffect(() => {
+      // 클라이언트에서 'userno' 값을 params로 전달하여 요청을 보냅니다.
+      axios.get(`http://localhost:8081/auction/auctionHost`, {
+        params: {
+          userno: userno,
+        }
+      })
+      .then((response) => {
+        setAuctionHostData(response.data);
+      })
+      .catch((error) => {
+        console.error('경매 호스트 정보를 불러오는 중 오류 발생:', error);
+      });
+    }, []);
+
   return (
     <Container>
       <Container__1>
@@ -111,7 +130,7 @@ function AuctionHost() {
               title="나의 경매"
               id="bg-vertical-dropdown-1"
             >
-              <Dropdown.Item eventKey="1" onClick={() => router.push('/auction/auctionHost')}>HOST</Dropdown.Item>
+              <Dropdown.Item eventKey="1" onClick={() => router.push({ pathname: '/auction/auctionHost', query: { userno } })}>HOST</Dropdown.Item>
               <Dropdown.Item eventKey="2" onClick={() => router.push('/auction/auctionGuest')}>GUEST</Dropdown.Item>
             </DropdownButton>
           </ButtonGroup>
@@ -134,28 +153,34 @@ function AuctionHost() {
               </TableE>
             </thead>
             <tbody>
+              {auctionHostData.map((auctionHostData) =>(
               <tr className="cart__list__detail">
                 <TableC>
-                  <TableD img src="/assets/images/auction/ac1.PNG" alt="magic mouse" />
+                  <TableD img src="/assets/images/auction/ac1.PNG" alt="magic mouse" /> 
+                  {/* 이미지 수정필요!! */}
                 </TableC>
                 <TableB style={{ width: '35%' }}>
                   <TaB_div>
-                    <p>자퇴서</p>
+                    <p>{auctionHostData.auctiontitle}</p>
                     <Tab_div_b>
-                      <Button_ onClick={() => router.push('/auction/auctionEdit')}>
-                        경매 수정
-                      </Button_> 
+                    <Button_ onClick={() => {
+                      const auctionno = auctionHostData.auctionno;
+                      router.push(`/auction/auctionEdit?auctionno=${auctionno}`);
+                    }}>
+                      경매 수정
+                    </Button_>
                     </Tab_div_b>
                   </TaB_div>
                 </TableB>
                 <TableA className="cart__list__option" style={{ width: '27%' }}>
-                  <p>2000000 원</p>
+                  <p>{auctionHostData.lastprice} 원</p>
                 </TableA>
                 <TableA style={{ width: '15%' }}>
-                  <span className="price">01 : 35 : 01 : 10</span><br />
+                  <span >{auctionHostData.lasttime}</span><br />
                 </TableA>
                 <TableA style={{ width: '15%' }} onClick={() => router.push('/auction/auctionHost_chat') }>Jangu06</TableA>
               </tr>
+              ))}
             </tbody>
         </TableF>
       </Host>

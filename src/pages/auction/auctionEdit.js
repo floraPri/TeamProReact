@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Button from 'react-bootstrap/Button';
 import { useRouter } from "next/router";
 import axios from 'axios';
@@ -64,6 +64,8 @@ export default function AuctionEdit() {
 
   const router = useRouter();
 
+  const { auctionno } = router.query;
+
   const [auctionData, setAuctionData] = useState({
     auctiontitle: '',
     auctioncontent: '',
@@ -72,6 +74,28 @@ export default function AuctionEdit() {
     minbid: 0,
     image: null,
   });
+
+  useEffect(() => {
+    axios.get(`http://localhost:8081/auction/auctionEdit`, {
+      params: {
+        auctionno: auctionno,
+      }
+    })
+      .then((response) => {
+        const data = response.data;
+        setAuctionData({
+          auctiontitle: data.auctiontitle,
+          auctioncontent: data.auctioncontent,
+          buynow: data.buynow,
+          startprice: data.startprice,
+          minbid: data.minbid,
+          image: data.image,
+        });
+      })
+      .catch((error) => {
+        console.error('경매 정보를 불러오는 중 오류 발생:', error);
+      });
+  }, [auctionno]);
 
   const handleChange = (e) => {
     const { name, value, type, files } = e.target;
@@ -84,6 +108,7 @@ export default function AuctionEdit() {
     e.preventDefault();
 
     const formData = new FormData();
+    formData.append("auctionno", auctionno);
     formData.append("image", auctionData.image);
     formData.append("auctiontitle", auctionData.auctiontitle);
     formData.append("auctioncontent", auctionData.auctioncontent);
@@ -96,11 +121,13 @@ export default function AuctionEdit() {
     console.log(auctionData.buynow);
     console.log(auctionData.startprice);
     console.log(auctionData.minbid);
+    console.log(auctionno);
 
+    // 수정 업데이트
     try {
       const response = await axios.post('http://localhost:8081/auction/auctionEdit', formData, {
         headers: {
-          'Content-Type': 'multipart/form-data' // 파일 업로드에 대한 헤더 설정
+          'Content-Type': 'multipart/form-data'
         }
       });
 
