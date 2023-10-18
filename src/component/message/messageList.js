@@ -112,4 +112,3 @@ const ProfileImg = styled.div`
   background: rgba(0,0,0,0.4);
   border-radius:50px;
 `;
-
