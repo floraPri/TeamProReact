@@ -17,10 +17,6 @@ class AppContent extends Component {
                
             })
             .then((response) => {                
-<<<<<<< HEAD
-                this.setState({componentToShow: "main"});
-=======
->>>>>>> 1e07264d6b9c68b0508c0579e8156727e4125afb
                 window.location.href = '/';
             })
             .catch((error) => {
@@ -34,11 +30,7 @@ class AppContent extends Component {
     render() {
         return (  
             <div> 
-<<<<<<< HEAD
-                {this.state.componentToShow === "join" && <JoinForm onRegister={this.onRegister} />}
-=======
                 <JoinForm onRegister={this.onRegister} />
->>>>>>> 1e07264d6b9c68b0508c0579e8156727e4125afb
             </div>
         );
     };
