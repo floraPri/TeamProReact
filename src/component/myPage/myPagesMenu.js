@@ -3,6 +3,7 @@ import styled from "styled-components";
 import ResetStyles from "./resetStyles";
 import { BsFillPersonFill } from "react-icons/bs";
 import menuStyles from "./menuStyles.module.css";
+import { useEffect, useState } from "react";
 
 const LeftMenuContain = styled.div`
     width: 240px;
@@ -10,6 +11,17 @@ const LeftMenuContain = styled.div`
 
 
 export default function MyPagesMenu(){
+
+    const [email,setEmail] = useState("");
+
+    useEffect(() => {
+        const userEmail = localStorage.getItem('email');
+
+        if(userEmail){
+            setEmail(userEmail);
+        }
+    },[]);
+
     return(
         <LeftMenuContain>
             <ResetStyles />
@@ -17,7 +29,7 @@ export default function MyPagesMenu(){
                 <span className={menuStyles.spanWrap}>
                     <BsFillPersonFill size="50"/>
                 </span>
-                <p><span className={menuStyles.memberID_wrap}>MemberID</span></p>
+                <p><span className={menuStyles.memberID_wrap}>{email}</span></p>
             </div>
             <div></div>
 

@@ -13,9 +13,9 @@ const RightContainer = styled.div`
 export default function OrderListPage(){
     const [orders, setOrders] = useState([]);
 
-    
     useEffect(() => {
         console.log("useEffect 시작");
+        
         axios.get(`http://localhost:8081/myPage/orderListPage`)
         .then(response => {
             console.log("api응답: ", response.data);
