@@ -46,11 +46,11 @@ export default function OrderListPage(){
                 <TableBody>
                     {orders.map(order =>
                         <TableRow>
-                            <TableCell>{order.product_buycode}</TableCell>
+                            <TableCell>{order.buycode}</TableCell>
                             <TableCell>{order.buy_date}</TableCell>
-                            <TableCell>{order.buy_date}</TableCell>
+                            <TableCell>{order.product_img}</TableCell>
                             <TableCell>{order.amount}</TableCell>
-                            <TableCell><Link href="">{order.amount}</Link></TableCell>
+                            <TableCell><Link href="">{order.product_name}</Link></TableCell>
                             <TableCell>{order.pay_price}</TableCell>
                         </TableRow>
                     )}
