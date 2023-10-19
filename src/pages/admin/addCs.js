@@ -1,7 +1,10 @@
 import styled from "styled-components";
 import MyLeftMenu from "@/component/admin/myLeftMenu";
-import {Accordion, Form, Button} from 'react-bootstrap';
+import {Accordion, Form} from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import {Button} from "@mui/material";
+import React, { useState, useEffect} from "react";
+import axios from "axios";
 
 const Container = styled.div`
   width: 1280px;
@@ -52,37 +55,184 @@ const StyledAccordionBody = styled(Accordion.Body)`
 
 `;
 
-export default function AddCs (){
+const SearchButton = styled(Button)`
+  background-color: #D9D9D9;
+  color: black;
+  font-weight: bold;
+`;
+
+const StyledButton = styled(Button)`
+  background-color: #D9D9D9;
+  color: black;
+  font-weight: bold;
+`;
+export default function AddCs() {
+
+  const [questions, setQuestions] = useState([]);
+  const [questionnum, setQuestionnum] = useState('');
+  const [title, setTitle] = useState('');
+  const [content, setContent] = useState('');
+  const [createdate, setCreatedate] = useState('');
+  const [show, setShow] = useState('');
+  const [selectedQuestion, setSelectedQuestion] = useState(null);
+
+  const onChange = (e) => {
+    if (e.target.name === "title") {
+      setTitle(e.target.value);
+    } else if (e.target.name === "content") {
+      setContent(e.target.value);
+    }
+  };
+
+  // 페이지 시작할때 목록 뿌리기
+  useEffect(() => {
+    console.log("useEffect 시작")
+    axios.get(`http://localhost:8081/admin/addCs`)
+      .then(response => {
+        console.log("api응답:", response.data)
+        if (Array.isArray(response.data)) {
+          setQuestions(response.data);
+        }
+      })
+      .catch(error => {
+        console.log(error);
+      })
+  }, []);
+
+  // 수정 누르면 내용 채워지게
+  const handleRewrite = (e) => {
+    setSelectedQuestion(e);
+    setQuestionnum(e.questionnum);
+    setTitle(e.title);
+    setContent(e.content);
+    setCreatedate(e.show);
+    setShow(e.show);
+    // 화면을 맨 위로 스크롤
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
+
+  const currentDate = new Date(); // 현재 날짜 및 시간 가져오기
+  const formattedDate = currentDate.toISOString(); // ISO 8601 형식으로 형식화
+  
+
+  const handleSaveUpdate = (e) => {
+    e.preventDefault();
+    // 수정하기
+    if (selectedQuestion) {
+      axios.post(`http://localhost:8081/admin/csAdd`, {
+        questionnum: selectedQuestion.questionnum,
+        title: title,
+        content: content,
+        createdate: formattedDate,
+        show: show
+      })
+        .then(response => {
+          setSelectedQuestion(null);
+          setTitle('');
+          setContent('');
+          setCreatedate('');
+          setShow('');
+          alert("수정 성공");
+          window.location.reload();
+        })
+        .catch(error => {
+          alert("수정 실패");
+          console.log(error);
+        });
+    } else {
+      // 등록하기
+      axios.post(`http://localhost:8081/admin/csAdd`,{
+        questionnum: questionnum,
+        title: title,
+        content: content
+      })
+        .then(response => {
+          setQuestionnum('');
+          setTitle('');
+          setContent('');
+          alert("등록 성공");
+          window.location.reload();
+        })
+        .catch(error => {
+          alert("등록 실패");
+          console.log(error);
+        });
+    }
+  };
+
+  // 삭제
+
+  
+  const handleRemove = (e) => {
+    if (!e.questionnum) {
+      console.log("questionnum이 없습니다.");
+      return;
+    }
+    const confirmation = window.confirm("삭제하시겠습니까?");
+    if(confirmation){
+      axios.put(`http://localhost:8081/admin/csDelete`,{
+        questionnum: e.questionnum,
+        show: '1'
+      })
+      
+        .then(response => {
+          console.log("axios");
+          setQuestionnum('');
+          setShow('');
+          alert("삭제 성공");
+          window.location.reload();
+        })
+        .catch(error => {
+          alert("삭제 실패");
+          console.log(error);
+        });
+    } else{
+      
+    }
+  };
+
+  // 취소 버튼
+  const handleReset = () => {
+    setQuestionnum('');
+    setTitle('');
+    setContent('');
+    setSelectedQuestion(null);
+  };
+
     return(
       <Container>
         <MyLeftMenu />
         <Main>
-          <Form action="/admin/addCs" method="post">
+          <Form method="post" onSubmit={handleSaveUpdate}>
+            <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
+              <Form.Label>번호</Form.Label>
+              <div>{questionnum}</div>
+            </Form.Group>
             <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
               <Form.Label>제목</Form.Label>
-              <Form.Control type="text"/>
+              <Form.Control type="text" name="title" value={title} onChange={onChange}/>
             </Form.Group>
               <Form.Group className="mb-3" controlId="exampleForm.ControlTextarea1">
               <Form.Label>내용</Form.Label>
-              <Form.Control as="textarea" rows={3} />
+              <Form.Control as="textarea" rows={3} name="content" value={content} onChange={onChange}/>
             </Form.Group>
-            <Button variant="primary" type="submit">등록</Button>
+            <SearchButton type="submit">등록</SearchButton>
+            <SearchButton type="button" onClick={handleReset}>취소</SearchButton>
           </Form>
-          <StyledAccordion>
+          <StyledAccordion activeKey={questions.map(question => question.questionnum)}>
               <StyledAccordionTopHeader>등록된 리스트</StyledAccordionTopHeader>
-              <StyledAccordionItem eventKey="0">
-                  <StyledAccordionHeader>주문 내역은 어떻게 확인할 수 있나요?</StyledAccordionHeader>
-                  <StyledAccordionBody>
-                  우측 상단 프로필 사진을 클릭 후 [나의쇼핑]을 통해 확인 가능합니다
-                  </StyledAccordionBody>
-              </StyledAccordionItem >
-              <StyledAccordionItem  eventKey="1">
-                  <StyledAccordionHeader>제품의 자세한 정보는 어떻게 알 수 있나요?</StyledAccordionHeader>
-                  <StyledAccordionBody>
-                  각 제품의 상세 페이지에서 확인 가능하며, 
-                  더욱 자세한 정보는 제품상세페이지 내 문의하기를 통해 판매 업체에 문의 가능합니다.
-                  </StyledAccordionBody>
-              </StyledAccordionItem >
+              {questions
+              .filter(question => question.show === '0') // 필터링: show가 0인 항목만 선택
+              .map(question => 
+                <StyledAccordionItem key={question.questionnum} eventKey={question.questionnum}>
+                    <StyledAccordionHeader>{question.title}</StyledAccordionHeader>
+                    <StyledAccordionBody>
+                    {question.content}
+                    </StyledAccordionBody>
+                    <StyledButton type="button" onClick={() => handleRewrite(question)}>수정</StyledButton>
+                    <StyledButton type="button" onClick={() => handleRemove(question)}>삭제</StyledButton>
+                </StyledAccordionItem >
+              )}
           </StyledAccordion>
         </Main>
       </Container>
