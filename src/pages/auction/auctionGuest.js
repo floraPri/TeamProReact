@@ -85,16 +85,15 @@ function AuctionGuest() {
 
     const [auctionGuestData_2, setAuctionGutesData_2] = useState([]);
 
-    const userno = 2; // 유저번호 일단 하드코딩
-    const name = 'kim'; // 유저넥네임 일단 하드코딩
+   
 
     useEffect(() => { // 입찰중
       const fetchData = async () => {
         try {
         const response = await axios.get(`http://localhost:8081/auction/auctionGuest`, {
           params: {
-            userno: userno,
-            name: name
+            userno:localStorage.getItem("userno"),// 유저번호 일단 하드코딩
+            name: localStorage.getItem("name"),// 유저번호 일단 하드코딩
           }
         });
         const data = response.data;
@@ -129,7 +128,7 @@ function AuctionGuest() {
       axios.get( `http://localhost:8081/auction/auctionGuest_1`,
       {
         params: {
-          userno: userno,
+          userno:localStorage.getItem("userno"),
         }
       })
       .then((response) => {

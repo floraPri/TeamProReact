@@ -123,7 +123,7 @@ function AuctionHost() {
 
 
   const router = useRouter();
-  const userno = 1; // 유저번호 일단 하드코딩
+
 
   const [auctionHostData, setAuctionHostData] = useState([]);
 
@@ -132,7 +132,7 @@ function AuctionHost() {
       try {
         const response = await axios.get(`http://localhost:8081/auction/auctionHost`, {
           params: {
-            userno: userno,
+            userno: localStorage.getItem("userno")
           }
         });
         const data = response.data;
