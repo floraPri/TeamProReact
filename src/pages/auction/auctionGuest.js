@@ -1,13 +1,13 @@
 import Card from 'react-bootstrap/Card';
-import Link from "next/link";
 import Button from 'react-bootstrap/Button';
 import ButtonGroup from 'react-bootstrap/ButtonGroup';
 import Dropdown from 'react-bootstrap/Dropdown';
 import DropdownButton from 'react-bootstrap/DropdownButton';
-import React, { useEffect, useState, useCallback } from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from "styled-components";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { useRouter } from "next/router";
+import axios from 'axios'
 
 function AuctionGuest() {
   
@@ -81,6 +81,65 @@ function AuctionGuest() {
     const TableF = styled.table`
     `;
 
+    const [auctionGuestData, setAuctionGuestData] = useState([]);
+
+    const [auctionGuestData_2, setAuctionGutesData_2] = useState([]);
+
+    const userno = 2; // 유저번호 일단 하드코딩
+    const name = 'kim'; // 유저넥네임 일단 하드코딩
+
+    useEffect(() => { // 입찰중
+      const fetchData = async () => {
+        try {
+        const response = await axios.get(`http://localhost:8081/auction/auctionGuest`, {
+          params: {
+            userno: userno,
+            name: name
+          }
+        });
+        const data = response.data;
+        // 현재 시간 가져오기
+        const currentTime = new Date();
+        // 경매 종료 시간과 비교하여 종료 여부 판단
+        const updatedAuctionGuestData = data.map((auctionGuestData) => {
+          const endTime = new Date(auctionGuestData.lasttime);
+          const isAuctionEnded = currentTime > endTime;
+          return {
+            ...auctionGuestData,
+            isAuctionEnded: isAuctionEnded,
+          };
+        });
+        setAuctionGuestData(updatedAuctionGuestData);
+      } catch (error) {
+          console.error('경매 게스트 정보를 불러오는 중 오류 발생:', error);
+        }
+      };
+      fetchData();
+    },[]);
+
+    function formatLastTime(lasttime, auendtime) {
+      const date = new Date(lasttime);
+      const formattedTime = `${date.getFullYear()}년 ${date.getMonth() + 1}월 ${date.getDate()}일 ${date.getHours()}시 ${date.getMinutes()}분`;
+      return formattedTime;
+
+    }
+
+    useEffect(() => { // 낙찰 완료
+      console.log('낙찰완료 테스트')
+      axios.get( `http://localhost:8081/auction/auctionGuest_1`,
+      {
+        params: {
+          userno: userno,
+        }
+      })
+      .then((response) => {
+        setAuctionGutesData_2(response.data);
+      })
+      .catch((error) => {
+        console.error('경매 게스트 정보를 불러오는 중 오류 발생:', error);
+      });
+    }, []);
+
   return (
     <Container>
       <Container__1>
@@ -104,6 +163,47 @@ function AuctionGuest() {
             AUCTION GUEST
           </MyAcu>
         </Container__3>
+        <br></br>
+        <h3>낙찰 완료</h3>
+        <TableF className="cart__list">
+            <thead>
+              <TableE>
+                <td>이미지</td>
+                <td colspan='2'>경매 물품</td>
+                <td>경매 종료 시간</td>
+                <td>나의 낙찰 금액</td>
+              </TableE>
+            </thead>
+            <tbody>
+            {auctionGuestData_2.map((auctionGuestData_2) =>(
+              <tr className="cart__list__detail">
+                <TableC>
+                  <TableD img src="/assets/images/auction/ac1.PNG" alt="magic mouse" />
+                </TableC>
+                <TableB style={{ width: '35%' }} >
+                  <p onClick={() => {
+                    const userno = auctionGuestData_2.userno;
+                    router.push(`/auction/auctionGuest_chat`)
+                    // router.push(`/auction/auctionGuest_chat=${userno}`) 채팅 활성화시 활성
+                  }}>
+                  {auctionGuestData_2.auctiontitle}
+                  </p>
+                </TableB>
+                <TableA className="cart__list__option" style={{ width: '27%' }}>
+                </TableA>
+                <TableA style={{ width: '18%' }}>
+                  <span className="price">
+                  {formatLastTime(auctionGuestData_2.auendtime)}
+                  </span><br />
+                </TableA>
+                <TableA style={{ width: '15%' }}>800000 원</TableA>
+              </tr>
+            ))}
+            </tbody>
+        </TableF>
+        <br></br>
+        <hr></hr>
+        <h3>참여중인 경매</h3>
         <TableF className="cart__list">
             <thead>
               <TableE>
@@ -115,26 +215,38 @@ function AuctionGuest() {
               </TableE>
             </thead>
             <tbody>
+            {auctionGuestData.map((auctionGuestData) =>(
               <tr className="cart__list__detail">
                 <TableC>
                   <TableD img src="/assets/images/auction/ac1.PNG" alt="magic mouse" />
+                  {/* 이미지 수정 필요!! */}
                 </TableC>
                 <TableB style={{ width: '35%' }}>
-                  <p onClick={() => router.push('/auction/auctionGuest_chat') }>자퇴서</p>
+                  <p onClick={() => {
+                  if (!auctionGuestData.isAuctionEnded) {
+                   const auctionno = auctionGuestData.auctionno;
+                   router.push(`/auction/auctionDetail`);
+                  //  router.push(`/auction/auctionDetail?auctionno=${auctionno}`); 상세페이지 활성화 시
+                  }
+                  }}>
+                  {auctionGuestData.auctiontitle}
+                  </p>
                 </TableB>
                 <TableA className="cart__list__option" style={{ width: '27%' }}>
-                  <p>2000000 원</p>
+                  <p>{auctionGuestData.lastprice} 원</p>
+                </TableA>
+                <TableA style={{ width: '18%' }}>
+                  {auctionGuestData.isAuctionEnded ? "경매 종료" : formatLastTime(auctionGuestData.lasttime)}
                 </TableA>
                 <TableA style={{ width: '15%' }}>
-                  <span className="price">01 : 35 : 01 : 10</span><br />
+                {auctionGuestData.lastprice} 원
                 </TableA>
-                <TableA style={{ width: '15%' }}>800000 원</TableA>
               </tr>
+            ))}
             </tbody>
         </TableF>
       </Host>
     </Container>
   );
 }
-
 export default AuctionGuest;
