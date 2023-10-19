@@ -2,24 +2,17 @@ import styled from "styled-components";
 import Link from "next/link";
 import React, { useState, useEffect } from "react";
 import { useRouter } from "next/router";
+import Menubar from "@/component/funding/menubar";
 
 const Container = styled.div`
-    display: flex;
+    display: grid;
 	align-items:center;
-    grid-template-rows: repeat(2, 1fr);
     justify-content: center;
 	width: 100%;
 	height: 100%;
 `;
-const Menu = styled.div`
-    width:100px;
-    border:1px solid red;
-    margin: 5px 5px 5px 5px;
-`;
 
 const ListContainer = styled.div`
-    margin-top:50px;
-    margin-bottom:50px;
     display:grid;
     grid-template-columns: repeat(4, 1fr);
 `;
@@ -31,6 +24,10 @@ const FundingContainer = styled.div`
 	justify-content: center;
 	align-items:center;
 	max-width:300px;
+    cursor: pointer;
+    &:hover {
+        color: #03C179;
+    }
 `;
 
 const FundingImg = styled.img`
@@ -62,7 +59,8 @@ export default function Funding(){
     return(
 
     <Container>
-    <Menu>funding menubar</Menu>
+
+    <Menubar/>
 			
     <ListContainer>					
         <FundingContainer onClick={() => router.push('/funding/fundingDetail')}>
