@@ -67,7 +67,9 @@ export default function Cscenter() {
     <Container>
         <StyledAccordion>
             <StyledAccordionTopHeader>무엇을 도와드릴까요?</StyledAccordionTopHeader>
-            {questions.map(question => 
+            {questions
+            .filter(question => question.show === '0') // 필터링: show가 0인 항목만 선택
+            .map(question => 
                 <StyledAccordionItem key={question.questionnum} eventKey={question.questionnum}>
                     <StyledAccordionHeader>{question.title}</StyledAccordionHeader>
                     <StyledAccordionBody>

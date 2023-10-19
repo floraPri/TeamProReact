@@ -72,6 +72,8 @@ export default function AddCs() {
   const [questionnum, setQuestionnum] = useState('');
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
+  const [createdate, setCreatedate] = useState('');
+  const [show, setShow] = useState('');
   const [selectedQuestion, setSelectedQuestion] = useState(null);
 
   const onChange = (e) => {
@@ -82,27 +84,7 @@ export default function AddCs() {
     }
   };
 
-  const saveCs = (e) => {
-    e.preventDefault();
-    console.log(title);
-    console.log(content);
-    axios.post(`http://localhost:8081/admin/add`,{
-      title: title,
-      content: content
-    })
-      .then(response => {
-        setTitle('');
-        setContent('');
-        alert("등록 성공")
-        console.log("axios")
-        window.location.reload();
-      })
-      .catch(error => {
-        alert("등록 실패")
-        console.log(error);
-      });
-    }
-
+  // 페이지 시작할때 목록 뿌리기
   useEffect(() => {
     console.log("useEffect 시작")
     axios.get(`http://localhost:8081/admin/addCs`)
@@ -117,29 +99,39 @@ export default function AddCs() {
       })
   }, []);
 
-  // 수정
+  // 수정 누르면 내용 채워지게
   const handleRewrite = (e) => {
     setSelectedQuestion(e);
+    setQuestionnum(e.questionnum);
     setTitle(e.title);
     setContent(e.content);
-    setQuestionnum(e.questionnum);
+    setCreatedate(e.show);
+    setShow(e.show);
+    // 화면을 맨 위로 스크롤
+    window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
-
+  const currentDate = new Date(); // 현재 날짜 및 시간 가져오기
+  const formattedDate = currentDate.toISOString(); // ISO 8601 형식으로 형식화
+  
 
   const handleSaveUpdate = (e) => {
     e.preventDefault();
-  
+    // 수정하기
     if (selectedQuestion) {
-      axios.put(`http://localhost:8081/admin/updateCs`, {
+      axios.post(`http://localhost:8081/admin/csAdd`, {
         questionnum: selectedQuestion.questionnum,
         title: title,
-        content: content
+        content: content,
+        createdate: formattedDate,
+        show: show
       })
         .then(response => {
           setSelectedQuestion(null);
           setTitle('');
           setContent('');
+          setCreatedate('');
+          setShow('');
           alert("수정 성공");
           window.location.reload();
         })
@@ -148,13 +140,14 @@ export default function AddCs() {
           console.log(error);
         });
     } else {
-      // 등록 버튼의 로직을 여기에 유지하고, 선택한 질문이 없을 때 실행
-      axios.post(`http://localhost:8081/admin/add`,{
+      // 등록하기
+      axios.post(`http://localhost:8081/admin/csAdd`,{
         questionnum: questionnum,
         title: title,
         content: content
       })
         .then(response => {
+          setQuestionnum('');
           setTitle('');
           setContent('');
           alert("등록 성공");
@@ -168,25 +161,42 @@ export default function AddCs() {
   };
 
   // 삭제
-  const handleRemove = () => {
-    console.log("삭제")
-    console.log(userno)
-    axios.put(`http://localhost:8081/admin/userBan`,{
-      userno: userno,
-      enabled: '1'
-    })
-    
-      .then(response => {
-        console.log("axios");
-        setUserno('');
-        setEnabled('');
-        setShowResult(false); // 검색 결과 감추기
-        alert("정지 성공");
+
+  
+  const handleRemove = (e) => {
+    if (!e.questionnum) {
+      console.log("questionnum이 없습니다.");
+      return;
+    }
+    const confirmation = window.confirm("삭제하시겠습니까?");
+    if(confirmation){
+      axios.put(`http://localhost:8081/admin/csDelete`,{
+        questionnum: e.questionnum,
+        show: '1'
       })
-      .catch(error => {
-        alert("정지 실패");
-        console.log(error);
-      });
+      
+        .then(response => {
+          console.log("axios");
+          setQuestionnum('');
+          setShow('');
+          alert("삭제 성공");
+          window.location.reload();
+        })
+        .catch(error => {
+          alert("삭제 실패");
+          console.log(error);
+        });
+    } else{
+      
+    }
+  };
+
+  // 취소 버튼
+  const handleReset = () => {
+    setQuestionnum('');
+    setTitle('');
+    setContent('');
+    setSelectedQuestion(null);
   };
 
     return(
@@ -207,17 +217,20 @@ export default function AddCs() {
               <Form.Control as="textarea" rows={3} name="content" value={content} onChange={onChange}/>
             </Form.Group>
             <SearchButton type="submit">등록</SearchButton>
+            <SearchButton type="button" onClick={handleReset}>취소</SearchButton>
           </Form>
           <StyledAccordion activeKey={questions.map(question => question.questionnum)}>
               <StyledAccordionTopHeader>등록된 리스트</StyledAccordionTopHeader>
-              {questions.map(question => 
+              {questions
+              .filter(question => question.show === '0') // 필터링: show가 0인 항목만 선택
+              .map(question => 
                 <StyledAccordionItem key={question.questionnum} eventKey={question.questionnum}>
                     <StyledAccordionHeader>{question.title}</StyledAccordionHeader>
                     <StyledAccordionBody>
                     {question.content}
                     </StyledAccordionBody>
                     <StyledButton type="button" onClick={() => handleRewrite(question)}>수정</StyledButton>
-                    <StyledButton type="button" onClick={handleRemove}>삭제</StyledButton>
+                    <StyledButton type="button" onClick={() => handleRemove(question)}>삭제</StyledButton>
                 </StyledAccordionItem >
               )}
           </StyledAccordion>
