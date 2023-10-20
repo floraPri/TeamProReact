@@ -105,3 +105,26 @@ ul.productImgWrap li {
     width: 700px;
     font-size: 1.2em;
 }
+
+/* 피드 부분 */
+.feedWrapUl {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;    
+}
+
+ul.feedWrapUl li {
+    width: 300px;
+    height: 300px;
+    margin-bottom: 30px;
+    overflow: hidden;
+    background-color:aquamarine;
+    box-sizing: border-box;
+}
+
+ul.feedWrapUl li .liInner {
+    width: 300px;
+    height: 300px;
+    padding: 20px;
+    overflow:hidden;   
+}

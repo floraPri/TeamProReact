@@ -33,12 +33,13 @@ export default function MyPagesMenu(){
             </div>
             <div></div>
 
+            {/*
             <h3 className={menuStyles.h3_title}>나의 피드</h3>
             <ul className={menuStyles.ul_class}>
-                <li><Link href="/myPage/myFeed/feedAdd">피드 등록</Link></li>
+                 <li><Link href="/myPage/myFeed/feedAdd">피드 등록</Link></li> 
                 <li><Link href="/myPage/myFeed/myFeeds">내 피드 목록</Link></li>
             </ul>
-
+            
             <h3 className={menuStyles.h3_title}>나의 상점</h3>
             <ul className={menuStyles.ul_class}>
                 <li><Link href="/myPage/myStore/myProduct">내 상품</Link></li>
@@ -56,19 +57,22 @@ export default function MyPagesMenu(){
 
             <h3 className={menuStyles.h3_title}><Link href="/myPage/cart/cart">내가 찜한 상품</Link></h3>
 
-            <h3 className={menuStyles.h3_title}>회원 정보</h3>
-            <ul className={menuStyles.ul_class}>
-                <li><Link href="/myPage/myInfo/userInfo">회원정보 수정</Link></li>
-                <li><Link href="">회원 탈퇴</Link></li>
-            </ul>
 
+            */}
             <h3 className={menuStyles.h3_title}>내 채널</h3>
             <ul className={menuStyles.ul_class}>
                 <li><Link href="">내 채널 정보</Link></li>
                 <li><Link href="">팔로워 채널 목록</Link></li>
             </ul>
 
-            <h3 className={menuStyles.h3_title}><Link href="">로그아웃</Link></h3>
+            <h3 className={menuStyles.h3_title}>회원 정보</h3>
+            <ul className={menuStyles.ul_class}>
+                <li><Link href="/myPage/myInfo/userInfo">회원정보 수정</Link></li>
+                <li><Link href="">회원 탈퇴</Link></li>
+            </ul>
+
+            {/* <h3 className={menuStyles.h3_title}><Link href="">로그아웃</Link></h3> */}
+            
         </LeftMenuContain>
     );
 }
