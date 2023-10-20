@@ -31,8 +31,7 @@ export default function Header() {
             if (response.status === 200) {
               // 로그아웃 성공
               localStorage.removeItem('auth_token');
-              // 다른 로직을 수행하거나 리디렉션할 수 있습니다
-              window.location.href = '/'; // 예: 홈페이지로 리디렉션
+              window.location.href = '/'; 
             } else {
               // 로그아웃 실패
               console.error('로그아웃 실패');
@@ -52,6 +51,7 @@ export default function Header() {
                 <LeftMenuTab onClick={() => router.push('/channel/commain') }>커뮤니티</LeftMenuTab>
                     <LeftMenuTab onClick={() => router.push('/channel/product') }>중고거래</LeftMenuTab>
                     <LeftMenuTab onClick={() => router.push('/auction/auction') }>경매</LeftMenuTab>
+                    <LeftMenuTab onClick={() => router.push('/funding/funding') }>펀딩</LeftMenuTab>
                 </LeftMenu>
                 <SearchBar>
                 <SearchIcon><BiSearch style={{width:'20px',height:'20px'}} /></SearchIcon>
@@ -134,8 +134,8 @@ const Title = styled.div`
 
 const LeftMenu = styled.div`
     display: flex;
-    /* width: 206px; */
-    width: 250px;
+    /* width: 250px; */
+    width:300px;
     justify-content: space-between
 `;
 
