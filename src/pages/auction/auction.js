@@ -8,6 +8,7 @@ import styled from "styled-components";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { useRouter } from "next/router";
 import axios from 'axios';
+import { getAuthToken } from '@/component/user/axios_helper';
 
 function Auction() {
 
@@ -77,6 +78,8 @@ function Auction() {
     setSelectedOption(event.target.value);
   };
 
+
+
   const LastTime = styled.span`
   color: green;
   font-weight: bold;
@@ -89,7 +92,12 @@ function Auction() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get('http://localhost:8081/auction/auction');
+        const response = await axios.get('http://localhost:8081/auction/auction', {
+          headers: {
+            Authorization: `Bearer ${(getAuthToken())}`
+            
+          }
+        });
         const data = response.data;
       // 현재 시간 가져오기
       const currentTime = new Date();
