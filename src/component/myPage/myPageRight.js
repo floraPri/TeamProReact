@@ -2,6 +2,8 @@ import styled from "styled-components";
 import rightStyles from "./myPRightStyle.module.css";
 import Image from "next/image";
 import Link from "next/link";
+import { useEffect, useState } from "react";
+
 
 
 const RightContainer = styled.div`
@@ -23,11 +25,19 @@ const RightInnerTitle = styled.div`
 `;
 
 export default function MyPageRight(){
+    const [email,setEmail] = useState("");
+
+    useEffect(() => {
+        const userEmail = localStorage.getItem('email');
+
+        if(userEmail){
+            setEmail(userEmail);
+        }
+    },[]);
     return(
         <RightContainer>
-
             {/** 마이페이지 메인1 */}
-            <h3 className={rightStyles.welcomeTitle}><b>MemberID</b>님 안녕하세요!</h3>
+            <h3 className={rightStyles.welcomeTitle}><b>{email}</b>님 안녕하세요!</h3>
             <div className={rightStyles.welcomeBox}>
                 <p>내가 작성한 게시글<span className={rightStyles.txtNumber}>52</span></p>
                 <p>팔로워<span className={rightStyles.txtNumber}>20</span></p>
@@ -40,12 +50,12 @@ export default function MyPageRight(){
                     <h3 className={rightStyles.h3_title}>나의 피드</h3> <p><Link href="">더 보기</Link></p>
                 </RightInnerTitle>
                 <ul className={rightStyles.feedImgWrap}>
-                    <li><Link href=""><Image src="/assets/images/mypage/exm_img.jpg" width="300" height="310" objectFit="cover" /></Link></li>
-                    <li><Link href=""><Image src="/assets/images/mypage/exm_img.jpg" width="300" height="310" objectFit="cover" /></Link></li>
-                    <li><Link href=""><Image src="/assets/images/mypage/exm_img.jpg" width="300" height="310" objectFit="cover" /></Link></li>
-                    <li><Link href=""><Image src="/assets/images/mypage/exm_img.jpg" width="300" height="310" objectFit="cover" /></Link></li>
-                    <li><Link href=""><Image src="/assets/images/mypage/exm_img.jpg" width="300" height="310" objectFit="cover" /></Link></li>
-                    <li><Link href=""><Image src="/assets/images/mypage/exm_img.jpg" width="300" height="310" objectFit="cover" /></Link></li>
+                    <li><Link href=""><Image src="/assets/images/mypage/exm_img.jpg" width="300" height="310" objectFit="cover" alt="이미지1" /></Link></li>
+                    <li><Link href=""><Image src="/assets/images/mypage/exm_img.jpg" width="300" height="310" objectFit="cover" alt="이미지1" /></Link></li>
+                    <li><Link href=""><Image src="/assets/images/mypage/exm_img.jpg" width="300" height="310" objectFit="cover" alt="이미지1" /></Link></li>
+                    <li><Link href=""><Image src="/assets/images/mypage/exm_img.jpg" width="300" height="310" objectFit="cover" alt="이미지1" /></Link></li>
+                    <li><Link href=""><Image src="/assets/images/mypage/exm_img.jpg" width="300" height="310" objectFit="cover" alt="이미지1" /></Link></li>
+                    <li><Link href=""><Image src="/assets/images/mypage/exm_img.jpg" width="300" height="310" objectFit="cover" alt="이미지1" /></Link></li>
                 </ul>
             </RightInnerWrap>
 
@@ -55,16 +65,16 @@ export default function MyPageRight(){
                     <h3 className={rightStyles.h3_title}>나의 상품</h3> <p><Link href="">더 보기</Link></p>
                 </RightInnerTitle>
                 <ul className={rightStyles.productImgWrap}>
-                    <li><Link href=""><Image src="/assets/images/mypage/thumb_img.jpg" width="180" height="180" objectFit="cover" /></Link></li>
-                    <li><Link href=""><Image src="/assets/images/mypage/thumb_img.jpg" width="180" height="180" objectFit="cover" /></Link></li>
-                    <li><Link href=""><Image src="/assets/images/mypage/thumb_img.jpg" width="180" height="180" objectFit="cover" /></Link></li>
-                    <li><Link href=""><Image src="/assets/images/mypage/thumb_img.jpg" width="180" height="180" objectFit="cover" /></Link></li>
-                    <li><Link href=""><Image src="/assets/images/mypage/thumb_img.jpg" width="180" height="180" objectFit="cover" /></Link></li>
-                    <li><Link href=""><Image src="/assets/images/mypage/thumb_img.jpg" width="180" height="180" objectFit="cover" /></Link></li>
-                    <li><Link href=""><Image src="/assets/images/mypage/thumb_img.jpg" width="180" height="180" objectFit="cover" /></Link></li>
-                    <li><Link href=""><Image src="/assets/images/mypage/thumb_img.jpg" width="180" height="180" objectFit="cover" /></Link></li>
-                    <li><Link href=""><Image src="/assets/images/mypage/thumb_img.jpg" width="180" height="180" objectFit="cover" /></Link></li>
-                    <li><Link href=""><Image src="/assets/images/mypage/thumb_img.jpg" width="180" height="180" objectFit="cover" /></Link></li>
+                    <li><Link href=""><Image src="/assets/images/mypage/thumb_img.jpg" width="180" height="180" objectFit="cover" alt="이미지1" /></Link></li>
+                    <li><Link href=""><Image src="/assets/images/mypage/thumb_img.jpg" width="180" height="180" objectFit="cover" alt="이미지1" /></Link></li>
+                    <li><Link href=""><Image src="/assets/images/mypage/thumb_img.jpg" width="180" height="180" objectFit="cover" alt="이미지1" /></Link></li>
+                    <li><Link href=""><Image src="/assets/images/mypage/thumb_img.jpg" width="180" height="180" objectFit="cover" alt="이미지1" /></Link></li>
+                    <li><Link href=""><Image src="/assets/images/mypage/thumb_img.jpg" width="180" height="180" objectFit="cover" alt="이미지1" /></Link></li>
+                    <li><Link href=""><Image src="/assets/images/mypage/thumb_img.jpg" width="180" height="180" objectFit="cover" alt="이미지1" /></Link></li>
+                    <li><Link href=""><Image src="/assets/images/mypage/thumb_img.jpg" width="180" height="180" objectFit="cover" alt="이미지1" /></Link></li>
+                    <li><Link href=""><Image src="/assets/images/mypage/thumb_img.jpg" width="180" height="180" objectFit="cover" alt="이미지1" /></Link></li>
+                    <li><Link href=""><Image src="/assets/images/mypage/thumb_img.jpg" width="180" height="180" objectFit="cover" alt="이미지1" /></Link></li>
+                    <li><Link href=""><Image src="/assets/images/mypage/thumb_img.jpg" width="180" height="180" objectFit="cover" alt="이미지1" /></Link></li>
                 </ul>
             </RightInnerWrap>
 
@@ -74,16 +84,16 @@ export default function MyPageRight(){
                     <h3 className={rightStyles.h3_title}>찜 하기</h3> <p><Link href="">더 보기</Link></p>
                 </RightInnerTitle>
                 <ul className={rightStyles.productImgWrap}>
-                    <li><Link href=""><Image src="/assets/images/mypage/thumb_img.jpg" width="180" height="180" objectFit="cover" /></Link></li>
-                    <li><Link href=""><Image src="/assets/images/mypage/thumb_img.jpg" width="180" height="180" objectFit="cover" /></Link></li>
-                    <li><Link href=""><Image src="/assets/images/mypage/thumb_img.jpg" width="180" height="180" objectFit="cover" /></Link></li>
-                    <li><Link href=""><Image src="/assets/images/mypage/thumb_img.jpg" width="180" height="180" objectFit="cover" /></Link></li>
-                    <li><Link href=""><Image src="/assets/images/mypage/thumb_img.jpg" width="180" height="180" objectFit="cover" /></Link></li>
-                    <li><Link href=""><Image src="/assets/images/mypage/thumb_img.jpg" width="180" height="180" objectFit="cover" /></Link></li>
-                    <li><Link href=""><Image src="/assets/images/mypage/thumb_img.jpg" width="180" height="180" objectFit="cover" /></Link></li>
-                    <li><Link href=""><Image src="/assets/images/mypage/thumb_img.jpg" width="180" height="180" objectFit="cover" /></Link></li>
-                    <li><Link href=""><Image src="/assets/images/mypage/thumb_img.jpg" width="180" height="180" objectFit="cover" /></Link></li>
-                    <li><Link href=""><Image src="/assets/images/mypage/thumb_img.jpg" width="180" height="180" objectFit="cover" /></Link></li>
+                    <li><Link href=""><Image src="/assets/images/mypage/thumb_img.jpg" width="180" height="180" objectFit="cover" alt="이미지1" /></Link></li>
+                    <li><Link href=""><Image src="/assets/images/mypage/thumb_img.jpg" width="180" height="180" objectFit="cover" alt="이미지1" /></Link></li>
+                    <li><Link href=""><Image src="/assets/images/mypage/thumb_img.jpg" width="180" height="180" objectFit="cover" alt="이미지1" /></Link></li>
+                    <li><Link href=""><Image src="/assets/images/mypage/thumb_img.jpg" width="180" height="180" objectFit="cover" alt="이미지1" /></Link></li>
+                    <li><Link href=""><Image src="/assets/images/mypage/thumb_img.jpg" width="180" height="180" objectFit="cover" alt="이미지1" /></Link></li>
+                    <li><Link href=""><Image src="/assets/images/mypage/thumb_img.jpg" width="180" height="180" objectFit="cover" alt="이미지1" /></Link></li>
+                    <li><Link href=""><Image src="/assets/images/mypage/thumb_img.jpg" width="180" height="180" objectFit="cover" alt="이미지1" /></Link></li>
+                    <li><Link href=""><Image src="/assets/images/mypage/thumb_img.jpg" width="180" height="180" objectFit="cover" alt="이미지1" /></Link></li>
+                    <li><Link href=""><Image src="/assets/images/mypage/thumb_img.jpg" width="180" height="180" objectFit="cover" alt="이미지1" /></Link></li>
+                    <li><Link href=""><Image src="/assets/images/mypage/thumb_img.jpg" width="180" height="180" objectFit="cover" alt="이미지1" /></Link></li>
                 </ul>
             </RightInnerWrap>
 
@@ -95,7 +105,7 @@ export default function MyPageRight(){
                 <ul className={rightStyles.reviewUlWrap}>
                     <li>
                         <div className={rightStyles.reviewProductImg}>
-                            <Image src="/assets/images/mypage/thumb_img.jpg" width="160" height="160" objectFit="cover" />
+                            <Image src="/assets/images/mypage/thumb_img.jpg" width="160" height="160" objectFit="cover" alt="이미지1" />
                         </div>
                         <div className={rightStyles.reviewWrap}>
                             <h2 className={rightStyles.h2Title}>바이오더마 센시비오 H2O</h2>
@@ -111,7 +121,7 @@ export default function MyPageRight(){
 
                     <li>
                         <div className={rightStyles.reviewProductImg}>
-                            <Image src="/assets/images/mypage/thumb_img.jpg" width="160" height="160" objectFit="cover" />
+                            <Image src="/assets/images/mypage/thumb_img.jpg" width="160" height="160" objectFit="cover" alt="이미지1" />
                         </div>
                         <div className={rightStyles.reviewWrap}>
                             <h2 className={rightStyles.h2Title}>바이오더마 센시비오 H2O</h2>
@@ -127,7 +137,7 @@ export default function MyPageRight(){
 
                     <li>
                         <div className={rightStyles.reviewProductImg}>
-                            <Image src="/assets/images/mypage/thumb_img.jpg" width="160" height="160" objectFit="cover" />
+                            <Image src="/assets/images/mypage/thumb_img.jpg" width="160" height="160" objectFit="cover" alt="이미지1" />
                         </div>
                         <div className={rightStyles.reviewWrap}>
                             <h2 className={rightStyles.h2Title}>바이오더마 센시비오 H2O</h2>
