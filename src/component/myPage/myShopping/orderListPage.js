@@ -1,7 +1,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import { useEffect, useState } from "react";
-import {Table ,TableCell, TableRow, TableBody, TableHead, TableContainer} from "@mui/material";
+
 import styled from "styled-components";
 import axios from "axios";
 
@@ -11,11 +11,12 @@ const RightContainer = styled.div`
 `;
 
 export default function OrderListPage(){
+
     const [orders, setOrders] = useState([]);
 
-    
     useEffect(() => {
         console.log("useEffect 시작");
+        
         axios.get(`http://localhost:8081/myPage/orderListPage`)
         .then(response => {
             console.log("api응답: ", response.data);
