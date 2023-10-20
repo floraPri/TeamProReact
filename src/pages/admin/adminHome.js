@@ -3,6 +3,7 @@ import axios from "axios";
 import styled from 'styled-components';
 import MyLeftMenu from '../../component/admin/myLeftMenu';
 import { Chart } from 'react-google-charts';
+import { getAuthToken } from "@/component/user/axios_helper";
 
 
 const Container = styled.div`
@@ -26,7 +27,12 @@ export default function AdminHome() {
   
     useEffect(() => {
         console.log("useEffect 시작")
-        axios.get(`http://localhost:8081/admin/joinChart`)
+        axios.get(`http://localhost:8081/admin/joinChart`,{
+            headers: {
+                Authorization: `Bearer ${(getAuthToken())}`
+                
+              }
+        })
             .then(response => {
             console.log("api응답:", response.data)
             if (Array.isArray(response.data)) {
@@ -36,7 +42,12 @@ export default function AdminHome() {
             .catch(error => {
             console.log(error);
             })
-        axios.get(`http://localhost:8081/admin/loginChart`)
+        axios.get(`http://localhost:8081/admin/loginChart`,{
+            headers: {
+                Authorization: `Bearer ${(getAuthToken())}`
+                
+              }
+        })
         .then(response => {
             console.log("api응답:", response.data)
             if (Array.isArray(response.data)) {

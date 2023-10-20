@@ -54,7 +54,6 @@ export default function Header() {
             <ContainerIn>
                 <Title onClick={() => router.push('/main/main') }>weAround</Title>
                 <LeftMenu>
-                <LeftMenuTab onClick={() => router.push('/channel/commain') }>커뮤니티</LeftMenuTab>
                     <LeftMenuTab onClick={() => router.push('/channel/product') }>중고거래</LeftMenuTab>
                     <LeftMenuTab onClick={() => router.push('/auction/auction') }>경매</LeftMenuTab>
                     <LeftMenuTab onClick={() => router.push('/funding/funding') }>펀딩</LeftMenuTab>
@@ -64,7 +63,6 @@ export default function Header() {
                     <SearchInput></SearchInput>
                 </SearchBar>
                 <RightMenu>
-                    <RightMenuTab onClick={() => router.push('/message/messageList') }><BiMessageAlt style={{width:'20px',height:'20px'}}/></RightMenuTab>
                     <RightMenuTab>
                         <StyledDropdown>
                             <StyledDropdownToggle  variant="white">
@@ -96,8 +94,9 @@ export default function Header() {
                             </StyledDropdownToggle>
 
                             <Dropdown.Menu>
-                                <Dropdown.Item href="#/action-1">커뮤니티</Dropdown.Item>
+                                <Dropdown.Item href="#/action-1">Today Is</Dropdown.Item>
                                 <Dropdown.Item href="#/action-2">중고거래</Dropdown.Item>
+                                <Dropdown.Item href="#/action-2">펀딩</Dropdown.Item>
                                 <Dropdown.Item href="/auction/auctionAdd">경매</Dropdown.Item>
                             </Dropdown.Menu>
                         </Dropdown>
@@ -140,8 +139,7 @@ const Title = styled.div`
 
 const LeftMenu = styled.div`
     display: flex;
-    /* width: 250px; */
-    width:300px;
+    width: 230px; 
     justify-content: space-between
 `;
 
