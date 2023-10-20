@@ -31,6 +31,12 @@ export default function Header() {
             if (response.status === 200) {
               // 로그아웃 성공
               localStorage.removeItem('auth_token');
+              localStorage.removeItem('joindate');
+              localStorage.removeItem('userno');
+              localStorage.removeItem('email');
+              localStorage.removeItem('name');
+              localStorage.removeItem('phone');
+              localStorage.removeItem('address');
               window.location.href = '/'; 
             } else {
               // 로그아웃 실패
