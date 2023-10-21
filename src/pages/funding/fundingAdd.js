@@ -2,7 +2,10 @@ import styled from "styled-components";
 import Link from "next/link";
 import React, { useState } from "react";
 import Menubar from "@/component/funding/menubar";
-import { Table, TableCell, TableRow, Button } from "@mui/material";
+import { TableCell, TableRow, Button } from "@mui/material";
+import { useRouter } from "next/router";
+import axios from "axios";
+import { getAuthToken } from "@/component/user/axios_helper";
 
 const Container = styled.div`
     display: grid;
@@ -41,28 +44,30 @@ const cellStyle = {
     border: 'none',
   };
   
-export default function FundingEdit(){
+export default function FundingAdd(){
+
+    const router = useRouter();
+
     const [fundingData, setFundingData] = useState({
         category: '',
         title: '',
         content: '',
         image: null,
-        startdate: 0,
-        enddate: 0,
+        startdate: null,
+        enddate: null,
         goalamount: 0,
       });
       
-      const handleChange = (e) => {
-          const { name, value, type, files } = e.target;
-          if (type === "file") {
-              setFundingData({ ...fundingData, [name]: files[0] });
-        } else {
-            setFundingData({ ...fundingData, [name]: value });
-        }
+    const handleChange = (e) => {
+        const { name, value, type, files } = e.target;
+        setFundingData((prevData) => ({
+        ...prevData,
+        [name]: type === "file" ? files[0] : value,
+        }));
     };
     const handleSubmit = async (e) => {
         e.preventDefault();
-
+        const userno = localStorage.getItem('userno');
         const formData = new FormData();
         formData.append("category",fundingData.category);
         formData.append("title",fundingData.title);
@@ -71,16 +76,23 @@ export default function FundingEdit(){
         formData.append("startdate",fundingData.startdate);
         formData.append("enddate",fundingData.enddate);
         formData.append("goalamount",fundingData.goalamount);
+        formData.append("userno",userno);
 
         try {
             // 서버로 전송
-            const response = await fetch('/api/createFunding', {
-              method: 'POST',
-              body: JSON.formData,
+            
+            const response = await axios.post('http://localhost:8081/funding/fundingAdd', formData, {
+                headers: {
+                    'Content-Type': 'multipart/form-data', // 파일 업로드에 대한 헤더 설정
+                    Authorization: `Bearer ${(getAuthToken())}`
+                }
             });
-      
+            console.log('insertdata ',fundingData);
+            console.log(userno)
+
             if (response.status === 200) {
               console.log('success');
+              router.push('/funding/fundingAdd');
             } else {
               console.error('failed');
             }

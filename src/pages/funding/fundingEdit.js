@@ -1,8 +1,10 @@
 import styled from "styled-components";
 import Link from "next/link";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Menubar from "@/component/funding/menubar";
-import { Table, TableCell, TableRow, Button } from "@mui/material";
+import { TableCell, TableRow, Button } from "@mui/material";
+import { useRouter } from "next/router";
+import axios from "axios";
 
 const Container = styled.div`
     display: grid;
@@ -40,25 +42,51 @@ const FileInput = styled.input`
 const cellStyle = {
     border: 'none',
   };
-
+  
 export default function FundingEdit(){
+    const router = useRouter();
+
+    const { fundingcode } = router.query;
+
     const [fundingData, setFundingData] = useState({
         category: '',
         title: '',
         content: '',
         image: null,
-        startdate: 0,
-        enddate: 0,
+        startdate: null,
+        enddate: null,
         goalamount: 0,
       });
-      
-      const handleChange = (e) => {
-          const { name, value, type, files } = e.target;
-          if (type === "file") {
-              setFundingData({ ...fundingData, [name]: files[0] });
-        } else {
-            setFundingData({ ...fundingData, [name]: value });
-        }
+
+      useEffect(() => {
+        axios.get(`http://localhost:8081/funding/fundingEdit`, {
+          params: {
+            fundingcode: fundingcode,
+          }
+        })
+          .then((response) => {
+            const data = response.data;
+            setAuctionData({
+              category: data.category,  
+              title: data.title,
+              content: data.content,
+              image: data.image,
+              startdate: data.startdate,
+              enddate: data.enddate,
+              goalamount: data.goalamount
+            });
+          })
+          .catch((error) => {
+            console.error('error', error);
+          });
+      }, [fundingcode]);
+
+    const handleChange = (e) => {
+        const { name, value, type, files } = e.target;
+        setFundingData((prevData) => ({
+        ...prevData,
+        [name]: type === "file" ? files[0] : value,
+        }));
     };
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -74,13 +102,16 @@ export default function FundingEdit(){
 
         try {
             // 서버로 전송
-            const response = await fetch('/api/createFunding', {
-              method: 'POST',
-              body: JSON.formData,
+            const response = await axios.post('http://localhost:8081/funding/fundingAdd', formData, {
+                headers: {
+                    'Content-Type': 'multipart/form-data' // 파일 업로드에 대한 헤더 설정
+                }
             });
-      
+            console.log('insertdata ',fundingData);
+
             if (response.status === 200) {
               console.log('success');
+              router.push('/funding/fundingAdd');
             } else {
               console.error('failed');
             }
@@ -92,10 +123,10 @@ export default function FundingEdit(){
     return(
     <Container>
         <Menubar/>
-        <Title> FUNDING EDIT </Title>
+        <Title> FUNDING Edit </Title>
         <form onSubmit={handleSubmit}>
         <table>
-        <tbody>
+            <tbody>
             <TableRow>
                 <TableCell> 카테고리 </TableCell>
                 <TableCell>
@@ -182,11 +213,12 @@ export default function FundingEdit(){
             <TableRow>
                 <TableCell sx={cellStyle}></TableCell>
                 <TableCell sx={cellStyle} align="right">
-                    <Button active type="submit"> 수정 </Button>
+                    <Button active type="submit"> 등록 </Button>
                 </TableCell>
             </TableRow>
             </tbody>
         </table>
+        
         </form>
 
     </Container>

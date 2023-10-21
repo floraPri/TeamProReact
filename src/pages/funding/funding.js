@@ -2,6 +2,7 @@ import styled from "styled-components";
 import Link from "next/link";
 import React, { useState, useEffect } from "react";
 import { useRouter } from "next/router";
+import axios from 'axios';
 import Menubar from "@/component/funding/menubar";
 
 const Container = styled.div`
@@ -34,7 +35,7 @@ const FundingImg = styled.img`
     width:100%;
     max-width:250px;
     height:auto;
-    align-items:center
+    align-items:center;
 `;
 
 const Category = styled.div`
@@ -56,6 +57,26 @@ const PreContent = styled.div`
 
 export default function Funding(){
     const router = useRouter();
+
+    const [fundings, setFundings] = useState([]);
+  
+    useEffect(() => {
+        console.log("useEffect start")
+        axios.get(`http://localhost:8081/funding/funding`)
+          .then(response => {
+            // console.log("api:", response.data)
+            console.log('axios')
+            console.log(response.data)
+            if (Array.isArray(response.data)) {
+                setFundings(response.data);
+            }
+          })
+          .catch(error => {
+            console.log(error);
+          })
+     
+        }, []);
+
     return(
 
     <Container>
@@ -63,14 +84,21 @@ export default function Funding(){
     <Menubar/>
 			
     <ListContainer>					
-        <FundingContainer onClick={() => router.push('/funding/fundingDetail')}>
-            <FundingImg src="/assets/images/auction/ac1.png"/>
+            {fundings.map((funding) => (
+        <FundingContainer onClick={() => router.push(`/funding/fundingDetail?fundingcode=${funding.fundingcode}`)}>
+            <div key={funding.fundingcode}>
+            <FundingImg src={funding.image}/>
             <div>
-                <Category> category </Category>
-                <Title> title </Title>
-                <PreContent> 상세설명 상세설명 상세설명 상세설명 상세설명 </PreContent>
+                <Category> {funding.category} </Category>
+                <Title> {funding.title} </Title>
+                <PreContent> {funding.content} </PreContent>
+            </div>
             </div>
         </FundingContainer>
+            ))}
+
+
+
         <FundingContainer onClick={() => router.push('/funding/fundingDetail')}>
             <FundingImg src="/assets/images/auction/ac1.png"/>
             <div>
