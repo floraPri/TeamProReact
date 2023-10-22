@@ -5,7 +5,8 @@ import MyPagesMenu from "@/component/myPage/myPagesMenu";
 import rightStyles from "@/component/myPage/myPRightStyle.module.css";
 import { useEffect, useState } from "react";
 import axios from "axios";
-
+import { MdDeleteForever } from "react-icons/md";
+import { RiPencilFill } from "react-icons/Ri";
 
 const Container = styled.div`
   min-width: 1280px;
@@ -78,20 +79,68 @@ export default function MyPages (){
                 <ul className={rightStyles.feedWrapUl}>
                     <li>
                       <div className={rightStyles.liInner}>
-                        <p>타이틀.....사고싶은것들이 넘 많다...내일도 나온다..</p>
-                        
+                        <h3>작성 게시물 타이틀 부분</h3>
+                        <p className={rightStyles.txtDate}>2023-10-22</p>
+                        <p className={rightStyles.txtArea}>
+                          작성 본문 영역....현재 마지막 팀 프로젝트 진행중...
+                          현재는 내가 등록한 피드 목록 페이지 구현중
+                        </p>
+                        <p className={rightStyles.imgWrap}>
+                          <Image 
+                            src="/assets/images/mypage/exm_img.jpg"
+                            width="250" 
+                            height="190"
+                            objectFit="cover" 
+                            alt="이미지1" />
+                          </p>
+                          <div className={rightStyles.btnWarp}>
+                            <span><MdDeleteForever size="24" /></span>
+                            <span><RiPencilFill size="24" /></span>
+                          </div>
                       </div>
                     </li>
                     <li>
                       <div className={rightStyles.liInner}>
-                        <p>타이틀.....사고싶은것들이 넘 많다...내일도 나온다..</p>
-                        
+                        <h3>작성 게시물 타이틀 부분</h3>
+                        <p className={rightStyles.txtDate}>2023-10-22</p>
+                        <p className={rightStyles.txtArea}>
+                          작성 본문 영역....현재 마지막 팀 프로젝트 진행중...
+                          현재는 내가 등록한 피드 목록 페이지 구현중
+                        </p>
+                        <p className={rightStyles.imgWrap}>
+                          <Image 
+                            src="/assets/images/mypage/exm_img.jpg"
+                            width="250" 
+                            height="190"
+                            objectFit="cover" 
+                            alt="이미지1" />
+                          </p>
+                          <div className={rightStyles.btnWarp}>
+                            <span><MdDeleteForever size="24" /></span>
+                            <span><RiPencilFill size="24" /></span>
+                          </div>
                       </div>
                     </li>
                     <li>
                       <div className={rightStyles.liInner}>
-                        <p>타이틀.....사고싶은것들이 넘 많다...내일도 나온다..</p>
-                        
+                        <h3>작성 게시물 타이틀 부분</h3>
+                        <p className={rightStyles.txtDate}>2023-10-22</p>
+                        <p className={rightStyles.txtArea}>
+                          작성 본문 영역....현재 마지막 팀 프로젝트 진행중...
+                          현재는 내가 등록한 피드 목록 페이지 구현중
+                        </p>
+                        <p className={rightStyles.imgWrap}>
+                          <Image 
+                            src="/assets/images/mypage/exm_img.jpg"
+                            width="250" 
+                            height="190"
+                            objectFit="cover" 
+                            alt="이미지1" />
+                          </p>
+                          <div className={rightStyles.btnWarp}>
+                            <span><MdDeleteForever size="24" /></span>
+                            <span><RiPencilFill size="24" /></span>
+                          </div>
                       </div>
                     </li>
                 </ul>
