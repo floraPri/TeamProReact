@@ -1,6 +1,10 @@
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import MyLeftMenu from "@/component/admin/myLeftMenu";
 import {Table, TableHead, TableCell, TableRow, TableBody, Button} from "@mui/material";
+import axios from "axios";
+import { useRouter } from 'next/router';
+
 
 const Container = styled.div`
   width: 1280px;
@@ -109,30 +113,127 @@ const TableCellContent  = styled(TableCell)`
   text-align: center;
 `;
 
-const CellButton  = styled(Button)`
+const StyledButton = styled(Button)`
   background-color: #D9D9D9;
   color: black;
   font-weight: bold;
 `;
 
 export default function AdminSearchUser (){
-    return(
-      <Container>
-        <MyLeftMenu />
-        <Main>
-          <SearchBoxContainer>
-            <SearchBox>
-              검색어
-              <SearchBoxSelect>회원번호</SearchBoxSelect>
-              <SearchBar>
-                <SearchInput></SearchInput>
-              </SearchBar>
-              <SearchButton type="submit">검색하기</SearchButton>
-            </SearchBox>
-          </SearchBoxContainer>
-          <SearchResultText>검색결과</SearchResultText>
-          <SearchResultContainer>
-            <StyledTable >
+
+  const [userno, setUserno] = useState('')
+  const [email, setEmail] = useState('')
+  const [name, setName] = useState('')
+  const [phone, setPhone] = useState('')
+  const [joindate, setJoindate] = useState('')
+  const [enabled, setEnabled] = useState('')
+  const [searchValue, setSearchValue] = useState(''); // 추가: 검색어 상태
+  const [showResult, setShowResult] = useState(false); // 검색 결과를 나타내는 상태
+  const router = useRouter();
+  
+  useEffect(() => {
+    // 페이지가 로드될 때 userNo 파라미터를 확인하고 데이터를 가져오는 로직을 수행
+    const { userno } = router.query;
+
+    if (userno) {
+      handleSearch(userno);
+    }
+  }, []);
+
+  function formatDate(epochTime) {
+    const date = new Date(epochTime);
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const day = String(date.getDate()).padStart(2, '0');
+    return `${year}-${month}-${day}`;
+  }
+
+  const handleSearch = () => {
+    console.log("시작")
+    console.log(searchValue)
+    axios.get(`http://localhost:8081/admin/adminSearchUser?userno=${searchValue}`)
+      .then(response => {
+        
+        console.log("axios");
+        setUserno(response.data.userno);
+        setEmail(response.data.email);
+        setName(response.data.name);
+        setPhone(response.data.phone);
+        const formattedJoinDate = formatDate(response.data.joindate);
+        setJoindate(formattedJoinDate); // 변환된 날짜를 상태에 업데이트
+        setEnabled(response.data.enabled);
+        setShowResult(true); // 검색 결과가 있을 때 상태 업데이트
+      })
+      .catch(error => {
+        console.log(error);
+        alert("존재하지 않는 회원번호")
+        setShowResult(false); // 검색 결과가 없을 때 상태 업데이트
+      });
+  };
+  
+  // 유저 밴
+  const handleBan = () => {
+    console.log("유저 밴")
+    console.log(userno)
+    axios.put(`http://localhost:8081/admin/userBan`,{
+      userno: userno,
+      enabled: '1'
+    })
+    
+      .then(response => {
+        console.log("axios");
+        setUserno('');
+        setEnabled('');
+        setShowResult(false); // 검색 결과 감추기
+        alert("정지 성공");
+      })
+      .catch(error => {
+        alert("정지 실패");
+        console.log(error);
+      });
+  };
+
+  // 유저 릴리즈
+  const handleRelease = () => {
+    console.log("유저 릴리즈")
+    axios.put(`http://localhost:8081/admin/userRelease`,{
+      userno: userno,
+      enabled: '0'
+    })
+      .then(response => {
+        console.log("axios");
+        setUserno('');
+        setEnabled('');
+        setShowResult(false); // 검색 결과 감추기
+        alert("해제 성공");
+      })
+      .catch(error => {
+        alert("해제 실패");
+        console.log(error);
+      });
+  };
+
+  return(
+    <Container>
+      <MyLeftMenu />
+      <Main>
+        <SearchBoxContainer>
+          <SearchBox>
+            검색어
+            <SearchBoxSelect>회원번호</SearchBoxSelect>
+            <SearchBar>
+              <SearchInput
+                value={searchValue} // 검색어 입력값
+                onChange={(e) => setSearchValue(e.target.value)} // 검색어 변경 시 상태 업데이트
+              />
+            </SearchBar>
+            <SearchButton type="button" onClick={handleSearch}>검색하기</SearchButton>
+          </SearchBox>
+        </SearchBoxContainer>
+        <SearchResultText>검색결과</SearchResultText>
+        {showResult && ( // showResult 상태가 true일 때만 결과를 렌더링
+        <SearchResultContainer>
+            <StyledTable>
               <StyledTableHead>
                 <TableRow>
                   <TableCellTitle>UserNumber</TableCellTitle>
@@ -140,24 +241,34 @@ export default function AdminSearchUser (){
                   <TableCellTitle>Name</TableCellTitle>
                   <TableCellTitle>PhoneNumber</TableCellTitle>
                   <TableCellTitle>JoinDate</TableCellTitle>
+                  <TableCellTitle>state</TableCellTitle>
                   <TableCell></TableCell>
                   <TableCell></TableCell>
                 </TableRow>
               </StyledTableHead>
               <TableBody>
                 <TableRow>
-                  <TableCellContent>32</TableCellContent>
-                  <TableCellContent>xxx@gmail.com</TableCellContent>
-                  <TableCellContent>Sam Smith</TableCellContent>
-                  <TableCellContent>010-6425-4455</TableCellContent>
-                  <TableCellContent>2023.08.17</TableCellContent>
-                  <TableCellContent><CellButton type="submit">채팅</CellButton></TableCellContent>
-                  <TableCellContent><CellButton type="submit">정지</CellButton></TableCellContent>
+                  <TableCellContent>{userno}</TableCellContent>
+                  <TableCellContent>{email}</TableCellContent>
+                  <TableCellContent>{name}</TableCellContent>
+                  <TableCellContent>{phone}</TableCellContent>
+                  <TableCellContent>{joindate}</TableCellContent>
+                  <TableCellContent>
+                    {enabled === '0' ? "이용중" : enabled === '1' ? "정지" : ''}
+                  </TableCellContent>
+                  <TableCellContent>
+                    {enabled === '0' ? (
+                      <StyledButton type="button" onClick={handleBan}>정지</StyledButton>
+                    ) : enabled === '1' ? (
+                      <StyledButton type="button" onClick={handleRelease}>해제</StyledButton>
+                    ) : null}
+                  </TableCellContent>
                 </TableRow>
               </TableBody>
-            </StyledTable >
-          </SearchResultContainer>
-        </Main>
-      </Container>
-    )
+            </StyledTable>
+        </SearchResultContainer>
+        )}
+      </Main>
+    </Container>
+  )
 }

@@ -1,5 +1,4 @@
 import Card from 'react-bootstrap/Card';
-import Link from "next/link";
 import Button from 'react-bootstrap/Button';
 import ButtonGroup from 'react-bootstrap/ButtonGroup';
 import Dropdown from 'react-bootstrap/Dropdown';
@@ -8,6 +7,8 @@ import React, { useEffect, useState, useCallback } from 'react';
 import styled from "styled-components";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { useRouter } from "next/router";
+import axios from 'axios';
+import { getAuthToken } from '@/component/user/axios_helper';
 
 function Auction() {
 
@@ -65,6 +66,11 @@ function Auction() {
     font-size: 19px;
   `;
 
+  const CardDiv = styled.div`
+    display: flex;
+    padding-top: 30px;
+  `;
+
 
   const [selectedOption, setSelectedOption] = useState('');
 
@@ -72,32 +78,51 @@ function Auction() {
     setSelectedOption(event.target.value);
   };
 
+
+
   const LastTime = styled.span`
   color: green;
   font-weight: bold;
 `;
 
   const router = useRouter();
-  
-  const [remainingTime, setRemainingTime] = useState({ hours: 60, minutes: 0, seconds: 0 });
+
+  const [auctions, setAuctions] = useState([]);
 
   useEffect(() => {
-    const interval = setInterval(() => {
-      if (remainingTime.seconds > 0) {
-        setRemainingTime(prevTime => ({ ...prevTime, seconds: prevTime.seconds - 1 }));
-      } else if (remainingTime.minutes > 0) {
-        setRemainingTime(prevTime => ({ ...prevTime, minutes: prevTime.minutes - 1, seconds: 59 }));
-      } else if (remainingTime.hours > 0) {
-        setRemainingTime(prevTime => ({ ...prevTime, hours: prevTime.hours - 1, minutes: 59, seconds: 59 }));
+    const fetchData = async () => {
+      try {
+        const response = await axios.get('http://localhost:8081/auction/auction', {
+          headers: {
+            Authorization: `Bearer ${(getAuthToken())}`
+            
+          }
+        });
+        const data = response.data;
+      // 현재 시간 가져오기
+      const currentTime = new Date();
+      // 경매 종료 시간과 비교하여 종료 여부 판단
+      const updatedAuctionData = data.map((auction) => {
+        const endTime = new Date(auction.lasttime);
+        const isAuctionEnded = currentTime > endTime;
+        return {
+          ...auction,
+          isAuctionEnded: isAuctionEnded,
+        };  
+      });
+      setAuctions(updatedAuctionData);
+      } catch (error) {
+          console.error('경매 리스트 불러오기 오류: ', error);
       }
-    }, 1000);
-
-    return () => {
-      clearInterval(interval);
     };
-  }, [remainingTime]);
+      fetchData();
+  }, []);
 
-  const lastTimeColor = remainingTime.hours < 1 ? "red" : "green";
+  function formatLastTime(lasttime) {
+    const date = new Date(lasttime);
+    const formattedTime = `${date.getFullYear()}년 ${date.getMonth() + 1}월 ${date.getDate()}일 ${date.getHours()}시 ${date.getMinutes()}분`;
+    return formattedTime;
+  }
 
   return (
     <Container>
@@ -133,22 +158,33 @@ function Auction() {
               </select>
             </ConstituencyDiv>
           </Container__3>
-          <Link href="/auction/auctionDetail">
-            <Card style={{ width: '18rem' }}>
-              <Card.Img variant="top" src="/assets/images/auction/ac1.PNG" />
-              <Card.Body>
-                <Card.Title>자퇴서</Card.Title>
-                <Card.Text>
-                  참여자 : 55 명<br/>
-                  시작금액 : 650000 원<br/>
-                  경매 남은 시간&nbsp;
-                  <LastTime color={lastTimeColor}>
-                    {String(remainingTime.hours).padStart(2, '0')} : {String(remainingTime.minutes).padStart(2, '0')} : {String(remainingTime.seconds).padStart(2, '0')}
-                  </LastTime>
-                </Card.Text>
-              </Card.Body>
-            </Card>
-          </Link>
+            <CardDiv>
+            {auctions.map((auction) => (
+            <div onClick={() => {
+                if (!auction.isAuctionEnded) { // 경매가 종료되지 않았을 때만 수정 가능
+                  const auctionno = auction.auctionno;
+                  router.push(`/auction/auctionDetail`);
+                  // router.push(`/auction/auctionDetail/?auctionno=${auctionno}`); //상세 페이지 확정 후 활성화
+                }
+              }}
+            >
+              <Card key={auction.auctionno} style={{ width: '18rem' }}>
+                    {/* <Card.Img variant="top" src={auction.image} /> */}
+                    <Card.Body>
+                      <Card.Title>{auction.auctiontitle}</Card.Title>
+                      <Card.Text>
+                        참여자: {auction.cham} 명<br />
+                        시작금액: {auction.startprice} 원<br />
+                        경매 남은 시간&nbsp;<br></br>
+                        <LastTime>
+                          {auction.isAuctionEnded ? "경매 종료" : formatLastTime(auction.lasttime)}
+                        </LastTime>
+                      </Card.Text>
+                    </Card.Body>
+                 </Card>
+                 </div>
+              ))}
+              </CardDiv>
         </Acu>
     </Container>
   );

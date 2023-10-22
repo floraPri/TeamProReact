@@ -31,8 +31,13 @@ export default function Header() {
             if (response.status === 200) {
               // 로그아웃 성공
               localStorage.removeItem('auth_token');
-              // 다른 로직을 수행하거나 리디렉션할 수 있습니다
-              window.location.href = '/'; // 예: 홈페이지로 리디렉션
+              localStorage.removeItem('joindate');
+              localStorage.removeItem('userno');
+              localStorage.removeItem('email');
+              localStorage.removeItem('name');
+              localStorage.removeItem('phone');
+              localStorage.removeItem('address');
+              window.location.href = '/'; 
             } else {
               // 로그아웃 실패
               console.error('로그아웃 실패');
@@ -49,16 +54,15 @@ export default function Header() {
             <ContainerIn>
                 <Title onClick={() => router.push('/main/main') }>weAround</Title>
                 <LeftMenu>
-                <LeftMenuTab onClick={() => router.push('/channel/commain') }>커뮤니티</LeftMenuTab>
                     <LeftMenuTab onClick={() => router.push('/channel/product') }>중고거래</LeftMenuTab>
                     <LeftMenuTab onClick={() => router.push('/auction/auction') }>경매</LeftMenuTab>
+                    <LeftMenuTab onClick={() => router.push('/funding/funding') }>펀딩</LeftMenuTab>
                 </LeftMenu>
                 <SearchBar>
                 <SearchIcon><BiSearch style={{width:'20px',height:'20px'}} /></SearchIcon>
                     <SearchInput></SearchInput>
                 </SearchBar>
                 <RightMenu>
-                    <RightMenuTab onClick={() => router.push('/message/messageList') }><BiMessageAlt style={{width:'20px',height:'20px'}}/></RightMenuTab>
                     <RightMenuTab>
                         <StyledDropdown>
                             <StyledDropdownToggle  variant="white">
@@ -90,9 +94,10 @@ export default function Header() {
                             </StyledDropdownToggle>
 
                             <Dropdown.Menu>
-                                <Dropdown.Item href="#/action-1">커뮤니티</Dropdown.Item>
+                                <Dropdown.Item href="#/action-1">Today Is</Dropdown.Item>
                                 <Dropdown.Item href="#/action-2">중고거래</Dropdown.Item>
-                                <Dropdown.Item href="#/action-3">경매</Dropdown.Item>
+                                <Dropdown.Item href="#/action-2">펀딩</Dropdown.Item>
+                                <Dropdown.Item href="/auction/auctionAdd">경매</Dropdown.Item>
                             </Dropdown.Menu>
                         </Dropdown>
                     </RightMenuTab>
@@ -134,8 +139,7 @@ const Title = styled.div`
 
 const LeftMenu = styled.div`
     display: flex;
-    /* width: 206px; */
-    width: 250px;
+    width: 230px; 
     justify-content: space-between
 `;
 

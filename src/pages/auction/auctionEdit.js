@@ -1,6 +1,8 @@
 import styled from "styled-components";
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Button from 'react-bootstrap/Button';
+import { useRouter } from "next/router";
+import axios from 'axios';
 
 const AcuAdd = styled.div`
 
@@ -59,44 +61,78 @@ const FileInput = styled.input`
 `;
 
 export default function AuctionEdit() {
+
+  const router = useRouter();
+
+  const { auctionno } = router.query;
+
   const [auctionData, setAuctionData] = useState({
-    auctionTitle: '',
-    auctionContent: '',
-    buyNow: 0,
-    startPrice: 0,
-    minBid: 0,
+    auctiontitle: '',
+    auctioncontent: '',
+    buynow: 0,
+    startprice: 0,
+    minbid: 0,
     image: null,
   });
 
+  useEffect(() => {
+    axios.get(`http://localhost:8081/auction/auctionEdit`, {
+      params: {
+        auctionno: auctionno,
+      }
+    })
+      .then((response) => {
+        const data = response.data;
+        setAuctionData({
+          auctiontitle: data.auctiontitle,
+          auctioncontent: data.auctioncontent,
+          buynow: data.buynow,
+          startprice: data.startprice,
+          minbid: data.minbid,
+          image: data.image,
+        });
+      })
+      .catch((error) => {
+        console.error('경매 정보를 불러오는 중 오류 발생:', error);
+      });
+  }, [auctionno]);
+
   const handleChange = (e) => {
     const { name, value, type, files } = e.target;
-    if (type === "file") {
-      setAuctionData({ ...auctionData, [name]: files[0] });
-    } else {
-      setAuctionData({ ...auctionData, [name]: value });
-    }
+    setAuctionData((prevData) => ({
+      ...prevData,
+      [name]: type === "file" ? files[0] : value,
+    }));
   };
-
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-  const formData = new FormData();
-  formData.append("auctionTitle", auctionData.auctionTitle);
-  formData.append("auctionContent", auctionData.auctionContent);
-  formData.append("buyNow", auctionData.buyNow);
-  formData.append("startPrice", auctionData.startPrice);
-  formData.append("minBid", auctionData.minBid);
-  formData.append("image", auctionData.image);
+    const formData = new FormData();
+    formData.append("auctionno", auctionno);
+    formData.append("image", auctionData.image);
+    formData.append("auctiontitle", auctionData.auctiontitle);
+    formData.append("auctioncontent", auctionData.auctioncontent);
+    formData.append("buynow", auctionData.buynow);
+    formData.append("startprice", auctionData.startprice);
+    formData.append("minbid", auctionData.minbid);
+    console.log(auctionData.image);
+    console.log(auctionData.auctiontitle);
+    console.log(auctionData.auctioncontent);
+    console.log(auctionData.buynow);
+    console.log(auctionData.startprice);
+    console.log(auctionData.minbid);
+    console.log(auctionno);
 
+    // 수정 업데이트
     try {
-      // 경매 정보를 서버로 전송
-      const response = await fetch('/api/createAuction', {
-        method: 'POST',
-        body: JSON.formData,
+      const response = await axios.post('http://localhost:8081/auction/auctionEdit', formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        }
       });
 
       if (response.status === 200) {
-        console.log('경매가 성공적으로 저장되었습니다.');
+        console.log('경매가 성공적으로 수정되었습니다.');
       } else {
         console.error('경매 저장 중 오류 발생');
       }
@@ -110,7 +146,7 @@ export default function AuctionEdit() {
       <AcuAdd>
         <AcuTi>경매 수정 HOST</AcuTi>
         <AcuAdd_1>
-          <form onSubmit={handleSubmit}>
+          <form encType="multipart/form-data" onSubmit={handleSubmit}>
             <hr></hr>
             <From_1>
               <From_2>
@@ -120,8 +156,8 @@ export default function AuctionEdit() {
                 <Input
                   type="text"
                   id="acuTitle"
-                  name="auctionTitle"
-                  value={auctionData.auctionTitle}
+                  name="auctiontitle"
+                  value={auctionData.auctiontitle}
                   onChange={handleChange}
                 />
               </From_3>
@@ -148,8 +184,8 @@ export default function AuctionEdit() {
                 <Textarea
                   rows={3}
                   id="acuContent"
-                  name="auctionContent"
-                  value={auctionData.auctionContent}
+                  name="auctioncontent"
+                  value={auctionData.auctioncontent}
                   onChange={handleChange}
                 />
               </From_3>
@@ -162,8 +198,8 @@ export default function AuctionEdit() {
                 <Input
                   type="number"
                   id="acuBuyNow"
-                  name="buyNow"
-                  value={auctionData.buyNow}
+                  name="buynow"
+                  value={auctionData.buynow}
                   onChange={handleChange}
                 />
               </From_3>
@@ -176,8 +212,8 @@ export default function AuctionEdit() {
                 <Input
                   type="number"
                   id="acuStartPrice"
-                  name="startPrice"
-                  value={auctionData.startPrice}
+                  name="startprice"
+                  value={auctionData.startprice}
                   onChange={handleChange}
                 />
               </From_3>
@@ -190,8 +226,8 @@ export default function AuctionEdit() {
               <Input
                   type="number"
                   id="acuMinBid"
-                  name="minBid"
-                  value={auctionData.minBid}
+                  name="minbid"
+                  value={auctionData.minbid}
                   onChange={handleChange}
                 />
               </From_3>
