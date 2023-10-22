@@ -34,8 +34,15 @@ const Chat = () => {
     const [messages, setMessages] = useState([]);
     const [newMessage, setNewMessage] = useState('');
 
-    const handleNewMessageChange = (event) => {
-        setNewMessage(event.target.value);
+    const handleNewMessageChange = (e) => {
+        setNewMessage(e.target.value);
+    };
+    
+    //엔터 치면 채팅 올라가게 되는 핸들러
+    const handleKeyPress = (e)  => {
+        if (e.key === 'Enter') {
+            handleSend();
+        }
     };
 
     const handleSend = () => {
@@ -68,6 +75,7 @@ const Chat = () => {
             placeholder="바르고 고운말을 사용합시다"
             value={newMessage}
             onChange={handleNewMessageChange}
+            onKeyPress={handleKeyPress}
             />
             <SendButton onClick={handleSend}>Send</SendButton>
         </InputContainer>

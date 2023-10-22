@@ -8,6 +8,7 @@ import styled from "styled-components";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { useRouter } from "next/router";
 import axios from 'axios'
+import { getAuthToken } from "@/component/user/axios_helper";
 
 function AuctionGuest() {
   
@@ -92,8 +93,11 @@ function AuctionGuest() {
         try {
         const response = await axios.get(`http://localhost:8081/auction/auctionGuest`, {
           params: {
-            userno:localStorage.getItem("userno"),// 유저번호 일단 하드코딩
-            name: localStorage.getItem("name"),// 유저번호 일단 하드코딩
+            userno:localStorage.getItem("userno"),
+            name: localStorage.getItem("name"),
+          },
+          headers: {
+            Authorization: `Bearer ${getAuthToken()}`,
           }
         });
         const data = response.data;
@@ -129,6 +133,9 @@ function AuctionGuest() {
       {
         params: {
           userno:localStorage.getItem("userno"),
+        },
+        headers: {
+          Authorization: `Bearer ${getAuthToken()}`,
         }
       })
       .then((response) => {
@@ -217,7 +224,7 @@ function AuctionGuest() {
             {auctionGuestData.map((auctionGuestData) =>(
               <tr className="cart__list__detail">
                 <TableC>
-                  <TableD img src="/assets/images/auction/ac1.PNG" alt="magic mouse" />
+                  <TableD img src={auctionGuestData.image} alt="magic mouse" />
                   {/* 이미지 수정 필요!! */}
                 </TableC>
                 <TableB style={{ width: '35%' }}>

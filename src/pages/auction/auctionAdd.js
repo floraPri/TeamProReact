@@ -1,8 +1,9 @@
 import styled from "styled-components";
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Button from 'react-bootstrap/Button';
 import { useRouter } from "next/router";
 import axios from 'axios';
+import { getAuthToken } from "@/component/user/axios_helper";
 
 const AcuAdd = styled.div`
 
@@ -74,6 +75,10 @@ export default function AuctionAdd() {
     image: null,
   });
 
+  useEffect(() => {
+    const userno = localStorage.getItem("userno");
+  }, []);
+
   const handleChange = (e) => {
     const { name, value, type, files } = e.target;
     setAuctionData((prevData) => ({
@@ -86,6 +91,7 @@ export default function AuctionAdd() {
     e.preventDefault();
 
     const formData = new FormData();
+    formData.append("userno", localStorage.getItem("userno"));
     formData.append("image", auctionData.image);
     formData.append("auctiontitle", auctionData.auctiontitle);
     formData.append("auctioncontent", auctionData.auctioncontent);
@@ -102,7 +108,8 @@ export default function AuctionAdd() {
     try {
       const response = await axios.post('http://localhost:8081/auction/auctionAdd', formData, {
         headers: {
-          'Content-Type': 'multipart/form-data' // 파일 업로드에 대한 헤더 설정
+          'Content-Type': 'multipart/form-data', // 파일 업로드에 대한 헤더 설정
+          Authorization: `Bearer ${getAuthToken()}`,
         }
       });
       if (response.status === 200) {

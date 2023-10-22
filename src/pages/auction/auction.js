@@ -8,7 +8,7 @@ import styled from "styled-components";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { useRouter } from "next/router";
 import axios from 'axios';
-import { getAuthToken } from '@/component/user/axios_helper';
+import { getAuthToken } from "@/component/user/axios_helper";
 
 function Auction() {
 
@@ -69,6 +69,8 @@ function Auction() {
   const CardDiv = styled.div`
     display: flex;
     padding-top: 30px;
+    flex-direction: row;
+    flex-wrap: wrap;
   `;
 
 
@@ -77,8 +79,6 @@ function Auction() {
   const handleSelectChange = (event) => {
     setSelectedOption(event.target.value);
   };
-
-
 
   const LastTime = styled.span`
   color: green;
@@ -92,12 +92,14 @@ function Auction() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get('http://localhost:8081/auction/auction', {
+        const config = {
           headers: {
-            Authorization: `Bearer ${(getAuthToken())}`
-            
-          }
-        });
+            Authorization: `Bearer ${getAuthToken()}`,
+          },
+        };
+
+        const response = await axios.get('http://localhost:8081/auction/auction', config);
+
         const data = response.data;
       // 현재 시간 가져오기
       const currentTime = new Date();
@@ -161,15 +163,15 @@ function Auction() {
             <CardDiv>
             {auctions.map((auction) => (
             <div onClick={() => {
-                if (!auction.isAuctionEnded) { // 경매가 종료되지 않았을 때만 수정 가능
+                if (!auction.isAuctionEnded) { // 경매가 종료되지 않았을 때만 입장가능
                   const auctionno = auction.auctionno;
-                  router.push(`/auction/auctionDetail`);
-                  // router.push(`/auction/auctionDetail/?auctionno=${auctionno}`); //상세 페이지 확정 후 활성화
+                  //router.push(`/auction/auctionDetail`);
+                  router.push(`/auction/auctionDetail/?auctionno=${auctionno}`);
                 }
               }}
             >
               <Card key={auction.auctionno} style={{ width: '18rem' }}>
-                    {/* <Card.Img variant="top" src={auction.image} /> */}
+                    <Card.Img variant="top" src={auction.image} />
                     <Card.Body>
                       <Card.Title>{auction.auctiontitle}</Card.Title>
                       <Card.Text>

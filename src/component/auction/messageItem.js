@@ -1,5 +1,5 @@
-import React from 'react';
 import styled from 'styled-components';
+import React, { useEffect, useState } from 'react';
 
 const MessageContainer = styled.div`
   display: flex;
@@ -17,11 +17,21 @@ const MessageText = styled.div`
   margin: 5px;
 `;
 
-const MessageItem = ({ userName, message }) => (
-  <MessageContainer>
-    <NickName>{userName}:</NickName>
-    <MessageText>{message}</MessageText>
-  </MessageContainer>
-);
+const MessageItem = ({ message }) => {
+
+const [userName, setUserName] = useState('');
+
+useEffect(()=> {
+  const nameSetLocalStorage = localStorage.getItem('name');
+  setUserName(nameSetLocalStorage)
+}, []);
+
+  return ( //반환 안하면 오류남
+    <MessageContainer>
+      <NickName>{userName}:</NickName>
+      <MessageText>{message}</MessageText>
+    </MessageContainer>
+  );
+}
 
 export default MessageItem;
