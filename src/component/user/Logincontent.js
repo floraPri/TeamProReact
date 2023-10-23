@@ -13,7 +13,7 @@ const Logincontent = () => {
                 password: password
             })
             .then((response) => {
-                window.location.href = '/';
+                 window.location.href = '/';
                 setAuthToken(response.data.token);
                 window.localStorage.setItem("userno", response.data.userno);
                 window.localStorage.setItem("email", response.data.email);
