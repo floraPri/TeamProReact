@@ -37,10 +37,23 @@ const RightInnerTitle = styled.div`
 export default function MyPages (){
   const [userno,setUserno] = useState("");
   const [email,setEmail] = useState("");
+  const [feeds,setFeeds] = useState([]);
+
+  const formatTimeStamp = (timestamp) => {
+    const options = {
+      year: "numeric",
+      month: "2-digit",
+      day: "2-digit",
+      //hour: "2-digit",
+      //minute: "2-digit",
+    };
+    const formattedDate = new Intl.DateTimeFormat("ko-KR", options).format(new Date(timestamp));
+    return formattedDate;
+  };
 
   useEffect(() => {
     const userNo = localStorage.getItem('userno');
-    const userEmail = localStorage.getItem('email');
+    const userEmail = localStorage.getItem('email');  
 
     if(userEmail){
       setEmail(userEmail);
@@ -53,6 +66,9 @@ export default function MyPages (){
         if(response.data){
           console.log('서버로부터 받은 myp:', response.data);
         }
+
+        setFeeds(response.data);
+
       }).catch((error) => {
         console.log('전송 오류myp',error)
       });
@@ -77,72 +93,29 @@ export default function MyPages (){
                     <h3 className={rightStyles.h3_title}>{email}님 피드</h3> <p><Link href="">더 보기</Link></p>
                 </RightInnerTitle>
                 <ul className={rightStyles.feedWrapUl}>
-                    <li>
-                      <div className={rightStyles.liInner}>
-                        <h3>작성 게시물 타이틀 부분</h3>
-                        <p className={rightStyles.txtDate}>2023-10-22</p>
-                        <p className={rightStyles.txtArea}>
-                          작성 본문 영역....현재 마지막 팀 프로젝트 진행중...
-                          현재는 내가 등록한 피드 목록 페이지 구현중
-                        </p>
-                        <p className={rightStyles.imgWrap}>
-                          <Image 
-                            src="/assets/images/mypage/exm_img.jpg"
-                            width="250" 
-                            height="190"
-                            objectFit="cover" 
-                            alt="이미지1" />
+                    {feeds.map((feed, index) =>
+                      <li key={index}>
+                        <div className={rightStyles.liInner}>
+                          <h3>{feed.feedtitle}</h3>
+                          <p className={rightStyles.txtDate}>{formatTimeStamp(feed.feedregdate)}</p>
+                          <p className={rightStyles.txtArea}>
+                            {feed.feedcontent}
                           </p>
-                          <div className={rightStyles.btnWarp}>
-                            <span><MdDeleteForever size="24" /></span>
-                            <span><RiPencilFill size="24" /></span>
-                          </div>
-                      </div>
-                    </li>
-                    <li>
-                      <div className={rightStyles.liInner}>
-                        <h3>작성 게시물 타이틀 부분</h3>
-                        <p className={rightStyles.txtDate}>2023-10-22</p>
-                        <p className={rightStyles.txtArea}>
-                          작성 본문 영역....현재 마지막 팀 프로젝트 진행중...
-                          현재는 내가 등록한 피드 목록 페이지 구현중
-                        </p>
-                        <p className={rightStyles.imgWrap}>
-                          <Image 
-                            src="/assets/images/mypage/exm_img.jpg"
-                            width="250" 
-                            height="190"
-                            objectFit="cover" 
-                            alt="이미지1" />
-                          </p>
-                          <div className={rightStyles.btnWarp}>
-                            <span><MdDeleteForever size="24" /></span>
-                            <span><RiPencilFill size="24" /></span>
-                          </div>
-                      </div>
-                    </li>
-                    <li>
-                      <div className={rightStyles.liInner}>
-                        <h3>작성 게시물 타이틀 부분</h3>
-                        <p className={rightStyles.txtDate}>2023-10-22</p>
-                        <p className={rightStyles.txtArea}>
-                          작성 본문 영역....현재 마지막 팀 프로젝트 진행중...
-                          현재는 내가 등록한 피드 목록 페이지 구현중
-                        </p>
-                        <p className={rightStyles.imgWrap}>
-                          <Image 
-                            src="/assets/images/mypage/exm_img.jpg"
-                            width="250" 
-                            height="190"
-                            objectFit="cover" 
-                            alt="이미지1" />
-                          </p>
-                          <div className={rightStyles.btnWarp}>
-                            <span><MdDeleteForever size="24" /></span>
-                            <span><RiPencilFill size="24" /></span>
-                          </div>
-                      </div>
-                    </li>
+                          <p className={rightStyles.imgWrap}>
+                            <Image 
+                              src="/assets/images/mypage/exm_img.jpg"
+                              width="250" 
+                              height="190"
+                              objectFit="cover" 
+                              alt="이미지1" />
+                            </p>
+                            <div className={rightStyles.btnWarp}>
+                              <span><MdDeleteForever size="24" /></span>
+                              <span><RiPencilFill size="24" /></span>
+                            </div>
+                        </div>
+                      </li>
+                    )}
                 </ul>
             </RightInnerWrap>           
         </RightContainer>        

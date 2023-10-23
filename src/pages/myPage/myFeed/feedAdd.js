@@ -1,6 +1,7 @@
 import styled from "styled-components";
 import * as React from 'react';
 import {Table ,TableCell, TableRow, TableBody, Button, TableContainer} from "@mui/material";
+import { useState } from "react";
 
 const Container = styled.div`
     display: grid;
@@ -42,6 +43,13 @@ const cellStyle = {
 
 //피드 등록
 export default function MyFeedAdd(){
+    const [feedData,setFeedData] = useState({
+        userno: '',
+        
+        
+    });
+
+
     return(
     <Container>
         <Title> 피드 등록하기 </Title>
@@ -51,23 +59,23 @@ export default function MyFeedAdd(){
                     <TableRow>
                         <TableCell>제목</TableCell>
                         <TableCell>
-                            <Input type="text" id="feed_title" name="title" />
+                            <Input type="text" id="title" name="title" />
                         </TableCell>
                     </TableRow>
                     <TableRow>
                         <TableCell>내용</TableCell>
-                        <TableCell><Textarea id="txt_content" name="content" /></TableCell>
+                        <TableCell><Textarea id="content" name="content" /></TableCell>
                     </TableRow>
                     <TableRow>
                         <TableCell>이미지</TableCell>
                         <TableCell>
-                            <Input type="file" id="image" name="input_img" />
+                            <Input type="file" id="feed_img" name="feed_img" />
                         </TableCell>
                     </TableRow>
                     <TableRow>
                         <TableCell sx={cellStyle}></TableCell>
                         <TableCell sx={cellStyle} align="center">
-                            <Button active type="submit"> 수정 </Button>
+                            <Button active type="submit"> 등록 </Button>
                         </TableCell>
                     </TableRow>
                 </TableBody>
