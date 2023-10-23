@@ -71,17 +71,19 @@ export default function FundingAdd(){
         const formData = new FormData();
         formData.append("category",fundingData.category);
         formData.append("title",fundingData.title);
+        formData.append("subtitle",fundingData.subtitle);
         formData.append("content",fundingData.content);
+        formData.append("subcontent",fundingData.subcontent);
         formData.append("image",fundingData.image);
         formData.append("startdate",fundingData.startdate);
         formData.append("enddate",fundingData.enddate);
         formData.append("goalamount",fundingData.goalamount);
-        formData.append("userno",userno);
+        formData.append("userno", userno);
 
         try {
             // 서버로 전송
             
-            const response = await axios.post('http://localhost:8081/funding/fundingAdd', formData, {
+            const response = await axios.post(`http://localhost:8081/funding/fundingAdd`, formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data', // 파일 업로드에 대한 헤더 설정
                     Authorization: `Bearer ${(getAuthToken())}`
@@ -92,7 +94,8 @@ export default function FundingAdd(){
 
             if (response.status === 200) {
               console.log('success');
-              router.push('/funding/fundingAdd');
+            //   console.log(response.data)
+              router.push(`/funding/rewardAdd?fundingcode=${response.data.fundingcode}`);
             } else {
               console.error('failed');
             }
@@ -111,23 +114,43 @@ export default function FundingAdd(){
             <TableRow>
                 <TableCell> 카테고리 </TableCell>
                 <TableCell>
-                    <Input
-                    type="text"
+
+                    <select
                     id="category"
                     name="category"
                     value={fundingData.category}
                     onChange={handleChange}
-                    />
-                    </TableCell>
+                    >
+                    <option value=""> 카테고리 </option>
+                    <option value="문구"> 문구 </option>
+                    <option value="출판"> 출판 </option>
+                    <option value="게임"> 게임 </option>
+                    <option value="리빙"> 리빙 </option>
+                    <option value="반려동물"> 반려동물 </option>
+                    </select>
+
+                </TableCell>
             </TableRow>
             <TableRow>
-                <TableCell> 제목 </TableCell>
+                <TableCell> 전체 타이틀(긴 제목) </TableCell>
                 <TableCell>
                     <FileInput
                     type="text"
                     id="title"
                     name="title"
                     value={fundingData.title}
+                    onChange={handleChange}
+                    />
+                    </TableCell>
+            </TableRow>
+            <TableRow>
+                <TableCell> 목록에서 보일 제목 </TableCell>
+                <TableCell>
+                    <FileInput
+                    type="text"
+                    id="subtitle"
+                    name="subtitle"
+                    value={fundingData.subtitle}
                     onChange={handleChange}
                     />
                     </TableCell>
@@ -153,7 +176,18 @@ export default function FundingAdd(){
                     value={fundingData.content}
                     onChange={handleChange}
                     />
-                </TableCell>    
+            </TableCell>
+            </TableRow>    
+            <TableRow>
+                <TableCell> 목록에서 보일 본문 요약내용 </TableCell>
+                <TableCell>
+                <Textarea
+                    id="subcontent"
+                    name="subcontent"
+                    value={fundingData.subcontent}
+                    onChange={handleChange}
+                    />
+            </TableCell>    
             </TableRow>
             <TableRow>
                 <TableCell> 시작일 </TableCell>
@@ -194,7 +228,7 @@ export default function FundingAdd(){
             <TableRow>
                 <TableCell sx={cellStyle}></TableCell>
                 <TableCell sx={cellStyle} align="right">
-                    <Button active type="submit"> 등록 </Button>
+                    <Button active="true" type="submit"> 등록 </Button>
                 </TableCell>
             </TableRow>
             </tbody>

@@ -3,8 +3,9 @@ import Link from "next/link";
 import React, { useState, useEffect } from "react";
 import { useRouter } from "next/router";
 import { Table, TableCell, TableHead, TableRow } from "@mui/material";
+import axios from 'axios';
 import Menubar from "@/component/funding/menubar";
-import axios from 'axios'
+import Rewardlist from "@/component/funding/rewardslist";
 
 const Container = styled.div`
     display: grid;
@@ -89,9 +90,20 @@ export default function FundingDetail(){
 
     const [funding, setFunding] = useState([]);
 
+    // Helper 함수: ISO 형식의 날짜 문자열을 Date 객체로 변환
+    const parseDate = (dateString) => {
+        return new Date(dateString);
+    };
+
+    // Helper 함수: 두 날짜의 차이를 일 수로 계산
+    const dueDate = (endDate, startDate) => {
+        const timeDifference = endDate - startDate;
+        return Math.ceil(timeDifference / (1000 * 60 * 60 * 24));
+    };
+
     useEffect(() => {
         console.log("useEffect start")
-        axios.get(`http://localhost:8081/funding/fundingDetail?fundingcode=${funding.fundingcode}`)
+        axios.get(`http://localhost:8081/funding/fundingDetail?fundingcode=${fundingcode}`)
           .then(response => {
             // console.log("api:", response.data)
             console.log('axios')
@@ -104,29 +116,35 @@ export default function FundingDetail(){
             }
           })
           .catch(error => {
-            console.log(error);
+              console.log(error);
           });
+          
+          
+        }, [fundingcode]);
+    // Helper 함수: ISO 형식의 날짜 문자열을 원하는 형식으로 변환
+    const formatDate = (dateString) => {
+        const date = new Date(dateString);
+        return date.toLocaleDateString('ko-KR');
+    }; 
 
 
-    }, []);
-
+        
     return(
+        
         <Container>
         <Menubar/>
-        1234
         {funding.map((detail)=> (
            <div key={detail.fundingcode}>
-        <Category> 1234 {detail.category} </Category>
-        <Title> detail - 펀딩 제목 </Title>
+        <Category> {detail.category} </Category>
+        <Title> {detail.title}</Title>
         <Container2>
-            <ImgContainer src="/assets/images/auction/ac1.png"/>
             <ImgContainer src={detail.image}/>
             <Container3>
                 <Box>
                     모인 금액 <br/>
                     <Bold> {detail.nowamount} <br/></Bold>
                     남은 시간 <br/>
-                    <Bold> 27일 <br/></Bold>
+                    <Bold> {dueDate(parseDate(detail.enddate), parseDate(detail.startdate))} 일 <br/></Bold>
                     후원자 <br/>
                     <Bold> 110명 <br/></Bold>
                 </Box>
@@ -137,11 +155,11 @@ export default function FundingDetail(){
                     </TableRow>
                     <TableRow>
                         <TableCell> 펀딩기간 </TableCell>
-                        <TableCell> {detail.startdate} ~ {detail.enddate} (n일남음) </TableCell>
+                        <TableCell> {formatDate(detail.startdate)} ~ {formatDate(detail.enddate)} ({dueDate(parseDate(detail.enddate), parseDate(detail.startdate))}일 남음) </TableCell>
                     </TableRow>
                     <TableRow>
                         <TableCell> 결제 </TableCell>
-                        <TableCell> 기간 끝나면 </TableCell>
+                        <TableCell> {formatDate(detail.enddate)} 익일 결제 </TableCell>
                     </TableRow> 
                 </Table>
                 <SupportBtn onClick={() => router.push('/funding/funding')}>
@@ -154,14 +172,12 @@ export default function FundingDetail(){
         {detail.content}
 
         </Content>
-        <Rewards>
-        rewards
+        <Rewardlist/>
 
-        </Rewards>
         </Container4>
         </div> 
             ))}    
     </Container>
         
-    )
-}
+        )
+    }
