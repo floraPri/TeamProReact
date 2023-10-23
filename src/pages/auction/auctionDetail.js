@@ -9,7 +9,8 @@ import Button from "react-bootstrap/Button";
 import Container from 'react-bootstrap/Container';
 import { useRouter } from "next/router";
 import axios from 'axios';
-import io from 'socket.io-client';
+import SockJS from 'sockjs-client';
+import Stomp from 'stompjs';
 
 import Chat from "@/component/auction/chat";
 
@@ -106,6 +107,31 @@ export default function AuctionDetail (){
   
   console.log(auctionStartData.name);
 
+  const [stompClient, setStompClient] = useState(null);
+
+  useEffect(() => {
+    // SockJS 서버의 URL을 설정
+    const socket = new SockJS('http://localhost:8081/ws');
+    const stomp = Stomp.over(socket);
+    console.log('소켓 연결 확인 1');
+    stomp.connect({}, (frame) => {
+      console.log('Connected:', frame);
+      
+      stomp.subscribe('/topic/acutionStart', (message) => {
+        const auctionUpdate = JSON.parse(message.body);
+        console.log('경매 업데이트 :', auctionUpdate);
+      });
+      setStompClient(stomp);
+    });
+
+    // 컴포넌트 언마운트 시 웹소켓 연결 해제
+    return () => {
+      if (stomp.connected) {
+        stomp.disconnect();
+      }
+    };
+  }, []);
+
   useEffect(() => {
 
     const name = localStorage.getItem("name");
@@ -174,6 +200,15 @@ export default function AuctionDetail (){
       });
       if (response.status === 200) {
         console.log('입찰 시작 되었습니다.');
+        if (stompClient) {
+          const auctionUpdateMessage = JSON.stringify({
+            type: 'BID_UPDATE',
+            auctionno: auctionStartData.auctionno,
+            name: auctionStartData.name,
+            lastprice: auctionStartData.lastprice,
+          });
+          stompClient.send('/ws', {}, auctionUpdateMessage);
+        }
       } else {
         console.error('입찰 저장 중 오류 발생');
       }
@@ -181,25 +216,7 @@ export default function AuctionDetail (){
       console.error('입찰 저장 중 오류 발생:', error);
     }
   };
-
-    // const socket = io('ws://localhost:8081/ws', {
-    //   query: {
-    //     Authorization: `Bearer ${getAuthToken()}`
-    //   }
-    // });
-
-    //   // 소켓 이벤트 처리
-    // const sendBidAmount = (amount) => {
-    //   socket.emit('bidAmount', amount);
-    // };
-
-    // // 서버로부터 입찰금액 업데이트를 받는 이벤트 처리
-    // socket.on('newBidAmount', (amount) => {
-    //   console.log('새로운 입찰금액:', amount);
-    //   // 여기에서 입찰금액을 업데이트할 수 있음
-    // });  
   
-
     return(
       <Container_>
         <AcuDiv_1>
@@ -321,7 +338,7 @@ export default function AuctionDetail (){
                 </Col>
               </Form.Group>
               <div className="d-grid gap-1">
-                  <Button variant="secondary" type="submit" onClick={() => sendBidAmount(auctionStartData.lastprice)}>
+                  <Button variant="secondary" type="submit">
                     입찰하기
                   </Button>
               </div>
