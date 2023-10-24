@@ -54,7 +54,8 @@ export default function MyPages (){
 
   useEffect(() => {
     const userNo = localStorage.getItem('userno');
-    const userEmail = localStorage.getItem('email');  
+    const userEmail = localStorage.getItem('email');
+    
 
     if(userEmail){
       setEmail(userEmail);
@@ -74,7 +75,7 @@ export default function MyPages (){
         }
 
         setFeeds(response.data);
-
+        console.log(response.data);
       }).catch((error) => {
         console.log('전송 오류myp',error)
       });
@@ -99,7 +100,8 @@ export default function MyPages (){
                     <h3 className={rightStyles.h3_title}>{email}님 피드</h3> <p><Link href="">더 보기</Link></p>
                 </RightInnerTitle>
                 <ul className={rightStyles.feedWrapUl}>
-                    {feeds.map((feed, index) =>
+                    {feeds.map((feed,index) => (
+                      
                       <li key={index}>
                         <div className={rightStyles.liInner}>
                           <h3>{feed.feedtitle}</h3>
@@ -109,19 +111,20 @@ export default function MyPages (){
                           </p>
                           <p className={rightStyles.imgWrap}>
                             <Image 
-                              src="/assets/images/mypage/exm_img.jpg"
+                              src={feed.feedimg.replace('http://localhost:8081', '')}
                               width="250" 
                               height="190"
                               objectFit="cover" 
-                              alt="이미지1" />
+                              alt={feed.feedtitle} />
                             </p>
+                            {feed.feedimg}
                             <div className={rightStyles.btnWarp}>
                               <span><MdDeleteForever size="24" /></span>
                               <span><RiPencilFill size="24" /></span>
                             </div>
                         </div>
                       </li>
-                    )}
+                    ))}
                 </ul>
             </RightInnerWrap>           
         </RightContainer>        

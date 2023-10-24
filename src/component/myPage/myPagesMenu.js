@@ -67,7 +67,7 @@ export default function MyPagesMenu(){
 
             <h3 className={menuStyles.h3_title}>나의 피드</h3>
             <ul className={menuStyles.ul_class}>
-                 <li><Link href="/myPage/myFeed/feedAdd">피드 등록</Link></li> 
+                 <li><Link href="/myPage/feedAdd">피드 등록</Link></li> 
                 <li><Link href="/myPage/myFeed/myFeeds">내 피드 목록</Link></li>
             </ul>
 
