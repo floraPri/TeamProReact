@@ -1,11 +1,11 @@
 import styled from "styled-components";
-import Link from "next/link";
 import React, { useState, useEffect } from "react";
 import { useRouter } from "next/router";
 import { Table, TableCell, TableHead, TableRow } from "@mui/material";
 import axios from 'axios';
 import Menubar from "@/component/funding/menubar";
-import Rewardlist from "@/component/funding/rewardslist";
+import { getAuthToken } from "@/component/user/axios_helper";
+import RewardsList from "@/component/funding/rewardsList";
 
 const Container = styled.div`
     display: grid;
@@ -84,18 +84,20 @@ const Bold = styled.div`
     font-size:20px;
     font-weight:500;
 `;
+
+
 export default function FundingDetail(){
     const router = useRouter();
     const { fundingcode } = router.query;
 
     const [funding, setFunding] = useState([]);
 
-    // Helper 함수: ISO 형식의 날짜 문자열을 Date 객체로 변환
+    // 날짜 문자열을 Date 객체로 변환
     const parseDate = (dateString) => {
         return new Date(dateString);
     };
 
-    // Helper 함수: 두 날짜의 차이를 일 수로 계산
+    // 두 날짜의 차이 계산
     const dueDate = (endDate, startDate) => {
         const timeDifference = endDate - startDate;
         return Math.ceil(timeDifference / (1000 * 60 * 60 * 24));
@@ -103,10 +105,14 @@ export default function FundingDetail(){
 
     useEffect(() => {
         console.log("useEffect start")
-        axios.get(`http://localhost:8081/funding/fundingDetail?fundingcode=${fundingcode}`)
+        axios.get(`http://localhost:8081/funding/fundingDetail?fundingcode=${fundingcode}`,{
+            headers: {
+                Authorization: `Bearer ${(getAuthToken())}`
+            }
+        })
           .then(response => {
             // console.log("api:", response.data)
-            console.log('axios')
+            console.log('axios - fundingDetail')
             console.log(response.data)
             if (Array.isArray(response.data)) {
                 setFunding(response.data);
@@ -121,7 +127,7 @@ export default function FundingDetail(){
           
           
         }, [fundingcode]);
-    // Helper 함수: ISO 형식의 날짜 문자열을 원하는 형식으로 변환
+    // 날짜 문자열을 원하는 형식으로 변환
     const formatDate = (dateString) => {
         const date = new Date(dateString);
         return date.toLocaleDateString('ko-KR');
@@ -139,6 +145,7 @@ export default function FundingDetail(){
         <Title> {detail.title}</Title>
         <Container2>
             <ImgContainer src={detail.image}/>
+            {/* <ImgContainer src={detail.image}/> */}
             <Container3>
                 <Box>
                     모인 금액 <br/>
@@ -172,7 +179,8 @@ export default function FundingDetail(){
         {detail.content}
 
         </Content>
-        <Rewardlist/>
+        <RewardsList />
+
 
         </Container4>
         </div> 

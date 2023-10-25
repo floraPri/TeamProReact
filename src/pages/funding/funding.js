@@ -1,9 +1,9 @@
 import styled from "styled-components";
-import Link from "next/link";
 import React, { useState, useEffect } from "react";
 import { useRouter } from "next/router";
 import axios from 'axios';
 import Menubar from "@/component/funding/menubar";
+import { getAuthToken } from "@/component/user/axios_helper";
 
 const Container = styled.div`
     display: grid;
@@ -24,7 +24,7 @@ const FundingContainer = styled.div`
 	flex-direction: column;
 	justify-content: center;
 	align-items:center;
-	max-width:300px;
+	max-width:180px;
     cursor: pointer;
     &:hover {
         color: #03C179;
@@ -61,8 +61,13 @@ export default function Funding(){
     const [fundings, setFundings] = useState([]);
   
     useEffect(() => {
-        console.log("useEffect start")
-        axios.get(`http://localhost:8081/funding/funding`)
+        console.log("funding useEffect start")
+        axios.get(`http://localhost:8081/funding/funding`,{
+            headers: {
+                'Content-Type': 'multipart/form-data', // 파일 업로드에 대한 헤더 설정
+                Authorization: `Bearer ${(getAuthToken())}`
+            }
+        })
           .then(response => {
             // console.log("api:", response.data)
             console.log('axios')
@@ -91,7 +96,7 @@ export default function Funding(){
             <div>
                 <Category> {funding.category} </Category>
                 <Title> {funding.title} </Title>
-                <PreContent> {funding.content} </PreContent>
+                <PreContent> {funding.subcontent} </PreContent>
             </div>
             </div>
         </FundingContainer>

@@ -1,6 +1,5 @@
 import styled from "styled-components";
-import Link from "next/link";
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { useRouter } from "next/router";
 import NavDropdown from 'react-bootstrap/NavDropdown';
 

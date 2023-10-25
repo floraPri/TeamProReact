@@ -4,7 +4,7 @@ import React, { useState, useEffect } from "react";
 import { useRouter } from "next/router";
 import { getAuthToken } from "@/component/user/axios_helper";
 import { TableCell, TableRow, Button } from "@mui/material";
-import Rewardslist from "@/component/funding/rewardslist";
+
 
 const Container = styled.div`
     display: flex;
@@ -101,7 +101,7 @@ export default function RewardAdd(){
 
             if (response.status === 200) {
               console.log('success');
-              router.push('/funding/funding');
+              router.push(`/funding/rewardAdd?fundingcode=${fundingcode}`);
               alert('등록 성공');
             } else {
               console.error('failed');
@@ -114,7 +114,7 @@ export default function RewardAdd(){
     return(
     <Container>
         <Container2>
-            <Rewardslist/>
+            {/* <Rewardslist/> */}
             <AddContainer>
                 <Title> REWARD ADD </Title>
                 <form onSubmit={handleSubmit}>
@@ -182,7 +182,8 @@ export default function RewardAdd(){
                         <TableRow>
                             <TableCell sx={cellStyle}></TableCell>
                             <TableCell sx={cellStyle} align="right">
-                            <Button active="true" type="submit"> 등록 </Button>
+                            <Button active="true" type="submit"> reward 등록 </Button>
+                            <Button onClick={() => router.push(`/funding/funding`)}> 등록 종료 </Button>
                             </TableCell>
                         </TableRow>
                     </tbody>
