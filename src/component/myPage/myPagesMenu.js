@@ -65,11 +65,11 @@ export default function MyPagesMenu(){
                 <li><Link href="">팔로워 채널 목록</Link></li>
             </ul>
 
-            <h3 className={menuStyles.h3_title}>나의 피드</h3>
+            {/* <h3 className={menuStyles.h3_title}>나의 피드</h3>
             <ul className={menuStyles.ul_class}>
                  <li><Link href="/myPage/feedAdd">피드 등록</Link></li> 
                 <li><Link href="/myPage/myFeed/myFeeds">내 피드 목록</Link></li>
-            </ul>
+            </ul> */}
 
             <h3 className={menuStyles.h3_title}>회원 정보</h3>
             <ul className={menuStyles.ul_class}>

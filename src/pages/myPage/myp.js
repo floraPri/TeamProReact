@@ -9,6 +9,7 @@ import { MdDeleteForever } from "react-icons/md";
 import { RiPencilFill } from "react-icons/Ri";
 import { getAuthToken } from "@/component/user/axios_helper";
 import {Table ,TableCell, TableRow, TableBody, Button, TableContainer} from "@mui/material";
+import ApiService from "./ApiService";
 
 const Container = styled.div`
   min-width: 1280px;
@@ -36,7 +37,7 @@ const RightInnerTitle = styled.div`
     padding-bottom: 20px;
 `;
 
-const ThumImage = styled.img`
+const ThumbImage = styled.img`
   width: 250px; 
   height: auto;
 `;
@@ -46,10 +47,6 @@ export default function MyPages (){
   const [userno,setUserno] = useState("");
   const [email,setEmail] = useState("");
   const [feeds,setFeeds] = useState([]);
-
-  const deleteFeed = (feedcode) => {
-    console.log(feedcode);
-  };
 
   const formatTimeStamp = (timestamp) => {
     const options = {
@@ -62,6 +59,28 @@ export default function MyPages (){
     const formattedDate = new Intl.DateTimeFormat("ko-KR", options).format(new Date(timestamp));
     return formattedDate;
   };
+
+
+  //피드 삭제 메서드
+  const deleteFeed = (feedcode) => {
+    console.log("feedcode : "+feedcode);
+    ApiService.deleteFeed(feedcode)
+    .then((res) => {
+      setFeeds(feeds.filter((feed) => feed.feedcode !== feedcode));
+      console.log("delet성공!!!", res.data);
+    })
+    .catch((error) => {
+      console.log("deleteFeed() Error!!!!!", error);
+    });
+  };
+
+  //피드 수정 메서드
+  const editFeed = (feedcode) => {
+    console.log('수정!!!');
+    alert('수정 메서드');
+  };
+  
+  //피드 상세 메서드
 
   useEffect(() => {
     const userNo = localStorage.getItem('userno');
@@ -86,7 +105,6 @@ export default function MyPages (){
         }
 
         setFeeds(response.data);
-        console.log(response.data);
       }).catch((error) => {
         console.log('전송 오류myp',error)
       });
@@ -108,7 +126,15 @@ export default function MyPages (){
           {/** 마이페이지 내 피드 */}
           <RightInnerWrap>
               <RightInnerTitle>
-                  <h3 className={rightStyles.h3_title}>{email}님 피드</h3> <p><Link href="">더 보기</Link></p>
+                  <h3 className={rightStyles.h3_title}>{email}님 피드</h3>
+                  <p><Link href="/myPage/feedAdd">
+                    <Button variant="contained" 
+                            sx={{
+                                m : 1,
+                                background: "#03C179",
+                                color: "#eee",
+                                borderColor: "gray",}}>
+                    피드 등록</Button></Link></p>
               </RightInnerTitle>
               <ul className={rightStyles.feedWrapUl}>
                   {feeds.map((feed,index) => (
@@ -121,13 +147,13 @@ export default function MyPages (){
                           {feed.feedcontent}
                         </p>
                         <p className={rightStyles.imgWrap}>
-                          <ThumImage 
+                          <ThumbImage 
                             src={feed.feedimg}
                             alt={feed.feedtitle} />
-                          </p>
+                        </p>
                           <div className={rightStyles.btnWarp}>
-                            <Button><RiPencilFill size="24" color="#7b7b7b" /></Button>
-                            <Button><MdDeleteForever size="24" color="#7b7b7b" /></Button> 
+                            <Button onClick={() => editFeed(feed.feedcode)}><RiPencilFill size="24" color="#7b7b7b" /></Button>
+                            <Button onClick={() => deleteFeed(feed.feedcode)}><MdDeleteForever size="24" color="#7b7b7b" /></Button> 
                           </div>
                       </div>
                     </li>
