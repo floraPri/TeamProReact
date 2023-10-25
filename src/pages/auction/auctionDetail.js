@@ -9,82 +9,28 @@ import Button from "react-bootstrap/Button";
 import Container from 'react-bootstrap/Container';
 import { useRouter } from "next/router";
 import axios from 'axios';
+import Chat from "@/component/auction/chat";
+import { getAuthToken } from "@/component/user/axios_helper";
 import SockJS from 'sockjs-client';
 import Stomp from 'stompjs';
 
-import Chat from "@/component/auction/chat";
+export async function getServerSideProps(context) {
+  const auctionno = context.query.auctionno;
+  return {
+    props: { initialAuctionno: auctionno }
+  };
+}
 
-import { getAuthToken } from "@/component/user/axios_helper";
-
-const Container_ = styled.div`
-  display: flex;
-  flex-direction: row;
-
-  justify-content: center;
-  align-items: flex-start;
-
-  width: 1000px;
-  
-  margin: auto;
-  margin-top: 50px;
-  overflow: hidden;
-`;
-
-const AcuDiv_1 = styled.div`
-  // padding-top: 20px;
-  // padding-bottom: 20px;
-  margin-right: 10px;
-  flex: 1;
-`;
-
-const LastTime = styled.span`
-  color: green;
-  font-weight: bold;
-  font-size: 20px;
-`;
-
-const CardTitle = styled.div`
-  font-weight: bold;
-  font-size: 25px;
-`;
-
-const Id_name = styled.div`
-  font-weight: bold;
-  font-size: 25px;
-`;
-
-const Id = styled.div`
-  font-size: 20px;
-`;
-
-const AcuDiv_2 = styled.div`
-  flex: 1;
-`;
-
-const ListGroupItem = styled(ListGroup.Item)`
-  span {
-    margin-left: 10px;
-  }
-`;
-
-const AcuInfo = styled.div`
-  padding-left: 12px;
-`;
-
-const AcuDiv_3 = styled.div`
-`;
-
-export default function AuctionDetail (){
+export default function AuctionDetail ({ initialAuctionno }){
 
   const router = useRouter();
-
+  const [auctionno, setAuctionno] = useState(initialAuctionno);
   const lastTimeColor = "green";
-
-  const { auctionno } = router.query;
-  console.log('경매 번호', auctionno);
-
+  const [messages, setMessages] = useState([]);
+  
+  const [stompClient, setStompClient] = useState(null);
+  
   const [auctionData, setAuctionData] = useState({
-    userno: 0,
     auctiontitle: '',
     image: '',
     auctioncontent: '',
@@ -98,7 +44,8 @@ export default function AuctionDetail (){
     address: '',
     name: '',
   });
-
+  
+  const [newMessage, setNewMessage] = useState(auctionData || []);
   const [auctionStartData, setAuctionStartDate] = useState ({
     name: '',
     lastprice: 0,
@@ -107,43 +54,32 @@ export default function AuctionDetail (){
   
   console.log(auctionStartData.name);
 
-  const [stompClient, setStompClient] = useState(null);
-
   useEffect(() => {
-    // SockJS 서버의 URL을 설정
-    const socket = new SockJS('http://localhost:8081/ws');
-    const stomp = Stomp.over(socket);
-    console.log('소켓 연결 확인 1');
-    stomp.connect({}, (frame) => {
-      console.log('Connected:', frame);
-      
-      stomp.subscribe('/topic/acutionStart', (message) => {
-        const auctionUpdate = JSON.parse(message.body);
-        console.log('경매 업데이트 :', auctionUpdate);
+    // 웹소켓 연결
+    const socket = new SockJS('http://localhost:8081/auction/auctionDetail');
+    const localStompClient  = Stomp.over(socket);
+
+    // STOMP 연결
+    localStompClient.connect({}, () => {
+      localStompClient.subscribe('/topic/receive/message', (message) => {
+        console.log("Received message:", message.body);
+
+          if (message.body) {
+              const messageBody = JSON.parse(message.body);
+              setMessages((prevMessages) => [...prevMessages, messageBody]);
+          }
       });
-      setStompClient(stomp);
     });
-
-    // 컴포넌트 언마운트 시 웹소켓 연결 해제
-    return () => {
-      if (stomp.connected) {
-        stomp.disconnect();
-      }
-    };
-  }, []);
-
-  useEffect(() => {
+    
+    setStompClient(localStompClient);
 
     const name = localStorage.getItem("name");
     setAuctionStartDate((prevData) => ({
       ...prevData,
       name: name,
-    }));
-
-    axios.get(`http://localhost:8081/auction/auctionDetail`, {
-      params: {
-        auctionno: auctionno,
-      },
+    }))
+    
+    axios.get(`http://localhost:8081/auction/auctionDetail?auctionno=${auctionno}`, {
       headers: {
         Authorization: `Bearer ${getAuthToken()}`,
       }
@@ -165,56 +101,81 @@ export default function AuctionDetail (){
           address: data.address,
           name: data.name,
         });
+        setMessages([{
+          NickName: data.name,
+          message: data.lastprice
+        }]);
+
       })
       .catch((error) => {
         console.error('경매 정보를 불러오는 중 오류 발생:', error);
       });
+
+      // 컴포넌트 언마운트 시 웹소켓 연결 해제
+      return () => {
+        if (localStompClient.connected) {
+          localStompClient.disconnect();
+        }
+      };
+
   }, [auctionno]);
 
-  const handleChange = (e) => {
+
+  const handleNewMessageChange = (e) => {
+    setNewMessage(e.target.value);
+};
+
+  const handleSend = (e) => {
     const { name, value } = e.target;
-    setAuctionStartDate((prevData) => ({
-      ...prevData,
-      [name]: value,
-    }))
+        setAuctionStartDate((prevData) => ({
+          ...prevData,
+          [name]: value,
+        }))
+    
   };
 
+  const combinedHandleChange = (e) => {
+    handleSend(e);
+    handleNewMessageChange(e);
+  }
+
   const handleSubmit = async (e) => {
+    
     e.preventDefault();
+
+    if (newMessage) {
+      // 메시지를 서버로 보내고 STOMP를 통해 다시 수신
+      stompClient.send('/app/send/message', {}, JSON.stringify({ message: newMessage }));
+      setNewMessage('');
+      console.log('여기');
+      // messages 상태 업데이트
+      const NickName = localStorage.getItem("name"); // 현재 사용자의 이름을 가져옵니다.
+      const message = newMessage;
+      const messageFull = { NickName, message };
+      setMessages([...messages, messageFull]);
+      setNewMessage('');
+    }
 
     if (auctionStartData.lastprice <= auctionData.lastprice) {
       alert('최고 입찰가보다 높은 가격을 입력하셔야 합니다');
       return;
     }
 
-  const requestData = {
-  auctionno: auctionStartData.auctionno,
-  name: auctionStartData.name,
-  lastprice: auctionStartData.lastprice,
-  };
-    try {
-      const response = await axios.post('http://localhost:8081/auction/acutionStart', requestData, {
-        headers: {
-          Authorization: `Bearer ${getAuthToken()}`,
-        }
-      });
-      if (response.status === 200) {
-        console.log('입찰 시작 되었습니다.');
-        if (stompClient) {
-          const auctionUpdateMessage = JSON.stringify({
-            type: 'BID_UPDATE',
-            auctionno: auctionStartData.auctionno,
-            name: auctionStartData.name,
-            lastprice: auctionStartData.lastprice,
-          });
-          stompClient.send('/ws', {}, auctionUpdateMessage);
-        }
-      } else {
-        console.error('입찰 저장 중 오류 발생');
+    const requestData = {
+      auctionno: auctionStartData.auctionno,
+      name: auctionStartData.name,
+      lastprice: auctionStartData.lastprice,
+    };
+      try {
+        const response = await axios.post('http://localhost:8081/auction/auctionStart', requestData, {
+          headers: {
+            Authorization: `Bearer ${getAuthToken()}`,
+          }
+        });
+        
+      } catch (error) {
+        console.error('입찰 저장 중 오류 발생:', error);
       }
-    } catch (error) {
-      console.error('입찰 저장 중 오류 발생:', error);
-    }
   };
   
     return(
@@ -301,20 +262,29 @@ export default function AuctionDetail (){
                     원
                   </ListGroupItem>
 
-                  <ListGroupItem >
-                    현재 최종가 :
-                    <span>
-                    {auctionData.lastprice}
-                    </span>
-                    원
-                  </ListGroupItem>
+                  {messages.map((message) => {
+                    console.log(message);
+                    const uniqueKey = `${message.message}-${message.NickName}`;
 
-                  <ListGroupItem >
-                    입찰자 :
-                    <span>
-                    {auctionData.name}
-                    </span>
-                  </ListGroupItem>
+                    return (
+                      <div key={uniqueKey}>
+                        <ListGroupItem>
+                          현재 최종가 :
+                          <span>
+                            {message.message}
+                          </span>
+                          원
+                        </ListGroupItem>
+
+                        <ListGroupItem>
+                          입찰자 :
+                          <span>
+                            {message.NickName}
+                          </span>
+                        </ListGroupItem>
+                      </div>
+                    );
+                  })}
                 </ListGroup>
               </Col>
             </Row>            
@@ -333,7 +303,8 @@ export default function AuctionDetail (){
                     id="lastprice"
                     name="lastprice"
                     value={auctionStartData.lastprice}
-                    onChange={handleChange}
+                    onChange={combinedHandleChange}
+                  
                   />
                 </Col>
               </Form.Group>
@@ -361,3 +332,61 @@ export default function AuctionDetail (){
       </Container_>
     )
 }
+
+const Container_ = styled.div`
+  display: flex;
+  flex-direction: row;
+
+  justify-content: center;
+  align-items: flex-start;
+
+  width: 1000px;
+  
+  margin: auto;
+  margin-top: 50px;
+  overflow: hidden;
+`;
+
+const AcuDiv_1 = styled.div`
+  // padding-top: 20px;
+  // padding-bottom: 20px;
+  margin-right: 10px;
+  flex: 1;
+`;
+
+const LastTime = styled.span`
+  color: green;
+  font-weight: bold;
+  font-size: 20px;
+`;
+
+const CardTitle = styled.div`
+  font-weight: bold;
+  font-size: 25px;
+`;
+
+const Id_name = styled.div`
+  font-weight: bold;
+  font-size: 25px;
+`;
+
+const Id = styled.div`
+  font-size: 20px;
+`;
+
+const AcuDiv_2 = styled.div`
+  flex: 1;
+`;
+
+const ListGroupItem = styled(ListGroup.Item)`
+  span {
+    margin-left: 10px;
+  }
+`;
+
+const AcuInfo = styled.div`
+  padding-left: 12px;
+`;
+
+const AcuDiv_3 = styled.div`
+`;

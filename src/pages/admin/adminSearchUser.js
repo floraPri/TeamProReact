@@ -4,6 +4,7 @@ import MyLeftMenu from "@/component/admin/myLeftMenu";
 import {Table, TableHead, TableCell, TableRow, TableBody, Button} from "@mui/material";
 import axios from "axios";
 import { useRouter } from 'next/router';
+import { getAuthToken } from "@/component/user/axios_helper";
 
 
 const Container = styled.div`
@@ -121,7 +122,7 @@ const StyledButton = styled(Button)`
 
 export default function AdminSearchUser (){
 
-  const [userno, setUserno] = useState('')
+  const [userno, setUserno] = useState(0)
   const [email, setEmail] = useState('')
   const [name, setName] = useState('')
   const [phone, setPhone] = useState('')
@@ -138,7 +139,7 @@ export default function AdminSearchUser (){
     if (userno) {
       handleSearch(userno);
     }
-  }, []);
+  }, [router.query.userno]);
 
   function formatDate(epochTime) {
     const date = new Date(epochTime);
@@ -151,7 +152,10 @@ export default function AdminSearchUser (){
   const handleSearch = () => {
     console.log("시작")
     console.log(searchValue)
-    axios.get(`http://localhost:8081/admin/adminSearchUser?userno=${searchValue}`)
+    axios.get(`http://localhost:8081/admin/adminSearchUser?userno=${searchValue}`,{
+      headers: {
+      Authorization: `Bearer ${getAuthToken()}`,
+    }})
       .then(response => {
         
         console.log("axios");
@@ -177,8 +181,11 @@ export default function AdminSearchUser (){
     console.log(userno)
     axios.put(`http://localhost:8081/admin/userBan`,{
       userno: userno,
-      enabled: '1'
-    })
+      enabled: '1',
+    }, {
+      headers: {
+        Authorization: `Bearer ${getAuthToken()}`,
+    }})
     
       .then(response => {
         console.log("axios");
@@ -198,8 +205,11 @@ export default function AdminSearchUser (){
     console.log("유저 릴리즈")
     axios.put(`http://localhost:8081/admin/userRelease`,{
       userno: userno,
-      enabled: '0'
-    })
+      enabled: '0',
+    },{
+      headers: {
+        Authorization: `Bearer ${getAuthToken()}`,
+    }})
       .then(response => {
         console.log("axios");
         setUserno('');
@@ -257,11 +267,9 @@ export default function AdminSearchUser (){
                     {enabled === '0' ? "이용중" : enabled === '1' ? "정지" : ''}
                   </TableCellContent>
                   <TableCellContent>
-                    {enabled === '0' ? (
-                      <StyledButton type="button" onClick={handleBan}>정지</StyledButton>
-                    ) : enabled === '1' ? (
-                      <StyledButton type="button" onClick={handleRelease}>해제</StyledButton>
-                    ) : null}
+                    <StyledButton type="button" onClick={enabled === '0' ? handleBan : handleRelease}>
+                      {enabled === '0' ? '정지' : '해제'}
+                    </StyledButton>
                   </TableCellContent>
                 </TableRow>
               </TableBody>
