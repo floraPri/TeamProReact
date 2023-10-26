@@ -26,7 +26,7 @@ export default function AuctionDetail ({ initialAuctionno }){
   const router = useRouter();
   const [auctionno, setAuctionno] = useState(initialAuctionno);
   const lastTimeColor = "green";
-  const [messages, setMessages] = useState([]);
+  const [bids, setBids] = useState([]);
   
   const [stompClient, setStompClient] = useState(null);
   
@@ -45,8 +45,8 @@ export default function AuctionDetail ({ initialAuctionno }){
     name: '',
   });
   
-  const [newMessage, setNewMessage] = useState(auctionData || []);
-  const [auctionStartData, setAuctionStartDate] = useState ({
+  const [newBid, setNewBid] = useState(auctionData || []);
+  const [auctionStartData, setAuctionStartData] = useState ({
     name: '',
     lastprice: 0,
     auctionno: auctionno,
@@ -55,28 +55,42 @@ export default function AuctionDetail ({ initialAuctionno }){
   console.log(auctionStartData.name);
 
   useEffect(() => {
+    console.log("useEffect is running");
     // 웹소켓 연결
     const socket = new SockJS('http://localhost:8081/auction/auctionDetail');
     const localStompClient  = Stomp.over(socket);
+    const topic = `/topic/receive/bid/${auctionno}`;
 
     // STOMP 연결
     localStompClient.connect({}, () => {
-      localStompClient.subscribe('/topic/receive/message', (message) => {
-        console.log("Received message:", message.body);
+      console.log("Connected to WebSocket");
+      localStompClient.subscribe(topic, (bid) => {
+        console.log("Received bid:", bid.body);
 
-          if (message.body) {
-              const messageBody = JSON.parse(message.body);
-              setMessages((prevMessages) => [...prevMessages, messageBody]);
+          if (bid.body) {
+              const bidBody = JSON.parse(bid.body);
+              setBids((prevBids) => [...prevBids, bidBody]);
+              
+              // 새로운 입찰 정보를 auctionData 상태에도 반영합니다.
+              setAuctionData(prevData => ({
+                ...prevData,
+                lastprice: bidBody.bid,
+                name: bidBody.bidName // 여기서는 입찰자의 이름을 사용하겠습니다.
+            }));
           }
       });
+    }, (error) => {
+      console.error("WebSocket connection error:", error);
     });
     
     setStompClient(localStompClient);
 
-    const name = localStorage.getItem("name");
-    setAuctionStartDate((prevData) => ({
+    // 입찰할때 넘기는 값
+    const bidName = localStorage.getItem("name");
+    setAuctionStartData((prevData) => ({
       ...prevData,
-      name: name,
+      name: bidName,
+      lastprice: '',
     }))
     
     axios.get(`http://localhost:8081/auction/auctionDetail?auctionno=${auctionno}`, {
@@ -101,10 +115,11 @@ export default function AuctionDetail ({ initialAuctionno }){
           address: data.address,
           name: data.name,
         });
-        setMessages([{
-          NickName: data.name,
-          message: data.lastprice
+        setBids([{
+          name : data.name,
+          bid: data.lastprice
         }]);
+        
 
       })
       .catch((error) => {
@@ -118,16 +133,16 @@ export default function AuctionDetail ({ initialAuctionno }){
         }
       };
 
-  }, [auctionno]);
+  }, [auctionno, auctionData.lastprice, auctionData.name]);
 
 
-  const handleNewMessageChange = (e) => {
-    setNewMessage(e.target.value);
+  const handleNewBidChange = (e) => {
+    setNewBid(e.target.value);
 };
 
   const handleSend = (e) => {
     const { name, value } = e.target;
-        setAuctionStartDate((prevData) => ({
+        setAuctionStartData((prevData) => ({
           ...prevData,
           [name]: value,
         }))
@@ -136,24 +151,23 @@ export default function AuctionDetail ({ initialAuctionno }){
 
   const combinedHandleChange = (e) => {
     handleSend(e);
-    handleNewMessageChange(e);
+    handleNewBidChange(e);
   }
 
   const handleSubmit = async (e) => {
     
     e.preventDefault();
 
-    if (newMessage) {
+    if (newBid && parseFloat(newBid) > parseFloat(auctionData.lastprice)) {
       // 메시지를 서버로 보내고 STOMP를 통해 다시 수신
-      stompClient.send('/app/send/message', {}, JSON.stringify({ message: newMessage }));
-      setNewMessage('');
-      console.log('여기');
+      stompClient.send(`/app/send/bid/${auctionno}`, {}, JSON.stringify({ bid: newBid , bidName: localStorage.getItem("name")}));
+      
       // messages 상태 업데이트
-      const NickName = localStorage.getItem("name"); // 현재 사용자의 이름을 가져옵니다.
-      const message = newMessage;
-      const messageFull = { NickName, message };
-      setMessages([...messages, messageFull]);
-      setNewMessage('');
+      const bidName = localStorage.getItem("name"); // 현재 사용자의 이름을 가져옵니다.
+      const bid = newBid;
+      const bidFull = { bidName, bid };
+      setBids([...bids, bidFull]);
+      setNewBid('');
     }
 
     if (auctionStartData.lastprice <= auctionData.lastprice) {
@@ -166,13 +180,22 @@ export default function AuctionDetail ({ initialAuctionno }){
       name: auctionStartData.name,
       lastprice: auctionStartData.lastprice,
     };
-      try {
-        const response = await axios.post('http://localhost:8081/auction/auctionStart', requestData, {
-          headers: {
-            Authorization: `Bearer ${getAuthToken()}`,
-          }
-        });
-        
+    try {
+      const response = await axios.post('http://localhost:8081/auction/auctionStart', requestData, {
+        headers: {
+          Authorization: `Bearer ${getAuthToken()}`,
+        }
+    });
+    
+    // 서버에서 새로운 입찰 내역을 받아와 화면에 업데이트
+    const updatedAuctionData = response.data;
+    setAuctionData({
+      ...auctionData,
+      lastprice: updatedAuctionData.lastprice,
+      cham: updatedAuctionData.cham,  // 참여자 수가 바뀌었을 수 있으므로
+      // 필요하다면 다른 데이터도 업데이트
+    });
+
       } catch (error) {
         console.error('입찰 저장 중 오류 발생:', error);
       }
@@ -262,29 +285,23 @@ export default function AuctionDetail ({ initialAuctionno }){
                     원
                   </ListGroupItem>
 
-                  {messages.map((message) => {
-                    console.log(message);
-                    const uniqueKey = `${message.message}-${message.NickName}`;
-
-                    return (
-                      <div key={uniqueKey}>
-                        <ListGroupItem>
-                          현재 최종가 :
-                          <span>
-                            {message.message}
-                          </span>
-                          원
-                        </ListGroupItem>
-
-                        <ListGroupItem>
-                          입찰자 :
-                          <span>
-                            {message.NickName}
-                          </span>
-                        </ListGroupItem>
-                      </div>
-                    );
-                  })}
+                  {bids.length > 0 && (
+                    <>
+                      <ListGroupItem>
+                        현재 최종가 :
+                        <span>
+                          {bids[bids.length - 1].bid}
+                        </span>
+                        원
+                      </ListGroupItem>
+                      <ListGroupItem>
+                        입찰자 :
+                        <span>
+                          {bids[bids.length - 1].name}
+                        </span>
+                      </ListGroupItem>
+                    </>
+                  )}
                 </ListGroup>
               </Col>
             </Row>            
