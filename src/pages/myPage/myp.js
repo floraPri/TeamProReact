@@ -10,6 +10,7 @@ import { RiPencilFill } from "react-icons/Ri";
 import { getAuthToken } from "@/component/user/axios_helper";
 import {Table ,TableCell, TableRow, TableBody, Button, TableContainer} from "@mui/material";
 import ApiService from "./ApiService";
+import { useRouter } from "next/router";
 
 const Container = styled.div`
   min-width: 1280px;
@@ -43,6 +44,7 @@ const ThumbImage = styled.img`
 `;
 
 export default function MyPages (){
+  const router = useRouter();
 
   const [userno,setUserno] = useState("");
   const [email,setEmail] = useState("");
@@ -74,19 +76,22 @@ export default function MyPages (){
     });
   };
 
-  //피드 수정 메서드
-  const editFeed = (feedcode) => {
-    console.log('수정!!!');
-    alert('수정 메서드');
+  //피드 수정페이지로 이동 메서드
+  const editFeedPage = (feedcode) => {
+    console.log("feedcode : "+feedcode);
+    window.localStorage.setItem("feedcode",feedcode);
+    router.push({
+      pathname: 'feedEditPage',
+      query: {feedcode: feedcode},
+    });
   };
   
-  //피드 상세 메서드
+  //피드 상세 메서드(현재 미작성)
 
   useEffect(() => {
     const userNo = localStorage.getItem('userno');
     const userEmail = localStorage.getItem('email');
     
-
     if(userEmail){
       setEmail(userEmail);
     }    
@@ -152,7 +157,7 @@ export default function MyPages (){
                             alt={feed.feedtitle} />
                         </p>
                           <div className={rightStyles.btnWarp}>
-                            <Button onClick={() => editFeed(feed.feedcode)}><RiPencilFill size="24" color="#7b7b7b" /></Button>
+                            <Button onClick={() => editFeedPage(feed.feedcode)}><RiPencilFill size="24" color="#7b7b7b" /></Button>
                             <Button onClick={() => deleteFeed(feed.feedcode)}><MdDeleteForever size="24" color="#7b7b7b" /></Button> 
                           </div>
                       </div>
