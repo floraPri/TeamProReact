@@ -21,6 +21,7 @@ const Logincontent = () => {
                 window.localStorage.setItem("phone", response.data.phone);
                 window.localStorage.setItem("address", response.data.address);
                 window.localStorage.setItem("joindate", response.data.joindate);
+                window.localStorage.setItem("authority", response.data.authority);
             }) 
             .catch((error) => {
                 alert(error.response.data.message);
