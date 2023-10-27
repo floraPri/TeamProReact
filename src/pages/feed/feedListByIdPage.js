@@ -86,6 +86,29 @@ export default function FeedListByIdPage(){
         fetchfeedData(); //페이지 처음 로드될 때 데이터 가져오기!!!
     }, [userid]); // userid가 변경될 때 다시 호출!!
 
+    const [isChecked, setIsChecked] = useState(false);
+
+    const like = () => {
+      // 체크박스가 체크된 상태일 때 실행할 동작을 처리합니다.
+      alert('좋아요!');
+    }
+  
+    const dislike = () => {
+      // 체크박스가 체크되지 않은 상태일 때 실행할 동작을 처리합니다.
+      alert('좋아요 취소');
+    }
+  
+    const handleCheckboxChange = (event) => {
+      setIsChecked(event.target.checked);
+  
+      // 체크박스 상태에 따라 적절한 함수를 호출합니다.
+      if (event.target.checked) {
+        like();
+      } else {
+        dislike();
+      }
+    }
+    
     return(
     <Container>
         <ResetStyles />
@@ -103,7 +126,12 @@ export default function FeedListByIdPage(){
                     <h3 className={feedStyles.titleWrap}>{feed.feedtitle}</h3>
                     <div className={feedStyles.boxWrap2}>
                         <p className={feedStyles.dateTxt}>등록일: {formatTimeStamp(feed.feedregdate)}</p>
-                        <p><Checkbox {...label} icon={<FavoriteBorder style={{ fontSize: 40, color:'red'  }} />} checkedIcon={<Favorite style={{ fontSize: 40, color:'red' }} />} /><span>00</span> </p>
+                        <p><Checkbox  checked={isChecked}
+                                      onChange={handleCheckboxChange} {...label}
+                                icon={<FavoriteBorder style={{ fontSize: 40, color:'red'  }} />} 
+                                checkedIcon={<Favorite style={{ fontSize: 40, color:'red' }} />} />
+                            
+                            <span>00</span> </p>
                     </div>
                     <p className={feedStyles.txtWrap}>
                         {feed.feedcontent}
