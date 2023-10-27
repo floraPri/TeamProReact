@@ -142,6 +142,9 @@ export default function FeedListByIdPage(){
                             alt={feed.feedtitle} />
                     </p>
                 </div>
+                <div>
+                    댓글부분
+                </div>
             </Li>
             ))}
         </UlList>
