@@ -2,11 +2,13 @@ import Button from 'react-bootstrap/Button';
 import ButtonGroup from 'react-bootstrap/ButtonGroup';
 import Dropdown from 'react-bootstrap/Dropdown';
 import DropdownButton from 'react-bootstrap/DropdownButton';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from "styled-components";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { useRouter } from "next/router";
 import Chat from '@/component/auction/chat_Guest';
+import axios from 'axios';
+import { getAuthToken } from "@/component/user/axios_helper";
 
 import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row';
@@ -79,6 +81,33 @@ function AuctionHost_chat() {
       margin-left: 10px;
      }
     `;    
+
+    const [hostAndGuestChatInfo, sethostAndGuestChatInfo] = useState([]);
+
+    const { auctionno } = router.query;
+
+    useEffect(() => {
+      axios.get(`http://localhost:8081/auction/hostAndGuestChatInfo`, {
+        params: {
+          auctionno: auctionno,
+        },
+        headers: {
+          Authorization: `Bearer ${getAuthToken()}`,
+        }
+      })
+        .then((response) => {
+          const data = response.data;
+          sethostAndGuestChatInfo({
+            auctiontitle: data.auctiontitle,
+            lastprice: data.lastprice,
+            name: data.name,
+          });
+        })
+        .catch((error) => {
+          console.error('채팅 정보를 불러오는 중 오류 발생:', error);
+        });
+    }, [auctionno]);
+
   return (
     <Container>
       <Container__1>
@@ -106,7 +135,7 @@ function AuctionHost_chat() {
             경매 물품 :&nbsp;
           </Acu_name>
           <Acu_name className='Acuname'>
-            자퇴서
+            {hostAndGuestChatInfo.auctiontitle}
           </Acu_name>
           <Host_ch>
             <Chat></Chat>
@@ -117,23 +146,15 @@ function AuctionHost_chat() {
                     <ListGroupItem >
                       입찰 금액(구매확정가) :
                       <span>
-                        1150000
+                        {hostAndGuestChatInfo.lastprice}
                       </span>
                       원
-                    </ListGroupItem>
-
-                    
-                    <ListGroupItem >
-                      HOST :
-                      <span>
-                        화석
-                      </span>
                     </ListGroupItem>
 
                     <ListGroupItem >
                       입찰자 :
                       <span>
-                        yebiFossil19
+                        {hostAndGuestChatInfo.name}
                       </span>
                     </ListGroupItem>
                   </ListGroup>

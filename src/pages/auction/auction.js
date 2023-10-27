@@ -9,7 +9,6 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import { useRouter } from "next/router";
 import axios from 'axios';
 import { getAuthToken } from "@/component/user/axios_helper";
-import Link from 'next/link';
 
 function Auction() {
 
@@ -73,6 +72,7 @@ function Auction() {
     flex-direction: row;
     flex-wrap: wrap;
   `;
+
 
   const [selectedOption, setSelectedOption] = useState('');
 
@@ -147,9 +147,9 @@ function Auction() {
         <Acu class="acu">
           <Container__3>
             <AuctionDiv className="auctionDiv">
-              <AuctionDiv__1 className="auctionDiv__1">1</AuctionDiv__1>개
+              <AuctionDiv__1 className="auctionDiv__1">경매 목록</AuctionDiv__1>
             </AuctionDiv>
-            <ConstituencyDiv class="constituency">
+            {/* <ConstituencyDiv class="constituency">
               <select value={selectedOption} onChange={handleSelectChange}>
                 <option value="">지역구</option>
                 {regions.map((region, index) => (
@@ -158,18 +158,18 @@ function Auction() {
                   </option>
                 ))}
               </select>
-            </ConstituencyDiv>
+            </ConstituencyDiv> */}
           </Container__3>
             <CardDiv>
             {auctions.map((auction) => (
             <div onClick={() => {
-              if (!auction.isAuctionEnded) { // 경매가 종료되지 않았을 때만 입장가능
+                if (!auction.isAuctionEnded) { // 경매가 종료되지 않았을 때만 입장가능
                   const auctionno = auction.auctionno;
                   //router.push(`/auction/auctionDetail`);
+                  router.push(`/auction/auctionDetail/?auctionno=${auctionno}`);
                 }
               }}
             >
-              <Link href={`/auction/auctionDetail?auctionno=${auction.auctionno}`} as={`/auction/auctionDetail?auctionno=${auction.auctionno}`}>
               <Card key={auction.auctionno} style={{ width: '18rem' }}>
                     <Card.Img variant="top" src={auction.image} />
                     <Card.Body>
@@ -177,14 +177,13 @@ function Auction() {
                       <Card.Text>
                         참여자: {auction.cham} 명<br />
                         시작금액: {auction.startprice} 원<br />
-                        경매 남은 시간&nbsp;<br></br>
+                        경매 종료 시간&nbsp;<br></br>
                         <LastTime>
                           {auction.isAuctionEnded ? "경매 종료" : formatLastTime(auction.lasttime)}
                         </LastTime>
                       </Card.Text>
                     </Card.Body>
                  </Card>
-                 </Link>
                  </div>
               ))}
               </CardDiv>
@@ -194,6 +193,3 @@ function Auction() {
 }
 
 export default Auction;
-
-
-

@@ -17,20 +17,20 @@ const MessageText = styled.div`
   margin: 5px;
 `;
 
-const MessageItem = ({ message }) => {
+const MessageItem = ({ isMyMessage, message }) => {
+  
+  const [userName, setUserName] = useState('');
 
-const [userName, setUserName] = useState('');
+  useEffect(()=> {
+    const nameSetLocalStorage = localStorage.getItem('name');
+    setUserName(nameSetLocalStorage)
+  }, []);
 
-useEffect(()=> {
-  const nameSetLocalStorage = localStorage.getItem('name');
-  setUserName(nameSetLocalStorage)
-}, []);
-
-  return ( //반환 안하면 오류남
-    <MessageContainer>
-      <NickName>{userName}:</NickName>
-      <MessageText>{message}</MessageText>
-    </MessageContainer>
+  return (
+      <MessageContainer isMyMessage={isMyMessage}>
+          <NickName>{isMyMessage ? userName : '참가자들'}:</NickName>
+          <MessageText>{message}</MessageText>
+      </MessageContainer>
   );
 }
 

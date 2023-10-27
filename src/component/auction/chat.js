@@ -1,4 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import SockJS from 'sockjs-client';
+import Stomp from 'stompjs';
+import { useRouter } from 'next/router';
+import React, { useState, useEffect, useRef  } from 'react';
 import styled from 'styled-components';
 import MessageItem from './messageItem';
 
@@ -31,8 +34,49 @@ const SendButton = styled.button`
 `;
 
 const Chat = () => {
+
+    const router = useRouter();
+    const { auctionno } = router.query;
+
     const [messages, setMessages] = useState([]);
+    //const [bidMessages, setBidMessages] = useState([]);
     const [newMessage, setNewMessage] = useState('');
+    const stompClientRef = useRef(null);
+
+        // SockJS 및 STOMP 클라이언트 설정
+    const socket = new SockJS('http://localhost:8081/ws'); // WebSocket 서버 URL
+    const stompClient = Stomp.over(socket);
+
+    useEffect(() => {
+        if (!stompClientRef.current) {
+            // 웹소켓 연결 시도
+            stompClient.connect({}, (frame) => {
+                console.log('소켓 연결!:', frame);
+    
+                // 채팅 메시지 구독 로직
+                const messageTopic = `/topic/receive/message/${auctionno}`;
+                stompClient.subscribe(messageTopic, (message) => {
+                    const messageBody = JSON.parse(message.body);
+                    setMessages((prevMessages) => [...prevMessages, {
+                        sender: messageBody.sender,
+                        text: messageBody.text
+                    }]);
+                });
+    
+            }, (error) => {
+                console.error("WebSocket connection error:", error);
+            });
+    
+            stompClientRef.current = stompClient;
+    
+            // 컴포넌트 언마운트 시 웹소켓 연결 해제
+            return () => {
+                if (stompClient.connected) {
+                    stompClient.disconnect();
+                }
+            };
+        }
+    }, [auctionno]);
 
     const handleNewMessageChange = (e) => {
         setNewMessage(e.target.value);
@@ -44,43 +88,46 @@ const Chat = () => {
             handleSend();
         }
     };
-
     const handleSend = () => {
         if (newMessage) {
-            const NickName = '테스트 닉네임';
-            const message = newMessage;
-            const messageFull = { NickName, message };
-            setMessages([...messages, messageFull]);
+            const message = {
+                sender: localStorage.getItem('name'), // 여기서 현재 사용자의 이름을 사용하거나 다른 식별 가능한 정보를 사용할 수 있습니다.
+                text: newMessage,
+            };
+            stompClient.send(`/app/send/message/${auctionno}`, {}, JSON.stringify(message));
             setNewMessage('');
         }
     };
 
     useEffect(() => {
-        // 스크롤을 아래로 이동하여 최신 메시지를 표시
         const chatContainer = document.getElementById('chat-container');
         chatContainer.scrollTop = chatContainer.scrollHeight;
     }, [messages]);
 
     return (
         <div>
-        <h1>경매 채팅창</h1>
-        <ChatContainer id="chat-container">
-            {messages.map((message, index) => (
-            <MessageItem key={index} userName={message.NickName} message={message.message} />
-            ))}
-        </ChatContainer>
-        <InputContainer>
-            <Input
-            type="text"
-            placeholder="바르고 고운말을 사용합시다"
-            value={newMessage}
-            onChange={handleNewMessageChange}
-            onKeyPress={handleKeyPress}
-            />
-            <SendButton onClick={handleSend}>Send</SendButton>
-        </InputContainer>
+            <h1>경매 채팅창</h1>
+            <ChatContainer id="chat-container">
+                {messages.map((message, index) => (
+                    <MessageItem
+                        key={index}
+                        isMyMessage={message.sender === localStorage.getItem('name')} // 메시지가 현재 사용자의 것인지 확인
+                        message={message.text}
+                    />
+                ))}
+            </ChatContainer>
+            <InputContainer>
+                <Input
+                    type="text"
+                    placeholder="바르고 고운말을 사용합시다"
+                    value={newMessage}
+                    onChange={handleNewMessageChange}
+                    onKeyPress={handleKeyPress}
+                />
+                <SendButton onClick={handleSend}>전송</SendButton>
+            </InputContainer>
         </div>
     );
 };
-
+    
 export default Chat;

@@ -133,6 +133,7 @@ function AuctionGuest() {
       {
         params: {
           userno:localStorage.getItem("userno"),
+          name: localStorage.getItem("name")
         },
         headers: {
           Authorization: `Bearer ${getAuthToken()}`,
@@ -184,13 +185,13 @@ function AuctionGuest() {
             {auctionGuestData_2.map((auctionGuestData_2) =>(
               <tr className="cart__list__detail">
                 <TableC>
-                  <TableD img src="/assets/images/auction/ac1.PNG" alt="magic mouse" />
+                  <TableD img src={auctionGuestData_2.image} alt="magic mouse" />
                 </TableC>
                 <TableB style={{ width: '35%' }} >
                   <p onClick={() => {
-                    const userno = auctionGuestData_2.userno;
-                    router.push(`/auction/auctionGuest_chat`)
-                    // router.push(`/auction/auctionGuest_chat=${userno}`) 채팅 활성화시 활성
+                    const auctionno = auctionGuestData_2.auctionno;
+                   // router.push(`/auction/auctionGuest_chat`)
+                    router.push(`/auction/auctionGuest_chat?auctionno=${auctionno}`) //채팅 활성화시 활성
                   }}>
                   {auctionGuestData_2.auctiontitle}
                   </p>
@@ -202,7 +203,7 @@ function AuctionGuest() {
                   {formatLastTime(auctionGuestData_2.auendtime)}
                   </span><br />
                 </TableA>
-                <TableA style={{ width: '15%' }}>800000 원</TableA>
+                <TableA style={{ width: '15%' }}>{auctionGuestData_2.bidprice} 원</TableA>
               </tr>
             ))}
             </tbody>
@@ -217,7 +218,6 @@ function AuctionGuest() {
                 <td>경매 물품</td>
                 <td>최고 입찰 금액</td>
                 <td>남은 시간</td>
-                <td>나의 입찰 금액</td>
               </TableE>
             </thead>
             <tbody>
@@ -225,14 +225,13 @@ function AuctionGuest() {
               <tr className="cart__list__detail">
                 <TableC>
                   <TableD img src={auctionGuestData.image} alt="magic mouse" />
-                  {/* 이미지 수정 필요!! */}
                 </TableC>
                 <TableB style={{ width: '35%' }}>
                   <p onClick={() => {
                   if (!auctionGuestData.isAuctionEnded) {
                    const auctionno = auctionGuestData.auctionno;
-                   router.push(`/auction/auctionDetail`);
-                  //  router.push(`/auction/auctionDetail?auctionno=${auctionno}`); 상세페이지 활성화 시
+                  router.push(`/auction/auctionDetail`);
+                  //router.push(`/auction/auctionDetail?auctionno=${auctionno}`); //상세페이지 활성화 시
                   }
                   }}>
                   {auctionGuestData.auctiontitle}
@@ -243,9 +242,6 @@ function AuctionGuest() {
                 </TableA>
                 <TableA style={{ width: '18%' }}>
                   {auctionGuestData.isAuctionEnded ? "경매 종료" : formatLastTime(auctionGuestData.lasttime)}
-                </TableA>
-                <TableA style={{ width: '15%' }}>
-                {auctionGuestData.lastprice} 원
                 </TableA>
               </tr>
             ))}

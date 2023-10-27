@@ -105,7 +105,6 @@ function AuctionHost() {
 
 
   const [auctionHostData, setAuctionHostData] = useState([]);
-
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -208,8 +207,8 @@ function AuctionHost() {
                   {auctionHostData.name}
                   <Button_ onClick={() => {
                     const auctionno = auctionHostData.auctionno;
-                    router.push(`/auction/auctionHost_chat`);
-                    // router.push(`/auction/auctionHost_chat?auctionno=${auctionno}`); 채팅 활성화시 활성
+                    // router.push(`/auction/auctionHost_chat`);
+                     router.push(`/auction/auctionHost_chat?auctionno=${auctionno}`); //채팅 활성화시 활성
                   }}>
                     채팅
                   </Button_>

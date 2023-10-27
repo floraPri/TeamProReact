@@ -13,8 +13,6 @@ import Chat from "@/component/auction/chat";
 import { getAuthToken } from "@/component/user/axios_helper";
 import SockJS from 'sockjs-client';
 import Stomp from 'stompjs';
-//import { useInterval } from "./hooks";
-//import Nav from "./Nav";
 
 export async function getServerSideProps(context) {
   const auctionno = context.query.auctionno;
@@ -45,30 +43,31 @@ export default function AuctionDetail ({ initialAuctionno }){
     auctionno: auctionno,
   });
 
-  // 카운트 다운
+  //카운트 다운
   useEffect(() => {
-    const target = new Date(lastTime);
-    console.log(target);
-    const interval = setInterval(() => {
-      const now = new Date();
-      const difference = target.getTime() - now.getTime();
-      const newHours = Math.floor((difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-      const newMinutes = Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60));
-      const newSeconds = Math.floor((difference % (1000 * 60)) / 1000);
-      if (newHours !== hours || newMinutes !== minutes || newSeconds !== seconds) {
-        setHours(newHours);
-        setMinutes(newMinutes);
-        setSeconds(newSeconds);
-      }
-      if (newHours <= 0 && newMinutes <= 0 && newSeconds <= 0) {
-        setIsAuctionEnded(true);
-      }
-    }, 1000);
-    return () => clearInterval(interval);
-  }, [lastTime]);
+    if (lastTime && !isAuctionEnded) {
+      const target = new Date(lastTime);
+      const interval = setInterval(() => {
+        const now = new Date();
+        const difference = target.getTime() - now.getTime();
+        const newHours = Math.floor((difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        const newMinutes = Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60));
+        const newSeconds = Math.floor((difference % (1000 * 60)) / 1000);
+        if (newHours !== hours || newMinutes !== minutes || newSeconds !== seconds) {
+          setHours(newHours);
+          setMinutes(newMinutes);
+          setSeconds(newSeconds);
+        }
+        if (newHours <= 0 && newMinutes <= 0 && newSeconds <= 0) {
+          setIsAuctionEnded(true);
+          clearInterval(interval); // 카운트 다운 종료 시 clearInterval 호출
+        }
+      }, 1000);
+      return () => clearInterval(interval);
+    }
+  }, [lastTime, isAuctionEnded]);
 
   useEffect(() => {
-    console.log("useEffect is running");
     // 웹소켓 연결
     const socket = new SockJS('http://localhost:8081/auction/auctionDetail');
     const localStompClient  = Stomp.over(socket);
@@ -77,15 +76,15 @@ export default function AuctionDetail ({ initialAuctionno }){
     // STOMP 연결
     localStompClient.connect({}, () => {
       localStompClient.subscribe(topic, (bid) => {
-          if (bid.body) {
-              const bidBody = JSON.parse(bid.body);
-              setBids((prevBids) => [...prevBids, bidBody]);
-              setAuctionData(prevData => ({
-                ...prevData,
-                lastprice: bidBody.bid,
-                name: bidBody.bidName
-            }));
-          }
+        if (bid.body) {
+            const bidBody = JSON.parse(bid.body);
+            setBids((prevBids) => [...prevBids, bidBody]);
+            setAuctionData(prevData => ({
+              ...prevData,
+              lastprice: bidBody.bid,
+              name: bidBody.bidName
+          }));
+        }
       });
     }, (error) => {
       console.error("WebSocket connection error:", error);
@@ -178,8 +177,8 @@ export default function AuctionDetail ({ initialAuctionno }){
     // 서버에서 새로운 입찰 내역을 받아와 화면에 업데이트
     setAuctionData({
       ...auctionData,
-      lastprice: updatedAuctionData.lastprice,
-      cham: updatedAuctionData.cham,
+      lastprice: auctionData.lastprice,
+      cham: auctionData.cham,
     });
 
       } catch (error) {
@@ -187,6 +186,49 @@ export default function AuctionDetail ({ initialAuctionno }){
       }
   };
   
+  useEffect(() => {
+    // 경매 종료 조건 확인
+    const isAuctionClosed = () => {
+      const currentTime = new Date().getTime(); // 현재 시간 (timestamp)
+      const lastTime = new Date(auctionData.lasttime).getTime(); // 경매 종료 시간 (timestamp)
+      
+      if (currentTime >= lastTime || auctionData.lastprice >= auctionData.buynow) {
+        alert('경매가 종료되었습니다!');
+        router.push('/auction/auction');
+
+        const requestData = {
+          auctionno: auctionno,
+          name: auctionData.name,
+          bidprice: auctionData.lastprice,
+          auendtime: new Date().toISOString(),
+        };
+
+        console.log(requestData.auctionno),
+        console.log(requestData.name),
+        console.log(requestData.bidprice),
+        console.log(requestData.auendtime)
+
+        try {
+          const response = axios.post('http://localhost:8081/auction/auctionBiderAdd', requestData, {
+            headers: {
+              Authorization: `Bearer ${getAuthToken()}`,
+            }
+          });
+        } catch (error) {
+          console.error('낙찰 저장 중 오류 발생');
+        }
+      }
+    };
+
+    // 1초마다 경매 종료 조건 확인
+    const interval = setInterval(isAuctionClosed, 1000);
+
+    return () => {
+      clearInterval(interval); // 컴포넌트가 언마운트될 때 interval 해제
+    }
+  }, [auctionData, router]);
+
+
   return(
     <Container_>
       <AcuDiv_1>
@@ -199,7 +241,7 @@ export default function AuctionDetail ({ initialAuctionno }){
                   <Card.Body>
                     <h2>{auctionData.auctiontitle}</h2>
                     <CardTitle>
-                      판매자: {auctionData.name}
+                      판매자: {auctionData.hostname}
                     </CardTitle>
                     <span>
                       경매 남은 시간&nbsp;
@@ -233,7 +275,7 @@ export default function AuctionDetail ({ initialAuctionno }){
                   <Card.Body>
                     <Id_name><span className="id">판매자</span></Id_name>
                     <hr></hr>
-                    <Id onClick={() => router.push('') }>{auctionData.name}</Id>
+                    <Id onClick={() => router.push('') }>{auctionData.hostname}</Id>
                   </Card.Body>
                 </Card>
               </Col>
