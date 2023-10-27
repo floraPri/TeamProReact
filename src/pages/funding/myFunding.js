@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import React, { useState, useEffect } from "react";
 import { useRouter } from "next/router";
-import MyPledges from "@/component/funding/mypledges";
+import MyPledges from "@/component/funding/myPledges";
 import MyCrowdFunding from "@/component/funding/myCrowdFunding";
 import Menubar from "@/component/funding/menubar";
 
