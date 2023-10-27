@@ -35,11 +35,15 @@ export default function Menubar(){
               <NavDropdown.Item href="/funding/funding">
                 delete
               </NavDropdown.Item>
+              <NavDropdown.Item href="/funding/myFunding">
+                내펀딩
+              </NavDropdown.Item>
         </NavDropdown> &nbsp; &nbsp;
 
+        <Btn onClick={() => router.push('/funding/funding')}> ALL </Btn>&nbsp;&nbsp;
+        {/* <Btn onClick={() => router.push(`/funding/funding?category=living`)}> living </Btn>&nbsp;&nbsp; */}
         <Btn onClick={() => router.push('/funding/fundingAdd')}> category </Btn>&nbsp;&nbsp;
         <Btn onClick={() => router.push('/funding/fundingEdit')}> 최신 </Btn>&nbsp;&nbsp;
-        <Btn onClick={() => router.push('/funding/funding')}> 마감임박 </Btn>&nbsp;&nbsp;
         {/* <Btn onClick={() => router.push('/funding/funding')}>목록</Btn>&nbsp;&nbsp; */}
 
 

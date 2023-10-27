@@ -13,7 +13,7 @@ const Container = styled.div`
   margin: 0 auto;
   `;
   
-const Card = styled.div`
+const Box = styled.div`
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   background: #fff;
@@ -105,23 +105,20 @@ export default function RewardsList(){
 
     return(
     <Container>
-        
-        {
-            reward.map((present) => (
-            <Card key={present.fundingcode}>
-              <Con1>
-                <Price>{present.price}</Price>
-                <Title>{present.title}</Title>
-                <Subtitle>{present.subtitle}</Subtitle>
-                <Content>{present.content}</Content>
-                <DeliveryDate>배송 예정일 : {formatDate(present.delivery)}</DeliveryDate>
-              </Con1>  
-                <SupportBtn onClick={() => router.push('/funding/funding')}>
-                    후원하기
-                </SupportBtn>
-              </Card>
-            ))
-            }
+      {reward.map((present) => (
+          <Box key={present.fundingcode}>
+            <Con1>
+              <Price>{present.price}</Price>
+              <Title>{present.title}</Title>
+              <Subtitle>{present.subtitle}</Subtitle>
+              <Content>{present.content}</Content>
+              <DeliveryDate>배송 예정일 : {formatDate(present.delivery)}</DeliveryDate>
+            </Con1>  
+              <SupportBtn onClick={() => router.push(`/funding/fundingPledge?fundingcode=${fundingcode}&rewardscode=${present.rewardscode}`)}>
+                  후원하기
+              </SupportBtn>
+            </Box>
+          ))}
     </Container>
         
     )

@@ -122,11 +122,11 @@ export default function FundingAdd(){
                     onChange={handleChange}
                     >
                     <option value=""> 카테고리 </option>
-                    <option value="문구"> 문구 </option>
-                    <option value="출판"> 출판 </option>
-                    <option value="게임"> 게임 </option>
-                    <option value="리빙"> 리빙 </option>
-                    <option value="반려동물"> 반려동물 </option>
+                    <option value="stationery"> 문구 </option>
+                    <option value="book"> 출판 </option>
+                    <option value="game"> 게임 </option>
+                    <option value="living"> 리빙 </option>
+                    <option value="pet"> 반려동물 </option>
                     </select>
 
                 </TableCell>
@@ -134,7 +134,7 @@ export default function FundingAdd(){
             <TableRow>
                 <TableCell> 전체 타이틀(긴 제목) </TableCell>
                 <TableCell>
-                    <FileInput
+                    <Input
                     type="text"
                     id="title"
                     name="title"
@@ -146,7 +146,7 @@ export default function FundingAdd(){
             <TableRow>
                 <TableCell> 목록에서 보일 제목 </TableCell>
                 <TableCell>
-                    <FileInput
+                    <Input
                     type="text"
                     id="subtitle"
                     name="subtitle"
@@ -179,7 +179,7 @@ export default function FundingAdd(){
             </TableCell>
             </TableRow>    
             <TableRow>
-                <TableCell> 목록에서 보일 본문 요약내용 </TableCell>
+                <TableCell> 목록에서 보일 본문 요약 </TableCell>
                 <TableCell>
                 <Textarea
                     id="subcontent"

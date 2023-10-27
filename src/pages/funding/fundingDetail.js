@@ -23,13 +23,13 @@ const Container2 = styled.div`
     `;
 const Container3 = styled.div`
     padding:10px;
-    width:500px;
+    width:400px;
     margin: 10px;
 `;
     
 const ImgContainer = styled.img`
     height:100%;
-    max-width:400px;
+    max-width:600px;
     margin-left:auto;
     margin-right:auto;
     padding:10px;
