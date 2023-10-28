@@ -1,6 +1,6 @@
 import { Righteous } from "next/font/google";
 import styled from "styled-components";
-import { BiSearch, BiMessageAlt, BiSolidUserCircle } from "react-icons/bi";
+import { BiSearch, BiSolidUserCircle } from "react-icons/bi";
 import { BsBell } from "react-icons/bs";
 import { useRouter } from "next/router";
 import Dropdown from 'react-bootstrap/Dropdown';
@@ -11,7 +11,7 @@ import { request } from "../user/axios_helper";
 export default function Header() {
     const router = useRouter();
     const [hasNotification] = useState(true);
-
+    const [search, setSearch] = useState('');
     const [token, setToken] = useState(null);
 
   useEffect(() => {
@@ -19,6 +19,18 @@ export default function Header() {
     console.log(tokenFromLocalStorage);
     setToken(tokenFromLocalStorage);
   }, [])
+
+    const searchHandler = (e) =>{
+        e.preventDefault();
+        console.log("submit동작");
+        router.push(`/search/${search}`);
+    }
+  
+  // 필드의 업데이트된 값을 state에 저장
+  const onChangeHandler = (event) => {
+      setSearch(event.target.value);
+      console.log(search);
+  };
     
     const handleLogout = () => {
         request(
@@ -59,8 +71,10 @@ export default function Header() {
                     <LeftMenuTab onClick={() => router.push('/funding/funding') }>펀딩</LeftMenuTab>
                 </LeftMenu>
                 <SearchBar>
-                <SearchIcon><BiSearch style={{width:'20px',height:'20px'}} /></SearchIcon>
-                    <SearchInput></SearchInput>
+                    <SearchForm onSubmit={searchHandler}>
+                    <SearchIcon type="submit" ><BiSearch style={{width:'20px',height:'20px'}} /></SearchIcon>
+                        <SearchInput type="text" name="search" onChange={onChangeHandler} value={search}/>
+                    </SearchForm>
                 </SearchBar>
                 <RightMenu>
                     <RightMenuTab>
@@ -165,10 +179,16 @@ const SearchBar = styled.div`
     align-items: center;
 `;
 
-const SearchIcon = styled.div`
-    padding: 5px 5px 2px 5px;
-    cursor: pointer;
+const SearchForm = styled.form`
+    display: flex;
+    align-items: center;
+`;
+
+const SearchIcon = styled.button`
+    padding: 0px 0px 2px 5px;
     color: #8b8b8b;
+    border: none;
+    background-color: white;
     &:hover {
         color: #03C179;
     }

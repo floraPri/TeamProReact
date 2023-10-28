@@ -25,16 +25,14 @@ const LoginTab = styled.div`
 const SideTab = styled.div`
 
 `;
+
 const WeatherTab = styled.div`
   width: 300px;
-  height: 180px;
-  border: 1px solid black;
+  height: 230px;
+  border: 1px solid #d9d9d9;
+  padding: 15px;
   margin-bottom: 40px;
-`;
-const Recommend = styled.div`
-  width: 300px;
-  height: 180px;
-  border: 1px solid black;
+  border-radius: 5px;
 `;
 
 
@@ -58,8 +56,9 @@ export default function Main (){
           <LoginPages />
           </LoginTab> : null } 
            <WeatherTab>
-             {/* <Weather />  */}
+{/* <Weather />  */}
            </WeatherTab>  
+           
         </SideTab>
       </Container>
     )
