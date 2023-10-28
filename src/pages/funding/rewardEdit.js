@@ -52,8 +52,10 @@ const cellStyle = {
     border: 'none',
   };
 
-export default function RewardAdd(){
+export default function RewardEdit(){
+
     const router = useRouter();
+    const { rewardscode } = router.query;
     const { fundingcode } = router.query;
 
     const [rewardData, setRewardData] = useState({
@@ -71,29 +73,65 @@ export default function RewardAdd(){
         }));
     };
 
+    const formatDate = (date) => {
+        const year = date.getFullYear();
+        const month = (date.getMonth() + 1).toString().padStart(2, '0');
+        const day = date.getDate().toString().padStart(2, '0');
+        return `${year}-${month}-${day}`;
+      };
+        
+    useEffect(()=>{  
+        const fetchData = async () => {
+        await axios.get(`http://localhost:8081/funding/rewardEdit`, {
+                params:{
+                    rewardscode: rewardscode,
+                    fundingcode: fundingcode,
+                },
+                headers: {
+                    Authorization: `Bearer ${(getAuthToken())}`
+                }
+            })
+            .then((response) => {
+                const deliveryStr = formatDate(new Date(parseInt(response.data.delivery)));
+                setRewardData({
+                    fundingcode: fundingcode,
+                    rewardscode: rewardscode,
+                    price: response.data.price,
+                    title: response.data.title,
+                    content: response.data.content,
+                    delivery: deliveryStr,
+                });
+                console.log("success");
+
+            })
+            .catch((error) => {
+                console.log("error : "+error);
+            });
+            };  fetchData();
+        },[rewardscode])
+
     const handleSubmit = async (e) => {
         e.preventDefault();
         const formData = new FormData();
         formData.append("fundingcode", fundingcode);
+        formData.append("rewardscode", rewardscode);
         formData.append("price",rewardData.price);
         formData.append("title",rewardData.title);
         formData.append("content",rewardData.content);
         formData.append("delivery",rewardData.delivery);
-        
-        try {
-            // 서버로 전송
-            
-            const response = await axios.post(`http://localhost:8081/funding/rewardAdd`, formData, {
+
+
+        try{
+            const response = await axios.post(`http://localhost:8081/funding/rewardEdit`, formData, {
                 headers: {
                     Authorization: `Bearer ${(getAuthToken())}`
                 }
             });
-            console.log('insertdata ',rewardData);
 
-            if (response.status === 200) {
-              console.log('success');
-              router.push(`/funding/rewardAdd?fundingcode=${fundingcode}`);
-              alert('등록 성공');
+            if(response.status==200){
+                console.log('edit success');
+                alert('수정이 완료되었습니다.');
+              router.push(`/funding/myFunding/myOrganizeList`);
             } else {
               console.error('failed');
             }
@@ -105,8 +143,9 @@ export default function RewardAdd(){
     return(
     <Container>
         <Container2>
+            {/* <Rewardslist/> */}
             <AddContainer>
-                <Title> REWARD ADD </Title>
+                <Title> REWARD EDIT </Title>
                 <form onSubmit={handleSubmit}>
                 <table>
                     <tbody>
@@ -119,6 +158,7 @@ export default function RewardAdd(){
                                 name="price"
                                 value={rewardData.price}
                                 onChange={handleChange}
+                                readOnly 
                                 />
                             </TableCell>
                         </TableRow>
@@ -160,8 +200,8 @@ export default function RewardAdd(){
                         <TableRow>
                             <TableCell sx={cellStyle}></TableCell>
                             <TableCell sx={cellStyle} align="right">
-                            <Button active="true" type="submit"> reward 등록 </Button>
-                            <Button onClick={() => router.push(`/funding/fundingDetail?fundingcode=${fundingcode}`)}> 등록 종료 </Button>
+                            <Button active="true" type="submit"> 수정 </Button>
+                            <Button onClick={() => router.push(`/funding/myFunding/myOrganizeList`)}> 이전으로 </Button>
                             </TableCell>
                         </TableRow>
                     </tbody>

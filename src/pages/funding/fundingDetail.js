@@ -103,6 +103,30 @@ export default function FundingDetail(){
         return Math.ceil(timeDifference / (1000 * 60 * 60 * 24));
     };
 
+    const achievementRate = (nowamount, goalamount) => {
+        if (goalamount === 0) {
+          throw new Error("0으로 나눌 수 없음");
+        }
+      
+        return Math.round((nowamount / goalamount) * 100);
+      };
+
+      const renameCategory = (category) => {
+        switch (category) {
+            case 'stationery':
+            return '문구';
+            case 'book':
+            return '출판';
+            case 'game':
+            return '게임';
+            case 'living':
+            return '리빙';
+            case 'pet':
+            return '반려동물';
+            default:
+            return category;
+        }
+    } 
     useEffect(() => {
         console.log("useEffect start")
         axios.get(`http://localhost:8081/funding/fundingDetail?fundingcode=${fundingcode}`,{
@@ -141,16 +165,15 @@ export default function FundingDetail(){
         <Menubar/>
         {funding.map((detail)=> (
            <div key={detail.fundingcode}>
-        <Category> {detail.category} </Category>
+        <Category> {renameCategory(detail.category)} </Category>
         <Title> {detail.title}</Title>
         <Container2>
             <ImgContainer src={detail.image}/>
-            {/* <ImgContainer src={detail.image}/> */}
             <Container3>
                 <Box>
                     모인 금액 <br/>
                     <Bold> {detail.nowamount} <br/></Bold>
-                    남은 시간 <br/>
+                    남은 시간 (수정해야함)<br/>
                     <Bold> {dueDate(parseDate(detail.enddate), parseDate(detail.startdate))} 일 <br/></Bold>
                     후원자 <br/>
                     <Bold> 110명 <br/></Bold>
@@ -158,11 +181,11 @@ export default function FundingDetail(){
                 <Table>
                     <TableRow>
                         <TableCell> 목표금액 </TableCell>
-                        <TableCell> {detail.goalamount} </TableCell>
+                        <TableCell> {detail.goalamount} 원, {achievementRate(detail.nowamount,detail.goalamount)}% 달성</TableCell>
                     </TableRow>
                     <TableRow>
                         <TableCell> 펀딩기간 </TableCell>
-                        <TableCell> {formatDate(detail.startdate)} ~ {formatDate(detail.enddate)} ({dueDate(parseDate(detail.enddate), parseDate(detail.startdate))}일 남음) </TableCell>
+                        <TableCell> {formatDate(detail.startdate)} ~ {formatDate(detail.enddate)} ({dueDate(parseDate(detail.enddate), parseDate(detail.startdate))}일 진행) </TableCell>
                     </TableRow>
                     <TableRow>
                         <TableCell> 결제 </TableCell>
@@ -170,7 +193,7 @@ export default function FundingDetail(){
                     </TableRow> 
                 </Table>
                 <SupportBtn onClick={() => router.push('/funding/funding')}>
-                    후원하기
+                    목록으로
                 </SupportBtn>
             </Container3>       
         </Container2>

@@ -16,6 +16,7 @@ const Container = styled.div`
 const ListContainer = styled.div`
     display:grid;
     grid-template-columns: repeat(4, 1fr);
+    align-items:center;
 `;
 
 const FundingContainer = styled.div`
@@ -24,7 +25,7 @@ const FundingContainer = styled.div`
 	flex-direction: column;
 	justify-content: center;
 	align-items:center;
-	max-width:180px;
+	width:270px;
     cursor: pointer;
     &:hover {
         color: #03C179;
@@ -33,7 +34,7 @@ const FundingContainer = styled.div`
 
 const FundingImg = styled.img`
     width:100%;
-    max-width:250px;
+    width:250px;
     height:auto;
     align-items:center;
 `;
@@ -82,6 +83,22 @@ export default function Funding(){
      
         }, []);
 
+        const renameCategory = (category) => {
+            switch (category) {
+                case 'stationery':
+                return '문구';
+                case 'book':
+                return '출판';
+                case 'game':
+                return '게임';
+                case 'living':
+                return '리빙';
+                case 'pet':
+                return '반려동물';
+                default:
+                return category;
+            }
+        }        
     return(
 
     <Container>
@@ -94,9 +111,9 @@ export default function Funding(){
             <div key={funding.fundingcode}>
             <FundingImg src={funding.image}/>
             <div>
-                <Category> {funding.category} </Category>
+                <Category> {renameCategory(funding.category)} </Category>
                 <Title> {funding.title} </Title>
-                <PreContent> {funding.subcontent} </PreContent>
+                <PreContent> {funding.precontent} </PreContent>
             </div>
             </div>
         </FundingContainer>

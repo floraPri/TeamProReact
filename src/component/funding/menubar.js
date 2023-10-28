@@ -5,6 +5,7 @@ import NavDropdown from 'react-bootstrap/NavDropdown';
 
 const Container = styled.div`
     display: flex;
+    min-width:1280px;
     padding-left: 10px;
     padding-top: 10px;
     padding-bottom: 10px;
@@ -28,23 +29,21 @@ export default function Menubar(){
     <Container>
         <NavDropdown title="My" id="navbarScrollingDropdown">
               <NavDropdown.Item href="/funding/fundingAdd">add</NavDropdown.Item>
-              <NavDropdown.Item href="/funding/fundingEdit">
-                edit
+              <NavDropdown.Item href="/funding/myFunding/myOrganizeList">
+                올린 프로젝트
               </NavDropdown.Item>
               <NavDropdown.Divider />
-              <NavDropdown.Item href="/funding/funding">
-                delete
-              </NavDropdown.Item>
-              <NavDropdown.Item href="/funding/myFunding">
-                내펀딩
+              <NavDropdown.Item href="/funding/myFunding/myPledges">
+                후원 목록
               </NavDropdown.Item>
         </NavDropdown> &nbsp; &nbsp;
 
         <Btn onClick={() => router.push('/funding/funding')}> ALL </Btn>&nbsp;&nbsp;
-        {/* <Btn onClick={() => router.push(`/funding/funding?category=living`)}> living </Btn>&nbsp;&nbsp; */}
-        <Btn onClick={() => router.push('/funding/fundingAdd')}> category </Btn>&nbsp;&nbsp;
-        <Btn onClick={() => router.push('/funding/fundingEdit')}> 최신 </Btn>&nbsp;&nbsp;
-        {/* <Btn onClick={() => router.push('/funding/funding')}>목록</Btn>&nbsp;&nbsp; */}
+        <Btn onClick={() => router.push('/funding/funding')}> 문구 </Btn>&nbsp;&nbsp;
+        <Btn onClick={() => router.push('/funding/funding')}> 출판 </Btn>&nbsp;&nbsp;
+        <Btn onClick={() => router.push('/funding/funding')}> 게임 </Btn>&nbsp;&nbsp;
+        <Btn onClick={() => router.push('/funding/funding')}> 리빙 </Btn>&nbsp;&nbsp;
+        <Btn onClick={() => router.push('/funding/funding')}> 반려동물 </Btn>&nbsp;&nbsp;
 
 
     </Container>

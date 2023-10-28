@@ -52,6 +52,7 @@ export default function FundingAdd(){
         category: '',
         title: '',
         content: '',
+        precontent: '',
         image: null,
         startdate: null,
         enddate: null,
@@ -71,9 +72,8 @@ export default function FundingAdd(){
         const formData = new FormData();
         formData.append("category",fundingData.category);
         formData.append("title",fundingData.title);
-        formData.append("subtitle",fundingData.subtitle);
         formData.append("content",fundingData.content);
-        formData.append("subcontent",fundingData.subcontent);
+        formData.append("precontent",fundingData.precontent);
         formData.append("image",fundingData.image);
         formData.append("startdate",fundingData.startdate);
         formData.append("enddate",fundingData.enddate);
@@ -132,25 +132,13 @@ export default function FundingAdd(){
                 </TableCell>
             </TableRow>
             <TableRow>
-                <TableCell> 전체 타이틀(긴 제목) </TableCell>
+                <TableCell> title </TableCell>
                 <TableCell>
                     <Input
                     type="text"
                     id="title"
                     name="title"
                     value={fundingData.title}
-                    onChange={handleChange}
-                    />
-                    </TableCell>
-            </TableRow>
-            <TableRow>
-                <TableCell> 목록에서 보일 제목 </TableCell>
-                <TableCell>
-                    <Input
-                    type="text"
-                    id="subtitle"
-                    name="subtitle"
-                    value={fundingData.subtitle}
                     onChange={handleChange}
                     />
                     </TableCell>
@@ -168,7 +156,7 @@ export default function FundingAdd(){
                 </TableCell>    
             </TableRow>
             <TableRow>
-                <TableCell> 본문 </TableCell>
+                <TableCell> content </TableCell>
                 <TableCell>
                 <Textarea
                     id="content"
@@ -179,18 +167,18 @@ export default function FundingAdd(){
             </TableCell>
             </TableRow>    
             <TableRow>
-                <TableCell> 목록에서 보일 본문 요약 </TableCell>
+                <TableCell> precontent </TableCell>
                 <TableCell>
                 <Textarea
-                    id="subcontent"
-                    name="subcontent"
-                    value={fundingData.subcontent}
+                    id="precontent"
+                    name="precontent"
+                    value={fundingData.precontent}
                     onChange={handleChange}
                     />
             </TableCell>    
             </TableRow>
             <TableRow>
-                <TableCell> 시작일 </TableCell>
+                <TableCell> start </TableCell>
                 <TableCell>
                 <Input
                     type="Date"
@@ -202,7 +190,7 @@ export default function FundingAdd(){
                 </TableCell>
             </TableRow>
             <TableRow>
-                <TableCell> 마감일 </TableCell>
+                <TableCell> end </TableCell>
                 <TableCell>
                 <Input
                     type="Date"
@@ -214,7 +202,7 @@ export default function FundingAdd(){
                 </TableCell>
             </TableRow>
             <TableRow>
-                <TableCell> 목표 금액 </TableCell>
+                <TableCell> goalamount </TableCell>
                 <TableCell>
                 <Input
                     type="number"

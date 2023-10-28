@@ -2,7 +2,7 @@ import styled from "styled-components";
 import React, { useState, useEffect } from "react";
 import { useRouter } from "next/router";
 import axios from 'axios';
-import { getAuthToken } from "@/component/user/axios_helper"
+import { getAuthToken } from "@/component/user/axios_helper";
 
 const Container = styled.div`
     display: flex;
@@ -191,7 +191,7 @@ export default function FundingPledge() {
             // const totalAmount = r.price * data.quantity;
             console.log('total', totalAmount);
             try{
-                const response = axios.post(`http://localhost:8081/funding/contributeFunding`, {
+                const response = await axios.post(`http://localhost:8081/funding/contributeFunding`, {
                         fundingcode: fundingcode,
                         rewardscode: rewardscode,
                         userno: userno,
@@ -205,13 +205,9 @@ export default function FundingPledge() {
                     });
                 if(response.status === 200){
                     console.log("success");
-                    console.log("bcb");
-                    console.log("total :" + nowamount);
-                    console.log("bb");
                     alert("후원이 완료되었습니다.");
-                    router.push('/funding/funding');
+                    router.push(`/funding/myFunding/myPledges`);
                 } else {
-                    console.log("aaa");
                     console.error("error response:", response.data);
                 }              
         } catch (error) {
