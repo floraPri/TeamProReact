@@ -10,11 +10,13 @@ width: 940px;
 height: auto;
 justify-content: space-between;
 `;
+
 const Feed = styled.div`
   width: 600px;
   height: 2000px;
   border: 1px solid black;
 `;
+
 const LoginTab = styled.div`
   width: 300px;
   height: 300px;
@@ -34,8 +36,6 @@ const WeatherTab = styled.div`
   margin-bottom: 40px;
   border-radius: 5px;
 `;
-
-
 
 export default function Main (){
 
