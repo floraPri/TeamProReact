@@ -2,7 +2,10 @@ import styled from "styled-components";
 import Link from "next/link";
 import React, { useState } from "react";
 import Menubar from "@/component/funding/menubar";
-import { Table, TableCell, TableRow, Button } from "@mui/material";
+import { TableCell, TableRow, Button } from "@mui/material";
+import { useRouter } from "next/router";
+import axios from "axios";
+import { getAuthToken } from "@/component/user/axios_helper";
 
 const Container = styled.div`
     display: grid;
@@ -41,46 +44,58 @@ const cellStyle = {
     border: 'none',
   };
   
-export default function FundingEdit(){
+export default function FundingAdd(){
+
+    const router = useRouter();
+
     const [fundingData, setFundingData] = useState({
         category: '',
         title: '',
         content: '',
+        precontent: '',
         image: null,
-        startdate: 0,
-        enddate: 0,
+        startdate: null,
+        enddate: null,
         goalamount: 0,
       });
       
-      const handleChange = (e) => {
-          const { name, value, type, files } = e.target;
-          if (type === "file") {
-              setFundingData({ ...fundingData, [name]: files[0] });
-        } else {
-            setFundingData({ ...fundingData, [name]: value });
-        }
+    const handleChange = (e) => {
+        const { name, value, type, files } = e.target;
+        setFundingData((prevData) => ({
+        ...prevData,
+        [name]: type === "file" ? files[0] : value,
+        }));
     };
     const handleSubmit = async (e) => {
         e.preventDefault();
-
+        const userno = localStorage.getItem('userno');
         const formData = new FormData();
         formData.append("category",fundingData.category);
         formData.append("title",fundingData.title);
         formData.append("content",fundingData.content);
+        formData.append("precontent",fundingData.precontent);
         formData.append("image",fundingData.image);
         formData.append("startdate",fundingData.startdate);
         formData.append("enddate",fundingData.enddate);
         formData.append("goalamount",fundingData.goalamount);
+        formData.append("userno", userno);
 
         try {
             // 서버로 전송
-            const response = await fetch('/api/createFunding', {
-              method: 'POST',
-              body: JSON.formData,
+            
+            const response = await axios.post(`http://localhost:8081/funding/fundingAdd`, formData, {
+                headers: {
+                    'Content-Type': 'multipart/form-data', // 파일 업로드에 대한 헤더 설정
+                    Authorization: `Bearer ${(getAuthToken())}`
+                }
             });
-      
+            console.log('insertdata ',fundingData);
+            console.log(userno)
+
             if (response.status === 200) {
               console.log('success');
+            //   console.log(response.data)
+              router.push(`/funding/rewardAdd?fundingcode=${response.data.fundingcode}`);
             } else {
               console.error('failed');
             }
@@ -99,19 +114,27 @@ export default function FundingEdit(){
             <TableRow>
                 <TableCell> 카테고리 </TableCell>
                 <TableCell>
-                    <Input
-                    type="text"
+
+                    <select
                     id="category"
                     name="category"
                     value={fundingData.category}
                     onChange={handleChange}
-                    />
-                    </TableCell>
+                    >
+                    <option value=""> 카테고리 </option>
+                    <option value="stationery"> 문구 </option>
+                    <option value="book"> 출판 </option>
+                    <option value="game"> 게임 </option>
+                    <option value="living"> 리빙 </option>
+                    <option value="pet"> 반려동물 </option>
+                    </select>
+
+                </TableCell>
             </TableRow>
             <TableRow>
-                <TableCell> 제목 </TableCell>
+                <TableCell> title </TableCell>
                 <TableCell>
-                    <FileInput
+                    <Input
                     type="text"
                     id="title"
                     name="title"
@@ -133,7 +156,7 @@ export default function FundingEdit(){
                 </TableCell>    
             </TableRow>
             <TableRow>
-                <TableCell> 본문 </TableCell>
+                <TableCell> content </TableCell>
                 <TableCell>
                 <Textarea
                     id="content"
@@ -141,10 +164,21 @@ export default function FundingEdit(){
                     value={fundingData.content}
                     onChange={handleChange}
                     />
-                </TableCell>    
+            </TableCell>
+            </TableRow>    
+            <TableRow>
+                <TableCell> precontent </TableCell>
+                <TableCell>
+                <Textarea
+                    id="precontent"
+                    name="precontent"
+                    value={fundingData.precontent}
+                    onChange={handleChange}
+                    />
+            </TableCell>    
             </TableRow>
             <TableRow>
-                <TableCell> 시작일 </TableCell>
+                <TableCell> start </TableCell>
                 <TableCell>
                 <Input
                     type="Date"
@@ -156,7 +190,7 @@ export default function FundingEdit(){
                 </TableCell>
             </TableRow>
             <TableRow>
-                <TableCell> 마감일 </TableCell>
+                <TableCell> end </TableCell>
                 <TableCell>
                 <Input
                     type="Date"
@@ -168,7 +202,7 @@ export default function FundingEdit(){
                 </TableCell>
             </TableRow>
             <TableRow>
-                <TableCell> 목표 금액 </TableCell>
+                <TableCell> goalamount </TableCell>
                 <TableCell>
                 <Input
                     type="number"
@@ -182,7 +216,7 @@ export default function FundingEdit(){
             <TableRow>
                 <TableCell sx={cellStyle}></TableCell>
                 <TableCell sx={cellStyle} align="right">
-                    <Button active type="submit"> 등록 </Button>
+                    <Button active="true" type="submit"> 등록 </Button>
                 </TableCell>
             </TableRow>
             </tbody>
