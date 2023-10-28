@@ -130,10 +130,10 @@ const BorderLine = styled.div`
 const CreateAccountLink = styled.a`
   width: 113.14px;
   height: 14.23px;
-  margin: 0px 104.6px;
+  margin: 0px 100px;
   text-align: center;
   color: #1997F6;
-  font-size: 8px;
+  font-size: 11px;
   font-family: 'Inter', sans-serif;
   font-weight: 400;
   text-decoration: underline;

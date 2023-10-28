@@ -4,6 +4,8 @@ import ResetStyles from "./resetStyles";
 import { BsFillPersonFill } from "react-icons/bs";
 import menuStyles from "./menuStyles.module.css";
 import { useEffect, useState } from "react";
+import axios from "axios";
+import { getAuthToken } from "../user/axios_helper";
 
 const LeftMenuContain = styled.div`
     width: 240px;
@@ -21,6 +23,41 @@ export default function MyPagesMenu(){
             setEmail(userEmail);
         }
     },[]);
+
+    const ondelete = () => {
+
+        const checked = window.confirm("회원탈퇴 하시겠습니까?");
+
+        const userno = localStorage.getItem("userno");
+
+        if(checked){
+            axios.get(`http://localhost:8081/user/userdelete?userno=${userno}`,{
+            headers: {
+                Authorization: `Bearer ${(getAuthToken())}`
+            }
+            })
+            .then((response) => {
+                alert("회원탈퇴처리되었습니다.")
+                localStorage.removeItem('auth_token');
+                localStorage.removeItem('joindate');
+                localStorage.removeItem('userno');
+                localStorage.removeItem('email');
+                localStorage.removeItem('name');
+                localStorage.removeItem('phone');
+                localStorage.removeItem('address');
+                window.location.href = '/'; 
+                
+            }) 
+            .catch((error) => {
+                
+            })
+        }
+        else{
+            return;
+        }
+
+        
+    }
 
     return(
         <LeftMenuContain>
@@ -74,7 +111,7 @@ export default function MyPagesMenu(){
             <h3 className={menuStyles.h3_title}>회원 정보</h3>
             <ul className={menuStyles.ul_class}>
                 <li><Link href="/myPage/myInfo/userInfo">회원정보 수정</Link></li>
-                <li><Link href="">회원 탈퇴</Link></li>
+                <li><div onClick={ondelete}>회원 탈퇴</div></li>
             </ul>
 
             {/* <h3 className={menuStyles.h3_title}><Link href="">로그아웃</Link></h3> */}

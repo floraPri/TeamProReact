@@ -1,6 +1,7 @@
 import styled from "styled-components"
 import LoginPages from "@/pages/user/login/login";
 import { useEffect ,useState } from "react";
+import Weather from "@/component/auction/weather";
 
 const Container = styled.div`
 margin:  100px auto 0 auto;
@@ -56,9 +57,9 @@ export default function Main (){
          {token === null || token === 'null' ? <LoginTab>
           <LoginPages />
           </LoginTab> : null } 
-          {/* <WeatherTab>
-             <Weather /> 
-           </WeatherTab>  */}
+           <WeatherTab>
+             {/* <Weather />  */}
+           </WeatherTab>  
         </SideTab>
       </Container>
     )

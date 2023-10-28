@@ -19,7 +19,7 @@ const Text = styled.span`
     font-size: 18px;
 `;
 
-const Text_1 = styled.span`
+const Text1 = styled.span`
 
 `;
 
@@ -80,9 +80,9 @@ function Weather() {
             </Text>
             <br></br>
             오늘의 추천 옷차림은&nbsp;
-            <Text_1>
+            <Text1>
                 {Text_1}&nbsp;
-            </Text_1>
+            </Text1>
             입니다!
           </Card.Text>
         </Card.Body>
