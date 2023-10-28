@@ -17,18 +17,12 @@ const MessageText = styled.div`
   margin: 5px;
 `;
 
-const MessageItem = ({ isMyMessage, message }) => {
+const MessageItem = ({ sender, message }) => {
   
-  const [userName, setUserName] = useState('');
-
-  useEffect(()=> {
-    const nameSetLocalStorage = localStorage.getItem('name');
-    setUserName(nameSetLocalStorage)
-  }, []);
 
   return (
-      <MessageContainer isMyMessage={isMyMessage}>
-          <NickName>{isMyMessage ? userName : '참가자들'}:</NickName>
+      <MessageContainer>
+          <NickName>{sender}:</NickName>
           <MessageText>{message}</MessageText>
       </MessageContainer>
   );

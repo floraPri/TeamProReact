@@ -37,18 +37,18 @@ const Chat = () => {
 
     const router = useRouter();
     const { auctionno } = router.query;
-
     const [messages, setMessages] = useState([]);
-    //const [bidMessages, setBidMessages] = useState([]);
     const [newMessage, setNewMessage] = useState('');
     const stompClientRef = useRef(null);
 
-        // SockJS 및 STOMP 클라이언트 설정
-    const socket = new SockJS('http://localhost:8081/ws'); // WebSocket 서버 URL
-    const stompClient = Stomp.over(socket);
-
+    
     useEffect(() => {
         if (!stompClientRef.current) {
+
+            // SockJS 및 STOMP 클라이언트 설정
+            const socket = new SockJS('http://localhost:8081/ws'); // WebSocket 서버 URL
+            const stompClient = Stomp.over(socket);
+
             // 웹소켓 연결 시도
             stompClient.connect({}, (frame) => {
                 console.log('소켓 연결!:', frame);
@@ -71,8 +71,8 @@ const Chat = () => {
     
             // 컴포넌트 언마운트 시 웹소켓 연결 해제
             return () => {
-                if (stompClient.connected) {
-                    stompClient.disconnect();
+                if (stompClientRef.current) {
+                    stompClientRef.current.disconnect();
                 }
             };
         }
@@ -83,20 +83,19 @@ const Chat = () => {
     };
     
     //엔터 치면 채팅 올라가게 되는 핸들러
-    const handleKeyPress = (e)  => {
-        if (e.key === 'Enter') {
-            handleSend();
-        }
-    };
+
     const handleSend = () => {
         if (newMessage) {
             const message = {
                 sender: localStorage.getItem('name'), // 여기서 현재 사용자의 이름을 사용하거나 다른 식별 가능한 정보를 사용할 수 있습니다.
                 text: newMessage,
             };
-            stompClient.send(`/app/send/message/${auctionno}`, {}, JSON.stringify(message));
+            stompClientRef.current.send(`/app/send/message/${auctionno}`, {}, JSON.stringify(message));
             setNewMessage('');
         }
+    };
+    const handleKeyPress = e => {
+        if (e.key === 'Enter') handleSend();
     };
 
     useEffect(() => {
@@ -111,7 +110,7 @@ const Chat = () => {
                 {messages.map((message, index) => (
                     <MessageItem
                         key={index}
-                        isMyMessage={message.sender === localStorage.getItem('name')} // 메시지가 현재 사용자의 것인지 확인
+                        sender={message.sender}
                         message={message.text}
                     />
                 ))}
@@ -123,6 +122,7 @@ const Chat = () => {
                     value={newMessage}
                     onChange={handleNewMessageChange}
                     onKeyPress={handleKeyPress}
+
                 />
                 <SendButton onClick={handleSend}>전송</SendButton>
             </InputContainer>
