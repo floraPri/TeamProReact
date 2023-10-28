@@ -42,3 +42,48 @@ p.dateTxt {
     font-size: 1.8em;
 }
 
+/*---- 유저 프로필 부분  -----*/
+/*----- feedHeaders.js  -----*/
+
+.topWrap {
+    width: 100%;
+    box-sizing: border-box;
+    border-radius: 10px;
+
+}
+.topWrap h3 {
+    font-size: 2.2em;
+    width: 100%;
+    box-sizing: border-box;
+    padding: 10px 30px;
+    background: #03C179;
+    color: #fff;
+    border-bottom: 1px solid #6de0b0;
+}
+
+.boxWarp {
+    display: flex;
+    justify-content:space-around;
+    flex-wrap: wrap;
+    align-items: center;
+    box-sizing: border-box;
+}
+
+div.innerBox {
+    width: 100px;
+    height: 100px;
+    background: #03C179;
+    border-radius: 10px;
+    text-align:center;
+    font-size: 1.2em;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #f9f9f9;
+}
+
+span.spanTxt {
+    font-size: 2.2em;
+    font-weight: bold;
+    color: #fff;
+}

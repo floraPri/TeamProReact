@@ -1,8 +1,10 @@
 import styled from "styled-components";
 import rightStyles from "@/component/myPage/myPRightStyle.module.css";
+import React from "react";
+
 
 /**
- * 마이페이지 내 채널 정보 하단에 입력되는 부분
+ * 마이페이지 내 채널 정보 하단에 보이는 내가 등록한 피드
  */
 
 
@@ -16,28 +18,38 @@ const Li = styled.li`
     padding-bottom: 50px;
 `;
 
+const ThumbImage = styled.img`
+  width: 250px; 
+  height: auto;
+`;
 
-export default function MyFeedList(){
+
+export default function MyFeedList({feedData}){
     return(
     <div>
         <UlList>
-            <Li>
+            {feedData.map((feed, index) => (
+            <Li key={index}>
                 {/* <div>
                     <h2 className={rightStyles.idWrap}>타이틀 부분</h2>
                 </div> */}
                 <div className={rightStyles.boxWrap}>
-                    <h3 className={rightStyles.titleWrap}>타이틀 부분</h3>
+                    <h3 className={rightStyles.titleWrap}>{feed.feedtitle}</h3>
                     <div className={rightStyles.boxWrap2}>
-                        <p className={rightStyles.dateTxt}>2023-10-28</p>
+                        <p className={rightStyles.dateTxt}>{feed.feedregdate}</p>
                     </div>
                     <p className={rightStyles.txtWrap}>
-                            입력한 본문 부분
+                        {feed.feedcontent}
                     </p>
                     <p>
-                        dfdfd 이미지 부분
+                        <ThumbImage 
+                            src={feed.feedimg}
+                            alt={feed.feddtitle}
+                            />
                     </p>
                 </div>
             </Li>
+            ))}
         </UlList>
     </div>
     );

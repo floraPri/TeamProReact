@@ -7,6 +7,7 @@ import { FavoriteBorder, Favorite } from '@mui/icons-material';
 import { useState ,useEffect } from "react";
 import axios from "axios";
 import { useRouter } from "next/router";
+import FeedProfileHeader from "@/component/feed/feedHeader";
 
 
 const Container = styled.div`
@@ -40,12 +41,7 @@ const ThumbImage = styled.img`
   height: auto;
 `;
 
-const ProfileWrap = styled.div`
-    margin: 20px auto 0;
-    width: 600px;
-    height: 150px;
-    background: #03C179;
-`;
+
 
 const label = { inputProps: { 'aria-label': 'Checkbox demo' } };
 
@@ -112,11 +108,7 @@ export default function FeedListByIdPage(){
     return(
     <Container>
         <ResetStyles />
-        <ProfileWrap>
-            <div>
-                {userid}
-            </div>
-        </ProfileWrap>
+        <FeedProfileHeader userid={userid} />
         {feedData !== null ? (
             <UlList>
             {feedData.map((feed,index) => (

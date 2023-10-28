@@ -87,7 +87,7 @@ export default function MyPages (){
   };
   
   //피드 상세 메서드(현재 미작성)
-
+  
   useEffect(() => {
     const userNo = localStorage.getItem('userno');
     const userEmail = localStorage.getItem('email');
