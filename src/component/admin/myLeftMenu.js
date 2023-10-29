@@ -52,7 +52,6 @@ export default function MyLeftMenu (){
               <LeftMenuTab onClick={() => router.push('/admin/adminHome') }>HOME</LeftMenuTab>
               <LeftMenuTab onClick={() => router.push('/admin/adminSearchUser') }>유저검색</LeftMenuTab>
               <LeftMenuTab onClick={() => router.push('/admin/addCs') }>질문등록</LeftMenuTab>
-              <LeftMenuTab>logout</LeftMenuTab>
             </LeftMenuIn>
           </LeftMenu>
         </ContainerIn>

@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react';
 import Button from 'react-bootstrap/Button';
 import { useRouter } from "next/router";
 import axios from 'axios';
+import { getAuthToken } from "@/component/user/axios_helper";
 
 const AcuAdd = styled.div`
 
@@ -79,6 +80,9 @@ export default function AuctionEdit() {
     axios.get(`http://localhost:8081/auction/auctionEdit`, {
       params: {
         auctionno: auctionno,
+      },
+      headers: {
+        Authorization: `Bearer ${getAuthToken()}`,
       }
     })
       .then((response) => {

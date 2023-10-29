@@ -1,7 +1,7 @@
 import { Righteous } from "next/font/google";
 import styled from "styled-components";
-import { BiSearch, BiSolidUserCircle } from "react-icons/bi";
-import { BsBell } from "react-icons/bs";
+import { BiSearch,  BiSolidUserCircle } from "react-icons/bi";
+import { GrUserAdmin  } from "react-icons/gr";
 import { useRouter } from "next/router";
 import Dropdown from 'react-bootstrap/Dropdown';
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -12,12 +12,14 @@ export default function Header() {
     const router = useRouter();
     const [hasNotification] = useState(true);
     const [search, setSearch] = useState('');
+    const [authority, setAuthority] = useState(null);
     const [token, setToken] = useState(null);
 
   useEffect(() => {
     const tokenFromLocalStorage = localStorage.getItem('auth_token');
     console.log(tokenFromLocalStorage);
     setToken(tokenFromLocalStorage);
+    setAuthority(localStorage.getItem('authority'));
   }, [])
 
     const searchHandler = (e) =>{
@@ -49,6 +51,7 @@ export default function Header() {
               localStorage.removeItem('name');
               localStorage.removeItem('phone');
               localStorage.removeItem('address');
+              localStorage.removeItem('authority');
               window.location.href = '/'; 
             } else {
               // 로그아웃 실패
@@ -66,7 +69,6 @@ export default function Header() {
             <ContainerIn>
                 <Title onClick={() => router.push('/main/main') }>weAround</Title>
                 <LeftMenu>
-                    <LeftMenuTab onClick={() => router.push('/channel/product') }>중고거래</LeftMenuTab>
                     <LeftMenuTab onClick={() => router.push('/auction/auction') }>경매</LeftMenuTab>
                     <LeftMenuTab onClick={() => router.push('/funding/funding') }>펀딩</LeftMenuTab>
                 </LeftMenu>
@@ -77,29 +79,39 @@ export default function Header() {
                     </SearchForm>
                 </SearchBar>
                 <RightMenu>
-                    <RightMenuTab>
-                        <StyledDropdown>
-                            <StyledDropdownToggle  variant="white">
-                                {hasNotification && <RedDot />}
-                                <BsBell style={{width:'20px',height:'20px'}}/>
-                            </StyledDropdownToggle >
-                            <Dropdown.Menu>
-                                <Dropdown.Item href="#/action-1">새 글이 등록되었습니다.</Dropdown.Item>
-                                <Dropdown.Item href="#/action-1">읽지 않은 채팅이 있습니다.</Dropdown.Item>
-                            </Dropdown.Menu>
-                        </StyledDropdown>
-                    </RightMenuTab>
-                    <RightMenuTab>
-                        <StyledDropdown>
-                            <StyledDropdownToggle  variant="white">
-                                <BiSolidUserCircle style={{width:'30px',height:'30px'}}/>
-                            </StyledDropdownToggle >
-                            <Dropdown.Menu>
-                                <Dropdown.Item onClick={() => router.push('/myPage/myp') }>마이페이지</Dropdown.Item>
-                                <Dropdown.Item onClick={handleLogout}>로그아웃</Dropdown.Item>
-                            </Dropdown.Menu>
-                        </StyledDropdown>
-                    </RightMenuTab>
+                    {authority === "ROLE_ADMIN" && (
+                        <RightMenuTab>
+                            <StyledDropdown>
+                                <StyledDropdownToggle  variant="white">
+                                    <GrUserAdmin style={{width:'30px',height:'30px'}}/>
+                                </StyledDropdownToggle >
+                                <Dropdown.Menu>
+                                    <Dropdown.Item onClick={() => router.push('/admin/adminHome') }>관리자페이지</Dropdown.Item>
+                                    <Dropdown.Item onClick={handleLogout}>로그아웃</Dropdown.Item>
+                                </Dropdown.Menu>
+                            </StyledDropdown>
+                        </RightMenuTab>
+                    )}
+                    {authority == "ROLE_USER" && (
+                        <RightMenuTab>
+                            <StyledDropdown>
+                                <StyledDropdownToggle  variant="white">
+                                    <BiSolidUserCircle style={{width:'30px',height:'30px'}}/>
+                                </StyledDropdownToggle >
+                                <Dropdown.Menu>
+                                    <Dropdown.Item onClick={() => router.push('/myPage/myp') }>마이페이지</Dropdown.Item>
+                                    <Dropdown.Item onClick={handleLogout}>로그아웃</Dropdown.Item>
+                                </Dropdown.Menu>
+                            </StyledDropdown>
+                        </RightMenuTab>
+                    )}
+                    {authority == null && (
+                        <RightMenuTab>
+                            <StyledDropdown>
+                                <></>
+                            </StyledDropdown>
+                        </RightMenuTab>
+                    )}
                     <RightMenuTab onClick={() => router.push('/csCenter/csCenter') }>고객센터</RightMenuTab>
                     <RightMenuTab>
                         <Dropdown>
@@ -131,6 +143,9 @@ const Container = styled.div`
     background: white;
     border-bottom : 1px solid #E7E7E7;
     padding-bottom: 10px;
+    position: fixed;
+    top: 0;
+    z-index: 5;
 `;
 const ContainerIn = styled.div`
     width: 1280px; 
@@ -153,7 +168,7 @@ const Title = styled.div`
 
 const LeftMenu = styled.div`
     display: flex;
-    width: 230px; 
+    width: 170px; 
     justify-content: space-between
 `;
 
