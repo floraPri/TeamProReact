@@ -5,6 +5,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import {Button} from "@mui/material";
 import React, { useState, useEffect} from "react";
 import axios from "axios";
+import { getAuthToken } from "@/component/user/axios_helper";
 
 const Container = styled.div`
   width: 1280px;
@@ -87,7 +88,10 @@ export default function AddCs() {
   // 페이지 시작할때 목록 뿌리기
   useEffect(() => {
     console.log("useEffect 시작")
-    axios.get(`http://localhost:8081/admin/addCs`)
+    axios.get(`http://localhost:8081/admin/addCs`,{
+      headers: {
+      Authorization: `Bearer ${getAuthToken()}`,
+    }})
       .then(response => {
         console.log("api응답:", response.data)
         if (Array.isArray(response.data)) {
@@ -125,7 +129,10 @@ export default function AddCs() {
         content: content,
         createdate: formattedDate,
         show: show
-      })
+      },{
+        headers: {
+        Authorization: `Bearer ${getAuthToken()}`,
+      }})
         .then(response => {
           setSelectedQuestion(null);
           setTitle('');
@@ -145,7 +152,10 @@ export default function AddCs() {
         questionnum: questionnum,
         title: title,
         content: content
-      })
+      },{
+        headers: {
+        Authorization: `Bearer ${getAuthToken()}`,
+      }})
         .then(response => {
           setQuestionnum('');
           setTitle('');
@@ -173,7 +183,10 @@ export default function AddCs() {
       axios.put(`http://localhost:8081/admin/csDelete`,{
         questionnum: e.questionnum,
         show: '1'
-      })
+      },{
+        headers: {
+        Authorization: `Bearer ${getAuthToken()}`,
+      }})
       
         .then(response => {
           console.log("axios");

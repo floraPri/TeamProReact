@@ -7,30 +7,9 @@ import styled from "styled-components";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { useRouter } from "next/router";
 import axios from 'axios';
+import { getAuthToken } from "@/component/user/axios_helper";
 
 function AuctionHost() {
-
-  function timeCount(endTime) {
-    const currentTime = new Date();
-    const endTimeDate = new Date(endTime); // endTime을 Date 객체로 파싱
-
-    // 년, 월, 일, 시, 분, 초를 가져오기
-    const years = endTimeDate.getFullYear() - currentTime.getFullYear();
-    const months = endTimeDate.getMonth() - currentTime.getMonth();
-    const days = endTimeDate.getDate() - currentTime.getDate();
-    const hours = endTimeDate.getHours() - currentTime.getHours();
-    const minutes = endTimeDate.getMinutes() - currentTime.getMinutes();
-    const seconds = endTimeDate.getSeconds() - currentTime.getSeconds();
-
-    // 남은 시간을 계산
-    const totalMilliseconds = years * 31536000000 + months * 2592000000 + days * 86400000 + hours * 3600000 + minutes * 60000 + seconds * 1000;
-
-    const remainingHours = Math.floor(totalMilliseconds / (1000 * 60 * 60));
-    const remainingMinutes = Math.floor((totalMilliseconds % (1000 * 60 * 60)) / (1000 * 60));
-    const remainingSeconds = Math.floor((totalMilliseconds % (1000 * 60)) / 1000);
-
-    return { hours: remainingHours, minutes: remainingMinutes, seconds: remainingSeconds };
-  }
 
   const Container__1 = styled.div`
     display: flex;      /* 한줄(수평)로 배치 */
@@ -126,13 +105,15 @@ function AuctionHost() {
 
 
   const [auctionHostData, setAuctionHostData] = useState([]);
-
   useEffect(() => {
     const fetchData = async () => {
       try {
         const response = await axios.get(`http://localhost:8081/auction/auctionHost`, {
           params: {
             userno: localStorage.getItem("userno")
+          },
+          headers: {
+            Authorization: `Bearer ${getAuthToken()}`,
           }
         });
         const data = response.data;
@@ -198,7 +179,7 @@ function AuctionHost() {
             {auctionHostData.map((auctionHostData) => (
               <tr className="cart__list__detail">
                 <TableC>
-                  <TableD img src="/assets/images/auction/ac1.PNG" alt="magic mouse" />
+                  <TableD img src={auctionHostData.image} alt="magic mouse" />
                   {/* 이미지 수정필요!! */}
                 </TableC>
                 <TableB style={{ width: '46%' }}>
@@ -226,8 +207,8 @@ function AuctionHost() {
                   {auctionHostData.name}
                   <Button_ onClick={() => {
                     const auctionno = auctionHostData.auctionno;
-                    router.push(`/auction/auctionHost_chat`);
-                    // router.push(`/auction/auctionHost_chat?auctionno=${auctionno}`); 채팅 활성화시 활성
+                    // router.push(`/auction/auctionHost_chat`);
+                     router.push(`/auction/auctionHost_chat?auctionno=${auctionno}`); //채팅 활성화시 활성
                   }}>
                     채팅
                   </Button_>

@@ -5,6 +5,7 @@ import LoginPages from "../user/login/login";
 import { useRouter } from "next/router";
 import axios from "axios";
 import { getAuthToken } from "@/component/user/axios_helper";
+import SearchRank from "@/component/common/searchrank";
 
 
 export default function Searchresult (){
@@ -120,7 +121,7 @@ export default function Searchresult (){
                   <CardContent>{highlightText(ad.auctioncontent, search)}</CardContent>
                 </CardLeft>
                 <CardRight>
-                  {ad.image}
+                  <CardImg src={ad.image} />
                 </CardRight>
               </ContentCard>
               ))}
@@ -138,7 +139,7 @@ export default function Searchresult (){
                   <CardContent>{highlightText(ad.content, search)}</CardContent>
                 </CardLeft>
                 <CardRight>
-                  {ad.image}
+                  <CardImg src={ad.image} />
                 </CardRight>
               </ContentCard>
               ))}
@@ -157,7 +158,7 @@ export default function Searchresult (){
                     <CardContent>{highlightText(ad.feedcontent, search)}</CardContent>
                   </CardLeft>
                   <CardRight>
-                    {ad.feedimg}
+                    <CardImg src={ad.image} />
                   </CardRight>
                 </ContentCard>
                 ))}
@@ -181,6 +182,9 @@ export default function Searchresult (){
           <WeatherTab>
             {/* <Weather />  */}
           </WeatherTab>  
+          <SearchRankTab>
+            <SearchRank />
+          </SearchRankTab> 
       </SideTab>
     </Container>
   )
@@ -235,6 +239,7 @@ const ContentCard = styled.div`
   border-bottom: 1px solid #f0f0f0; 
   display: flex;
   justify-content: space-between;
+  align-items: center;
   width:560px;
   padding: 10px;
 `;
@@ -242,12 +247,21 @@ const ContentCard = styled.div`
 const CardRight = styled.div`
   width:100px;
   height:100px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 `;
 
 const CardLeft = styled.div`
    width:440px; 
 
 `;
+
+const CardImg = styled.img`
+   width:100px; 
+
+`;
+
 
 
 
@@ -276,6 +290,13 @@ const SideTab = styled.div`
 const WeatherTab = styled.div`
   width: 300px;
   height: 180px;
-  /* border: 1px solid black; */
+  border: 1px solid black;
+  margin-bottom: 40px;
+`;
+
+const SearchRankTab = styled.div`
+  width: 300px;
+  height: 600px;
+  border: 1px solid black;
   margin-bottom: 40px;
 `;
