@@ -4,6 +4,8 @@ h2.idWrap {
     box-sizing: border-box;
     font-size: 1.6em;
     background-color: #e6e6e6;
+    border-top-right-radius: 20px;
+    border-top-left-radius: 20px;
 }
 
 .boxWrap {
@@ -12,12 +14,14 @@ h2.idWrap {
     box-sizing: border-box;
     padding: 40px;
     overflow: hidden;
+    border-bottom-left-radius: 20px;
+    border-bottom-right-radius: 20px;
 }
 
 h3.titleWrap {
     font-size: 2em;
     font-weight: bold;
-    padding-bottom: 20px;
+    padding-bottom: 10px;
     color:#4f4f4f;
     border-bottom: 1px solid #cecece;
 }
@@ -39,7 +43,7 @@ h3.titleWrap {
 
 p.dateTxt {
     color: #969696;
-    font-size: 1.8em;
+    font-size: 1.4em;
 }
 
 /*---- 유저 프로필 부분  -----*/

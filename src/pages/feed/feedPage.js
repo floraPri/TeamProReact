@@ -36,6 +36,7 @@ const UlList = styled.ul`
 
 const Li = styled.li`
     padding-bottom: 50px;
+    border-radius: 20px;
 `;
 
 const ThumbImage = styled.img`
@@ -86,7 +87,7 @@ export default function FeedPage(){
         <UlList>
             {feeds.map((feed,index) => (
             <Li key={index}>
-                <div>
+                <div className={feedStyles.h2Wrap}>
                     <Link
                         href={`/feed/feedListByIdPage?userid=${feed.userid}`}
                         as={`/feed/feedListByIdPage?userid=${feed.userid}`}>
