@@ -158,7 +158,7 @@ export default function Searchresult (){
                     <CardContent>{highlightText(ad.feedcontent, search)}</CardContent>
                   </CardLeft>
                   <CardRight>
-                    <CardImg src={ad.image} />
+                    <CardImg src={ad.feedimg} />
                   </CardRight>
                 </ContentCard>
                 ))}
@@ -176,6 +176,7 @@ export default function Searchresult (){
 
       </SearchMain>
       <SideTab>
+        <SideTab2>
         {token === null || token === 'null' ? <LoginTab>
         <LoginPages />
         </LoginTab> : null } 
@@ -185,13 +186,14 @@ export default function Searchresult (){
           <SearchRankTab>
             <SearchRank />
           </SearchRankTab> 
+          </SideTab2>
       </SideTab>
     </Container>
   )
 }
 
 const Container = styled.div`
-margin:  100px auto 0 auto;
+margin:  50px auto 0 auto;
 display: flex;
 width: 940px;
 height: auto;
@@ -225,7 +227,7 @@ const SearchContentTitle = styled.div`
   font-size: 20px;
   font-weight: 900;
   margin-bottom: 10px;
-  /* border-bottom: 1px solid #f0f0f0; */
+  border-bottom: 1px solid #f0f0f0;
   padding-bottom: 15px;
 `;
 
@@ -286,6 +288,10 @@ const LoginTab = styled.div`
 
 const SideTab = styled.div`
 
+`;
+const SideTab2 = styled.div`
+position: fixed;
+margin-left: -300px;
 `;
 const WeatherTab = styled.div`
   width: 300px;

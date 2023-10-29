@@ -15,7 +15,7 @@ const Container = styled.div`
     justify-content: center;
     white-space: pre-line;
     font-size:12px;
-    margin: 10px;
+    /* margin: 10px; */
     width:100%;
 `;
 
@@ -28,7 +28,7 @@ const Title = styled.div`
 `;
 
 const UlList = styled.ul`
-    margin: 50px auto 0;
+    margin: 0px auto 0;
     width: 100%;
 `;
 
