@@ -8,6 +8,8 @@ import { useState ,useEffect } from "react";
 import axios from "axios";
 import { getAuthToken } from "@/component/user/axios_helper";
 import Link from "next/link";
+import CommentList from "@/component/feed/commnetList";
+import CommentAdd from "@/component/feed/commentAdd";
 
 
 const Container = styled.div`
@@ -44,7 +46,7 @@ const ThumbImage = styled.img`
 const label = { inputProps: { 'aria-label': 'Checkbox demo' } };
 
 export default function FeedPage(){
-    const [feeds, setFeeds] = useState(null);
+    const [feeds, setFeeds] = useState([]);
 
     const formatTimeStamp = (timestamp) => {
         const options = {
@@ -78,7 +80,7 @@ export default function FeedPage(){
     return(
     <Container>
         <ResetStyles />
-        {feeds === null ? (
+        {feeds === 0 ? (
             <p>게시물이 없습니다.</p>
         ) : (
         <UlList>
@@ -112,7 +114,10 @@ export default function FeedPage(){
                             src={feed.feedimg}
                             alt={feed.feedtitle} />
                     </p>
+                    {/*  댓글 출력 부분 */}
+                    <CommentList feedcode={feed.feedcode} />
                 </div>
+                <CommentAdd feedcode={feed.feedcode} />
             </Li>
             ))}
         </UlList>

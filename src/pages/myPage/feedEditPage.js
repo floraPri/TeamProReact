@@ -21,7 +21,8 @@ const Container = styled.div`
 const RightContainer = styled.div`
     width: 960px;
     padding-left: 50px;
-    objectFit="cover"
+    objectFit: cover;
+
 `;
 
 const RightInnerWrap = styled.div`
