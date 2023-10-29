@@ -116,8 +116,9 @@ export default function FeedPage(){
                     </p>
                     {/*  댓글 출력 부분 */}
                     <CommentList feedcode={feed.feedcode} />
+                    <CommentAdd feedcode={feed.feedcode} />
                 </div>
-                <CommentAdd feedcode={feed.feedcode} />
+                
             </Li>
             ))}
         </UlList>

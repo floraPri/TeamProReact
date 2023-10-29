@@ -87,3 +87,40 @@ span.spanTxt {
     font-weight: bold;
     color: #fff;
 }
+
+
+/* 피드댓글 추가 */
+.feedAddWrap {
+    margin-top:20px;
+}
+
+.cmtAddBtnWrap {
+    text-align: right;
+}
+
+/* 피드리스트 출력부분 */
+ul.cmtUl {
+    width: 100%;
+}
+
+ul.cmtUl li {
+    width: 100%;
+    margin-bottom: 20px;
+    border-bottom: 1px solid #e0e0e0;
+}
+.cmtList {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+p.writerWarp {
+    font-size: 1.2em;
+}
+p.cmtContentWrap {
+    width: 300px;
+    font-size: 1.22em;
+    overflow: hidden;
+    text-align: left;
+    word-wrap: break-word;
+}
+

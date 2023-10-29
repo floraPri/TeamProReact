@@ -6,6 +6,9 @@ import { AiFillCheckCircle } from "react-icons/Ai";
 import {Table ,TableCell, TableRow, TableBody, Button, TableContainer} from "@mui/material";
 import { Form } from "react-bootstrap";
 import { useRouter } from "next/router";
+import Box from '@mui/material/Box';
+import TextField from '@mui/material/TextField';
+import feedStyles from "@/component/feed/feedStyles.module.css";
 
 //로컬스토리지 email가져오는 메서드
  function getUserIdFromLocalStorage(){
@@ -13,7 +16,7 @@ import { useRouter } from "next/router";
     return userid;
  }
 
-//로컬스토리 userno 가져오는 메서드
+//로컬스토리지 userno 가져오는 메서드
 function getUserNoFromLocalStorage(){
     const userno = localStorage.getItem("userno");
     return userno;
@@ -79,15 +82,32 @@ export default function CommentAdd({feedcode}){
     };
 
     return(
-        <div>
+        
+        <div className={feedStyles.feedAddWrap}>
             {/* 댓글등록 부분 {feedcode} */}
             <form onSubmit={cmtSave}>
                 {/* <input type="hidden" name="feedcode" value={feedcode} id="feedcode" /> */}
-                <textarea 
+                {/* <textarea 
                     name="comment_content" 
                     id="comment_content"
-                    onChange={onChange} />
-                <Button active="true" type="submit"><AiFillCheckCircle size="20" /></Button>
+                    onChange={onChange} /> */}
+
+            <TextField
+                id="comment_content"
+                name="comment_content"
+                multiline
+                onChange={onChange}
+                variant="standard"
+                width="20"
+                placeholder="댓글 입력"
+                sx={{ width: "100%" }}
+            />
+            <div className={feedStyles.cmtAddBtnWrap}>
+                <Button active="true" type="submit" width="20">
+                    <AiFillCheckCircle size="20" />
+                </Button>
+            </div>
+                
             </form>
         </div>
     );
