@@ -77,10 +77,10 @@ export default function CommentAdd({feedcode}){
         // 등록후 ... input 입력값 초기화..
         document.getElementById("comment_content").value=" ";
     };
-    
+
     return(
         <div>
-            댓글등록 부분 {feedcode}
+            {/* 댓글등록 부분 {feedcode} */}
             <form onSubmit={cmtSave}>
                 {/* <input type="hidden" name="feedcode" value={feedcode} id="feedcode" /> */}
                 <textarea 

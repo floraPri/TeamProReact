@@ -8,6 +8,8 @@ import { useState ,useEffect } from "react";
 import axios from "axios";
 import { useRouter } from "next/router";
 import FeedProfileHeader from "@/component/feed/feedHeader";
+import CommentList from "@/component/feed/commnetList";
+import CommentAdd from "@/component/feed/commentAdd";
 
 
 const Container = styled.div`
@@ -133,10 +135,10 @@ export default function FeedListByIdPage(){
                             src={feed.feedimg}
                             alt={feed.feedtitle} />
                     </p>
+                    {/* 댓글 출력 부분 */}
+                    <CommentList feedcode={feed.feedcode} />
                 </div>
-                <div>
-                    댓글부분
-                </div>
+                <CommentAdd feedcode={feed.feedcode} />
             </Li>
             ))}
         </UlList>
