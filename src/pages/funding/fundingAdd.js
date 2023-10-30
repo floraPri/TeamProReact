@@ -1,5 +1,4 @@
 import styled from "styled-components";
-import Link from "next/link";
 import React, { useState } from "react";
 import Menubar from "@/component/funding/menubar";
 import { TableCell, TableRow, Button } from "@mui/material";
@@ -8,21 +7,23 @@ import axios from "axios";
 import { getAuthToken } from "@/component/user/axios_helper";
 
 const Container = styled.div`
-    display: grid;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     justify-content: center;
-    white-space: pre-line;
-    font-size:12px;
-    margin: 10px;
-    width:100%;
-`;
-
+    width: 100%;
+    height: 100%;
+    margin-bottom:30px;
+    `;
+    
 const Title = styled.div`
     text-align:center;
     font-size:20px;
     font-weight:600;
-    margin:5px;
-    padding: 20px;
-    border-bottom : 1px solid #E7E7E7;
+    margin-top:20px;
+    margin-bottom:20px;
+    padding: 10px 0px 6px 0px;
+    border-bottom : 2px solid #03C179;
 `;
 
 const Input = styled.input`

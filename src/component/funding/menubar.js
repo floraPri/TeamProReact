@@ -12,7 +12,7 @@ const Container = styled.div`
     border-bottom : 1px solid #E7E7E7;
 `;
 
-const Btn = styled.div`
+const Move = styled.div`
     font-size: 15px;
     font-weight: 600;
     width:auto;
@@ -29,6 +29,7 @@ export default function Menubar(){
     <Container>
         <NavDropdown title="My" id="navbarScrollingDropdown">
               <NavDropdown.Item href="/funding/fundingAdd">add</NavDropdown.Item>
+              <NavDropdown.Divider />
               <NavDropdown.Item href="/funding/myFunding/myOrganizeList">
                 올린 프로젝트
               </NavDropdown.Item>
@@ -38,12 +39,12 @@ export default function Menubar(){
               </NavDropdown.Item>
         </NavDropdown> &nbsp; &nbsp;
 
-        <Btn onClick={() => router.push('/funding/funding')}> ALL </Btn>&nbsp;&nbsp;
-        <Btn onClick={() => router.push('/funding/funding')}> 문구 </Btn>&nbsp;&nbsp;
-        <Btn onClick={() => router.push('/funding/funding')}> 출판 </Btn>&nbsp;&nbsp;
-        <Btn onClick={() => router.push('/funding/funding')}> 게임 </Btn>&nbsp;&nbsp;
-        <Btn onClick={() => router.push('/funding/funding')}> 리빙 </Btn>&nbsp;&nbsp;
-        <Btn onClick={() => router.push('/funding/funding')}> 반려동물 </Btn>&nbsp;&nbsp;
+        <Move onClick={() => router.push('/funding/funding')}> ALL </Move>&nbsp;&nbsp;
+        <Move onClick={() => router.push('/funding/funding')}> 문구 </Move>&nbsp;&nbsp;
+        <Move onClick={() => router.push('/funding/funding')}> 출판 </Move>&nbsp;&nbsp;
+        <Move onClick={() => router.push('/funding/funding')}> 게임 </Move>&nbsp;&nbsp;
+        <Move onClick={() => router.push('/funding/funding')}> 리빙 </Move>&nbsp;&nbsp;
+        <Move onClick={() => router.push('/funding/funding')}> 반려동물 </Move>&nbsp;&nbsp;
 
 
     </Container>
