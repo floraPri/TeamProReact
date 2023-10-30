@@ -115,7 +115,13 @@ export default function Searchresult (){
             <SearchContentTitle>경매검색결과</SearchContentTitle>
             <SearchContent>
               {auctionDataSlice.map(ad => (
-                <ContentCard key={ad.auctionno}>
+                <ContentCard key={ad.auctionno} onClick={() => {
+                  // if (!auction.isAuctionEnded) { // 경매가 종료되지 않았을 때만 입장가능
+                    //router.push(`/auction/auctionDetail`);
+                    router.push(`/auction/auctionDetail/?auctionno=${ad.auctionno}`);
+                  // }
+                }}
+              >
                 <CardLeft>
                   <CardTitle>{highlightText(ad.auctiontitle, search)}</CardTitle>
                   <CardContent>{highlightText(ad.auctioncontent, search)}</CardContent>
@@ -133,7 +139,7 @@ export default function Searchresult (){
             <SearchContentTitle>펀딩검색결과</SearchContentTitle>
             <SearchContent>
               {fundingDataSlice.map(ad => (
-                <ContentCard key={ad.fundingcode}>
+                <ContentCard key={ad.fundingcode} onClick={() => router.push(`/funding/fundingDetail?fundingcode=${ad.fundingcode}`)}>
                 <CardLeft>
                   <CardTitle>{highlightText(ad.title, search)}</CardTitle>
                   <CardContent>{highlightText(ad.content, search)}</CardContent>
@@ -221,6 +227,7 @@ const Searchcategory =styled.div`
   border: 1px solid #f0f0f0;
   border-radius: 20px;
   padding: 20px;
+  margin-bottom: 20px;
 `;
 
 const SearchContentTitle = styled.div`
