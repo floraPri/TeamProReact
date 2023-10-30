@@ -225,6 +225,7 @@ h2.idWrap {
     box-sizing: border-box;
     padding: 40px;
     overflow: hidden;
+    border-radius: 20px;
 }
 
 h3.titleWrap {
@@ -254,3 +255,44 @@ p.dateTxt {
     color: #969696;
     font-size: 1.1em;
 }
+
+/*----- 팔로우 리스트 -----*/
+
+.follwBoxWrap {
+    width: 100%;
+    background-color: #FBFBFB;
+    box-sizing: border-box;
+    padding: 40px;
+    overflow: hidden;
+    border-radius: 20px;
+}
+
+.followInner {
+    padding: 10px;
+    box-sizing: border-box;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+p.nameTxtWrap {
+    font-size: 1.8em;
+    font-weight: bold;
+}
+p.nameTxtWrap span {
+    font-size: 16px;
+    color:#969696;
+}
+
+p.idTxtWrap {
+    font-size: 1.2em;
+    color:#969696;
+}
+
+p.idTxtWrap span {
+    font-size: 16px;
+    color:#969696;
+}
+
+
+

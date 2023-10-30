@@ -8,6 +8,8 @@ import { useState ,useEffect } from "react";
 import axios from "axios";
 import { getAuthToken } from "@/component/user/axios_helper";
 import Link from "next/link";
+import CommentList from "@/component/feed/commnetList";
+import CommentAdd from "@/component/feed/commentAdd";
 
 
 const Container = styled.div`
@@ -34,6 +36,7 @@ const UlList = styled.ul`
 
 const Li = styled.li`
     padding-bottom: 50px;
+    border-radius: 20px;
 `;
 
 const ThumbImage = styled.img`
@@ -116,17 +119,18 @@ export default function FeedPage(){
     return(
     <Container>
         <ResetStyles />
-        {feeds === null ? (
+        {feeds === 0 ? (
             <p>게시물이 없습니다.</p>
         ) : (
         <UlList>
             {feeds.map((feed,index) => (
             <Li key={index}>
-                <div>
+                <div className={feedStyles.h2Wrap}>
                     <Link
-                        href={`/feed/feedListByIdPage?userid=${feed.userid}`}
-                        as={`/feed/feedListByIdPage?userid=${feed.userid}`}>
-                        <h2 className={feedStyles.idWrap}>{feed.userid}</h2>
+                        href={`/feed/feedListByIdPage?userid=${feed.userid}&username=${feed.username}`}
+                        as={`/feed/feedListByIdPage?userid=${feed.userid}&username=${feed.username}`}>
+                        {/* <h2 className={feedStyles.idWrap}>{feed.userid}</h2> */}
+                        <h2 className={feedStyles.idWrap}>{feed.username}</h2>
                     </Link>
                 </div>
                 <div className={feedStyles.boxWrap}>
@@ -150,7 +154,11 @@ export default function FeedPage(){
                             src={feed.feedimg}
                             alt={feed.feedtitle} />
                     </p>
+                    {/*  댓글 출력 부분 */}
+                    <CommentList feedcode={feed.feedcode} />
+                    <CommentAdd feedcode={feed.feedcode} />
                 </div>
+                
             </Li>
             ))}
             {dataList && dataList.length !== 0 ?

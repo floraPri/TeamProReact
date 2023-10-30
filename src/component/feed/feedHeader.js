@@ -7,13 +7,21 @@ const ProfileWrap = styled.div`
     width: 600px;
     height: 160px;
     background: #03C179;
+    border-radius: 20px; 
+    overflow: hidden;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    box-sizing: border-box;
 `;
 
-export default function FeedProfileHeader({userid}){
+
+export default function FeedProfileHeader({userid, username}){
     return(
         <ProfileWrap>
             <div className={feedStyles.topWrap}>
-            <h3>{userid}</h3>
+            {/* <h3><span>{userid}</span></h3> */}
+                <h3><span>{username}</span></h3>
             <div className={feedStyles.boxWarp}>
                 <div className={feedStyles.innerBox}>
                     <p>
