@@ -66,10 +66,10 @@ export default function CommentAdd({feedcode}){
     const cmtSave = async (e) => {
         e.preventDefault();
 
-        //텍스트 필드 영역이 빈값인지 체크하
-        if(!inputChk()){
-            return;
-        }
+        //텍스트 필드 영역이 빈값인지 체크하기--> 문제
+        // if(!inputChk()){
+        //     return;
+        // }
 
         const userno = getUserNoFromLocalStorage();
         const userid = getUserIdFromLocalStorage();
@@ -95,6 +95,10 @@ export default function CommentAdd({feedcode}){
             if(response.status === 200){
                 console.log('댓글 데이터가 성공적으로 저장!');
                 alert('댓글이 등록되었습니다!');
+                setCmtData((prevData) => ({
+                    ...prevData,
+                    comment_content: "", // 입력 필드를 빈 문자열로 설정
+                }));
                 window.location.reload();
                 // 입력 필드 초기화
                 // setCmtData((prevData) => ({
