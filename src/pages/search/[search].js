@@ -5,6 +5,7 @@ import LoginPages from "../user/login/login";
 import { useRouter } from "next/router";
 import axios from "axios";
 import { getAuthToken } from "@/component/user/axios_helper";
+import SearchRank from "@/component/common/searchrank";
 
 
 export default function Searchresult (){
@@ -120,7 +121,7 @@ export default function Searchresult (){
                   <CardContent>{highlightText(ad.auctioncontent, search)}</CardContent>
                 </CardLeft>
                 <CardRight>
-                  {ad.image}
+                  <CardImg src={ad.image} />
                 </CardRight>
               </ContentCard>
               ))}
@@ -138,7 +139,7 @@ export default function Searchresult (){
                   <CardContent>{highlightText(ad.content, search)}</CardContent>
                 </CardLeft>
                 <CardRight>
-                  {ad.image}
+                  <CardImg src={ad.image} />
                 </CardRight>
               </ContentCard>
               ))}
@@ -157,7 +158,7 @@ export default function Searchresult (){
                     <CardContent>{highlightText(ad.feedcontent, search)}</CardContent>
                   </CardLeft>
                   <CardRight>
-                    {ad.feedimg}
+                    <CardImg src={ad.feedimg} />
                   </CardRight>
                 </ContentCard>
                 ))}
@@ -175,19 +176,24 @@ export default function Searchresult (){
 
       </SearchMain>
       <SideTab>
+        <SideTab2>
         {token === null || token === 'null' ? <LoginTab>
         <LoginPages />
         </LoginTab> : null } 
           <WeatherTab>
             {/* <Weather />  */}
           </WeatherTab>  
+          <SearchRankTab>
+            <SearchRank />
+          </SearchRankTab> 
+          </SideTab2>
       </SideTab>
     </Container>
   )
 }
 
 const Container = styled.div`
-margin:  100px auto 0 auto;
+margin:  50px auto 0 auto;
 display: flex;
 width: 940px;
 height: auto;
@@ -221,7 +227,7 @@ const SearchContentTitle = styled.div`
   font-size: 20px;
   font-weight: 900;
   margin-bottom: 10px;
-  /* border-bottom: 1px solid #f0f0f0; */
+  border-bottom: 1px solid #f0f0f0;
   padding-bottom: 15px;
 `;
 
@@ -235,6 +241,7 @@ const ContentCard = styled.div`
   border-bottom: 1px solid #f0f0f0; 
   display: flex;
   justify-content: space-between;
+  align-items: center;
   width:560px;
   padding: 10px;
 `;
@@ -242,12 +249,21 @@ const ContentCard = styled.div`
 const CardRight = styled.div`
   width:100px;
   height:100px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 `;
 
 const CardLeft = styled.div`
    width:440px; 
 
 `;
+
+const CardImg = styled.img`
+   width:100px; 
+
+`;
+
 
 
 
@@ -273,9 +289,20 @@ const LoginTab = styled.div`
 const SideTab = styled.div`
 
 `;
+const SideTab2 = styled.div`
+position: fixed;
+margin-left: -300px;
+`;
 const WeatherTab = styled.div`
   width: 300px;
   height: 180px;
-  /* border: 1px solid black; */
+  border: 1px solid black;
+  margin-bottom: 40px;
+`;
+
+const SearchRankTab = styled.div`
+  width: 300px;
+  height: 600px;
+  border: 1px solid black;
   margin-bottom: 40px;
 `;

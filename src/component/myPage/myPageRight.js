@@ -3,7 +3,10 @@ import rightStyles from "./myPRightStyle.module.css";
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
-
+/**
+ * 사용하지 않는 페이지
+ * 사용안함
+ */
 const RightContainer = styled.div`
     width: 960px;
     padding-left: 50px;

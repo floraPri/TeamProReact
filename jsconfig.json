@@ -1,6 +1,5 @@
 {
   "compilerOptions": {
-    "types": ["json5"],
     "paths": {
       "@/*": ["./src/*"]
     }
