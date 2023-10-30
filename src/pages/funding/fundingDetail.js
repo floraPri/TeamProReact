@@ -29,7 +29,7 @@ const Container3 = styled.div`
     
 const ImgContainer = styled.img`
     height:100%;
-    max-width:600px;
+    max-width:400px;
     margin-left:auto;
     margin-right:auto;
     padding:10px;
