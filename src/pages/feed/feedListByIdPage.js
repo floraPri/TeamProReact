@@ -8,6 +8,8 @@ import { useState ,useEffect } from "react";
 import axios from "axios";
 import { useRouter } from "next/router";
 import FeedProfileHeader from "@/component/feed/feedHeader";
+import CommentList from "@/component/feed/commnetList";
+import CommentAdd from "@/component/feed/commentAdd";
 
 
 const Container = styled.div`
@@ -48,11 +50,12 @@ const label = { inputProps: { 'aria-label': 'Checkbox demo' } };
 export default function FeedListByIdPage(){
     const router = useRouter();
     const { userid } = router.query || {userid: ''};
+    const { username } = router.query || {username: ''};
 
     const [feedData, setFeedData] = useState(null);
 
     const fetchfeedData = () => {
-        axios.get(`http://localhost:8081/feed/feedListByIdPage?userid=${userid}`).then((response) => {
+        axios.get(`http://localhost:8081/feed/feedListByIdPage?userid=${userid}&username=${username}`).then((response) => {
             if(response.data){
                 console.log("feedListByIdPage 응답!!!!!!", response.data);
                 setFeedData(response.data);
@@ -108,12 +111,13 @@ export default function FeedListByIdPage(){
     return(
     <Container>
         <ResetStyles />
-        <FeedProfileHeader userid={userid} />
+        <FeedProfileHeader userid={userid} username={username} />
         {feedData !== null ? (
             <UlList>
             {feedData.map((feed,index) => (
             <Li key={index}>
-                <div><h2 className={feedStyles.idWrap}>{feed.userid}</h2></div>
+                {/* <div><h2 className={feedStyles.idWrap}>{feed.userid}</h2></div> */}
+                <div><h2 className={feedStyles.idWrap}>{feed.username}</h2></div>
                 <div className={feedStyles.boxWrap}>
                     <h3 className={feedStyles.titleWrap}>{feed.feedtitle}</h3>
                     <div className={feedStyles.boxWrap2}>
@@ -133,9 +137,9 @@ export default function FeedListByIdPage(){
                             src={feed.feedimg}
                             alt={feed.feedtitle} />
                     </p>
-                </div>
-                <div>
-                    댓글부분
+                    {/* 댓글 출력 부분 */}
+                    <CommentList feedcode={feed.feedcode} />
+                    <CommentAdd feedcode={feed.feedcode} />
                 </div>
             </Li>
             ))}

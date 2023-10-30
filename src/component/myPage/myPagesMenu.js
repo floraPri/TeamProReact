@@ -99,7 +99,7 @@ export default function MyPagesMenu(){
             <h3 className={menuStyles.h3_title}>내 채널</h3>
             <ul className={menuStyles.ul_class}>
                 <li><Link href="/myPage/myChannel">내 채널 정보</Link></li>
-                <li><Link href="">팔로워 채널 목록</Link></li>
+                <li><Link href="/myPage/myFollowerList">팔로워 채널 목록</Link></li>
             </ul>
 
             {/* <h3 className={menuStyles.h3_title}>나의 피드</h3>

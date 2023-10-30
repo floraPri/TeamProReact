@@ -4,6 +4,8 @@ h2.idWrap {
     box-sizing: border-box;
     font-size: 1.6em;
     background-color: #e6e6e6;
+    border-top-right-radius: 20px;
+    border-top-left-radius: 20px;
 }
 
 .boxWrap {
@@ -12,12 +14,14 @@ h2.idWrap {
     box-sizing: border-box;
     padding: 40px;
     overflow: hidden;
+    border-bottom-left-radius: 20px;
+    border-bottom-right-radius: 20px;
 }
 
 h3.titleWrap {
     font-size: 2em;
     font-weight: bold;
-    padding-bottom: 20px;
+    padding-bottom: 10px;
     color:#4f4f4f;
     border-bottom: 1px solid #cecece;
 }
@@ -39,7 +43,7 @@ h3.titleWrap {
 
 p.dateTxt {
     color: #969696;
-    font-size: 1.8em;
+    font-size: 1.4em;
 }
 
 /*---- 유저 프로필 부분  -----*/
@@ -48,17 +52,22 @@ p.dateTxt {
 .topWrap {
     width: 100%;
     box-sizing: border-box;
-    border-radius: 10px;
 
 }
 .topWrap h3 {
-    font-size: 2.2em;
+    font-size: 1.8em;
     width: 100%;
     box-sizing: border-box;
     padding: 10px 30px;
     background: #03C179;
     color: #fff;
     border-bottom: 1px solid #6de0b0;
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
+}
+
+.topWrap h3 span {
+    margin-left: 40px;
 }
 
 .boxWarp {
@@ -87,3 +96,40 @@ span.spanTxt {
     font-weight: bold;
     color: #fff;
 }
+
+
+/* 피드댓글 추가 */
+.feedAddWrap {
+    margin-top:20px;
+}
+
+.cmtAddBtnWrap {
+    text-align: right;
+}
+
+/* 피드리스트 출력부분 */
+ul.cmtUl {
+    width: 100%;
+}
+
+ul.cmtUl li {
+    width: 100%;
+    margin-bottom: 20px;
+    border-bottom: 1px solid #e0e0e0;
+}
+.cmtList {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+p.writerWarp {
+    font-size: 1.2em;
+}
+p.cmtContentWrap {
+    width: 300px;
+    font-size: 1.22em;
+    overflow: hidden;
+    text-align: left;
+    word-wrap: break-word;
+}
+

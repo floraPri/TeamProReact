@@ -15,7 +15,7 @@ const UlList = styled.ul`
 `;
 
 const Li = styled.li`
-    padding-bottom: 50px;
+    margin-bottom: 50px;
 `;
 
 const ThumbImage = styled.img`

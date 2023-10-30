@@ -2,6 +2,7 @@ import styled from "styled-components"
 import LoginPages from "@/pages/user/login/login";
 import { useEffect ,useState } from "react";
 import Weather from "@/component/auction/weather";
+import News from "@/pages/news/news";
 import FeedPage from "../feed/feedPage";
 
 const Container = styled.div`
@@ -56,7 +57,7 @@ export default function Main (){
     return(
       <Container>
         <Feed>
-          <FeedPage />
+           <FeedPage /> 
         </Feed>
         <SideTab>
           <SideTab2>
@@ -67,6 +68,7 @@ export default function Main (){
               <Weather /> 
            </WeatherTab>   */}
            <Weather /> 
+           <News/>  
            </SideTab2>
         </SideTab>
       </Container>

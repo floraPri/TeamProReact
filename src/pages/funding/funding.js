@@ -6,26 +6,29 @@ import Menubar from "@/component/funding/menubar";
 import { getAuthToken } from "@/component/user/axios_helper";
 
 const Container = styled.div`
-    display: grid;
-	align-items:center;
+    display: flex;
+    flex-direction: column;
+	align-items: center;
     justify-content: center;
 	width: 100%;
 	height: 100%;
-`;
-
+    margin-bottom:30px;
+    `;
+    
 const ListContainer = styled.div`
-    display:grid;
+    margin-top:20px;
+    display: grid;
     grid-template-columns: repeat(4, 1fr);
-    align-items:center;
+    align-items: center;
+    justify-items: center;
+    width: 80%;
 `;
 
 const FundingContainer = styled.div`
-    margin: 5px 5px 5px 5px;
     display: flex;
 	flex-direction: column;
 	justify-content: center;
 	align-items:center;
-	width:270px;
     cursor: pointer;
     &:hover {
         color: #03C179;
@@ -33,9 +36,10 @@ const FundingContainer = styled.div`
 `;
 
 const FundingImg = styled.img`
-    width:100%;
-    width:250px;
-    height:auto;
+    width:270px;
+    height: 270px;
+    object-fit: cover; // 비율 유지, 꽉차게 설정
+    margin-top:10px;
     align-items:center;
 `;
 
@@ -54,6 +58,7 @@ const PreContent = styled.div`
     font-size:10px;
     color:lightgrey;
     opacity:0.9;
+    height:50px;
 `;
 
 export default function Funding(){
@@ -65,7 +70,6 @@ export default function Funding(){
         console.log("funding useEffect start")
         axios.get(`http://localhost:8081/funding/funding`,{
             headers: {
-                'Content-Type': 'multipart/form-data', // 파일 업로드에 대한 헤더 설정
                 Authorization: `Bearer ${(getAuthToken())}`
             }
         })
@@ -83,79 +87,40 @@ export default function Funding(){
      
         }, []);
 
-        const renameCategory = (category) => {
-            switch (category) {
-                case 'stationery':
-                return '문구';
-                case 'book':
-                return '출판';
-                case 'game':
-                return '게임';
-                case 'living':
-                return '리빙';
-                case 'pet':
-                return '반려동물';
-                default:
-                return category;
-            }
-        }        
+    const renameCategory = (category) => {
+        switch (category) {
+            case 'stationery':
+            return '문구';
+            case 'book':
+            return '출판';
+            case 'game':
+            return '게임';
+            case 'living':
+            return '리빙';
+            case 'pet':
+            return '반려동물';
+            default:
+            return category;
+        }
+    }        
     return(
 
     <Container>
-
-    <Menubar/>
-			
-    <ListContainer>					
-            {fundings.map((funding) => (
-        <FundingContainer onClick={() => router.push(`/funding/fundingDetail?fundingcode=${funding.fundingcode}`)}>
-            <div key={funding.fundingcode}>
-            <FundingImg src={funding.image}/>
-            <div>
-                <Category> {renameCategory(funding.category)} </Category>
-                <Title> {funding.title} </Title>
-                <PreContent> {funding.precontent} </PreContent>
-            </div>
-            </div>
-        </FundingContainer>
-            ))}
-
-
-
-        <FundingContainer onClick={() => router.push('/funding/fundingDetail')}>
-            <FundingImg src="/assets/images/auction/ac1.png"/>
-            <div>
-                <Category> category </Category>
-                <Title> title </Title>
-                <PreContent> 상세설명 상세설명 상세설명 상세설명 상세설명 </PreContent>
-            </div>
-        </FundingContainer>
-        <FundingContainer onClick={() => router.push('/funding/fundingDetail')}>
-            <FundingImg src="/assets/images/auction/ac1.png"/>
-            <div>
-                <Category> category </Category>
-                <Title> title </Title>
-                <PreContent> 상세설명 상세설명 상세설명 상세설명 상세설명 </PreContent>
-            </div>
-        </FundingContainer>
-        <FundingContainer onClick={() => router.push('/funding/fundingDetail')}>
-            <FundingImg src="/assets/images/auction/ac1.png"/>
-            <div>
-                <Category> category </Category>
-                <Title> title </Title>
-                <PreContent> 상세설명 상세설명 상세설명 상세설명 상세설명 </PreContent>
-            </div>
-        </FundingContainer>
-        <FundingContainer onClick={() => router.push('/funding/fundingDetail')}>
-            <FundingImg src="/assets/images/auction/ac1.png"/>
-            <div>
-                <Category> category </Category>
-                <Title> title </Title>
-                <PreContent> 상세설명 상세설명 상세설명 상세설명 상세설명 </PreContent>
-            </div>
-        </FundingContainer>
-        
-    </ListContainer>
-
+        <Menubar/>
+        <ListContainer>					
+                {fundings.map((funding) => (
+            <FundingContainer onClick={() => router.push(`/funding/fundingDetail?fundingcode=${funding.fundingcode}`)}>
+                <div key={funding.fundingcode}>
+                <FundingImg src={funding.image} alt="Funding Image"/>
+                <div>
+                    <Category> {renameCategory(funding.category)} </Category>
+                    <Title> {funding.title} </Title>
+                    <PreContent> {funding.precontent} </PreContent>
+                </div>
+                </div>
+            </FundingContainer>
+                ))}
+        </ListContainer>
     </Container>
     )
 
