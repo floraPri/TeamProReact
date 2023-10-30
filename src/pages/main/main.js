@@ -57,7 +57,7 @@ export default function Main (){
     return(
       <Container>
         <Feed>
-          <FeedPage />
+          {/* <FeedPage /> */}
         </Feed>
         <SideTab>
           <SideTab2>

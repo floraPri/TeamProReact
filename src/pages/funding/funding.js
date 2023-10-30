@@ -21,7 +21,7 @@ const ListContainer = styled.div`
     grid-template-columns: repeat(4, 1fr);
     align-items: center;
     justify-items: center;
-    width: 75%;
+    width: 80%;
 `;
 
 const FundingContainer = styled.div`

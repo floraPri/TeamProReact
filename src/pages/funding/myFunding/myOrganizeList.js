@@ -6,14 +6,14 @@ import axios from "axios";
 import Menubar from "@/component/funding/menubar";
 
 const Container = styled.div`
-    display: grid;
-    min-width:1000px;
+    display: flex;
+    min-width: 1000px;
     justify-content: center;
+    align-items: center;
     text-align:center;
     padding-top: 30px;
     padding-bottom: 30px;
-    white-space: pre-line;
-    grid-template-rows: repeat(2, 1fr);
+    flex-direction: column;
     `;
     
 const ListContainer = styled.div`
@@ -21,6 +21,7 @@ const ListContainer = styled.div`
     grid-template-columns: repeat(3, 1fr);
     padding-top: 20px
     justify-content: center;
+    width:90%;
 `;
 
 const Card = styled.div`
