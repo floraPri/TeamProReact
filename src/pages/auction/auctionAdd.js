@@ -87,6 +87,7 @@ export default function AuctionAdd() {
     }));
   };
 
+  // 서브밋 시 formdata 에 설정함
   const handleSubmit = async (e) => {
     e.preventDefault();
 
