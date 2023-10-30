@@ -21,12 +21,7 @@ const Container = styled.div`
 const RightContainer = styled.div`
     width: 960px;
     padding-left: 50px;
-<<<<<<< HEAD
     object-fit:cover;
-=======
-    objectFit: cover;
-
->>>>>>> origin/branch_kmj2
 `;
 
 const RightInnerWrap = styled.div`
