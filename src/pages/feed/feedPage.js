@@ -41,10 +41,20 @@ const ThumbImage = styled.img`
   height: auto;
 `;
 
+const LoadMoreTrigger = styled.div`
+    height: 20px;
+    margin: 10px 0;
+    text-align: center;
+`;
+
 const label = { inputProps: { 'aria-label': 'Checkbox demo' } };
 
+
 export default function FeedPage(){
-    const [feeds, setFeeds] = useState(null);
+    const [feeds, setFeeds] = useState([]);
+    const [page, setPage] = useState(0);
+    const [loading, setLoading] = useState(false);
+    const [dataList, setDataList] = useState([]);
 
     const formatTimeStamp = (timestamp) => {
         const options = {
@@ -60,20 +70,48 @@ export default function FeedPage(){
 
     useEffect(() => {
         console.log("feedPage의 useEffect시작!!!");
-
-        axios.get(`http://localhost:8081/feed/feedPage`)
+        
+        setLoading(true);
+        console.log(page);
+        axios.get(`http://localhost:8081/feed/feedPageScroll?page=${page}`)
         .then((response) => {
-            if(response.data){
+            if(response.data && response.data.length > 0){
                 console.log("api응답~~~~~~", response.data);
-                setFeeds(response.data);
-            } else {
-                setFeeds([]);
-            }
+                setFeeds(prevFeeds => [...prevFeeds, ...response.data]);
+                setDataList(response.data);
+            } 
+            setDataList(response.data);
+            console.log("dataList",dataList.length);
+            setLoading(false);  // 여기에서만 로딩 상태를 false로 설정합니다.
         })
-        .catch(error=> {
+        .catch(error => {
             console.log(error);
         });
-    }, []);
+    }, [page]);
+    
+    useEffect(() => {
+        const options = {
+            root: null,
+            rootMargin: '0px',
+            threshold: 1.0
+        };
+    
+        const observer = new IntersectionObserver(entries => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting && !loading) {
+                    console.log("Loading more feeds...");
+                    setPage(prevPage => prevPage + 1);  // 여기에서 페이지를 증가시킵니다.
+                }
+            });
+        }, options);
+        
+        const target = document.querySelector('#loadMoreTrigger');
+        if (target) observer.observe(target);
+        
+        return () => {
+            if (target) observer.unobserve(target);
+        };
+    }, [loading]);
 
     return(
     <Container>
@@ -115,6 +153,11 @@ export default function FeedPage(){
                 </div>
             </Li>
             ))}
+            {dataList && dataList.length !== 0 ?
+             <LoadMoreTrigger id="loadMoreTrigger">Loading...</LoadMoreTrigger> 
+             : null
+             }
+            
         </UlList>
         )}
     </Container>       
