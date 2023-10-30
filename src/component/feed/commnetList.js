@@ -16,8 +16,8 @@ export default function CommentList({feedcode}){
           year: "numeric",
           month: "2-digit",
           day: "2-digit",
-          //hour: "2-digit",
-          //minute: "2-digit",
+          hour: "2-digit",
+          minute: "2-digit",
         };
         const formattedDate = new Intl.DateTimeFormat("ko-KR", options).format(new Date(timestamp));
         return formattedDate;

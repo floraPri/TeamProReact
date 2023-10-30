@@ -9,6 +9,9 @@ import { useRouter } from "next/router";
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import feedStyles from "@/component/feed/feedStyles.module.css";
+import { getAuthToken } from "../user/axios_helper";
+
+
 
 //로컬스토리지 email가져오는 메서드
  function getUserIdFromLocalStorage(){
@@ -22,8 +25,26 @@ function getUserNoFromLocalStorage(){
     return userno;
 }
 
+
+
 export default function CommentAdd({feedcode}){
     const router = useRouter();
+
+    const [isFocused, setFocused] = useState(false);
+
+    // 로컬 스토리지에 token값이 없는 경우(로그아웃 상태일때)
+    // textarea영역에 포커싱 했을때 로그인 요청 하게끔 하는 메서드
+    function isStoragToken(){
+        const token = localStorage.getItem("auth_token");
+
+        if(!token && !isFocused){
+            alert('로그인 필요');
+            setFocused(true);
+            window.location.href="/";
+            return false;
+        }
+        return true;
+    }
 
     //댓글 등록부분
     const [cmtData, setCmtData ] = useState({
@@ -44,6 +65,12 @@ export default function CommentAdd({feedcode}){
     //버튼을 누르면 댓글 등록
     const cmtSave = async (e) => {
         e.preventDefault();
+
+        //텍스트 필드 영역이 빈값인지 체크하
+        if(!inputChk()){
+            return;
+        }
+
         const userno = getUserNoFromLocalStorage();
         const userid = getUserIdFromLocalStorage();
 
@@ -59,7 +86,11 @@ export default function CommentAdd({feedcode}){
         console.log("작성한 댓글 : "+cmtData.comment_content);
 
         try{
-            const response = await axios.post(`http://localhost:8081/feed/commentAdd`,formData);
+            const response = await axios.post(`http://localhost:8081/feed/commentAdd`, formData , {
+                headers: {
+                    Authorization : `Bearer ${(getAuthToken())}`,
+                }
+            });
             
             if(response.status === 200){
                 console.log('댓글 데이터가 성공적으로 저장!');
@@ -81,6 +112,18 @@ export default function CommentAdd({feedcode}){
         document.getElementById("comment_content").value=" ";
     };
 
+    //댓글창 빈값여부 체크
+    function inputChk(){
+        const cmtContent = document.getElementById("comment_content");
+        const cmtValue = cmtContent.value;
+        if(!cmtValue){
+            alert("댓글을 작성해주세요!");
+            cmtContent.focus();
+            return false;
+        }
+        return true;
+    }
+
     return(
         
         <div className={feedStyles.feedAddWrap}>
@@ -97,6 +140,7 @@ export default function CommentAdd({feedcode}){
                 name="comment_content"
                 multiline
                 onChange={onChange}
+                onFocus={isStoragToken}
                 variant="standard"
                 width="20"
                 placeholder="댓글 입력"

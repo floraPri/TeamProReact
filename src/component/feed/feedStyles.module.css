@@ -52,17 +52,22 @@ p.dateTxt {
 .topWrap {
     width: 100%;
     box-sizing: border-box;
-    border-radius: 10px;
 
 }
 .topWrap h3 {
-    font-size: 2.2em;
+    font-size: 1.8em;
     width: 100%;
     box-sizing: border-box;
     padding: 10px 30px;
     background: #03C179;
     color: #fff;
     border-bottom: 1px solid #6de0b0;
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
+}
+
+.topWrap h3 span {
+    margin-left: 40px;
 }
 
 .boxWarp {

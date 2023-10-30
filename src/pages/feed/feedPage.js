@@ -89,9 +89,10 @@ export default function FeedPage(){
             <Li key={index}>
                 <div className={feedStyles.h2Wrap}>
                     <Link
-                        href={`/feed/feedListByIdPage?userid=${feed.userid}`}
-                        as={`/feed/feedListByIdPage?userid=${feed.userid}`}>
-                        <h2 className={feedStyles.idWrap}>{feed.userid}</h2>
+                        href={`/feed/feedListByIdPage?userid=${feed.userid}&username=${feed.username}`}
+                        as={`/feed/feedListByIdPage?userid=${feed.userid}&username=${feed.username}`}>
+                        {/* <h2 className={feedStyles.idWrap}>{feed.userid}</h2> */}
+                        <h2 className={feedStyles.idWrap}>{feed.username}</h2>
                     </Link>
                 </div>
                 <div className={feedStyles.boxWrap}>
