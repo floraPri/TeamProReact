@@ -2,6 +2,7 @@ import styled from "styled-components"
 import LoginPages from "@/pages/user/login/login";
 import { useEffect ,useState } from "react";
 import Weather from "@/component/auction/weather";
+import News from "@/pages/news/news";
 
 const Container = styled.div`
 margin:  100px auto 0 auto;
@@ -57,7 +58,8 @@ export default function Main (){
           </LoginTab> : null } 
            <WeatherTab>
 {/* <Weather />  */}
-           </WeatherTab>  
+           </WeatherTab>
+           <News/>  
            
         </SideTab>
       </Container>
