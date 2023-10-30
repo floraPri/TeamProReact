@@ -131,7 +131,8 @@ export default function AuctionEdit() {
     try {
       const response = await axios.post('http://localhost:8081/auction/auctionEdit', formData, {
         headers: {
-          'Content-Type': 'multipart/form-data'
+          'Content-Type': 'multipart/form-data',
+          Authorization: `Bearer ${getAuthToken()}`,
         }
       });
 
