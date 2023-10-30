@@ -103,7 +103,7 @@ function Auction() {
         const data = response.data;
       // 현재 시간 가져오기
       const currentTime = new Date();
-      // 경매 종료 시간과 비교하여 종료 여부 판단
+      // 경매 종료 시간과 현재시간 비교하여 종료 여부 판단
       const updatedAuctionData = data.map((auction) => {
         const endTime = new Date(auction.lasttime);
         const isAuctionEnded = currentTime > endTime;
