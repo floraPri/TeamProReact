@@ -3,37 +3,23 @@ import React, { useState, useEffect } from "react";
 import { useRouter } from "next/router";
 import axios from 'axios';
 import { getAuthToken } from "@/component/user/axios_helper";
+import Menubar from "@/component/funding/menubar";
+
 
 const Container = styled.div`
-    display: flex;
-    min-width:1280px;
+    display: grid;
     justify-content: center;
-    padding-top: 30px;
-    padding-bottom: 30px;
-    grid-template-columns: repeat(2, 1fr);
-    white-space: pre-line;
-`;
-const Container2 = styled.div`
+    text-align: center;
+    padding: 20px 0;
+    `;
+const MenuTitle = styled.div`
+    text-align:center;
+    font-size:20px;
+    font-weight:600;
     margin-top:20px;
     margin-bottom:20px;
-    display:grid;
-    grid-template-columns: repeat(2, 1fr);
-    align-items: center;
-    justify-content: center;
-    `;
-const Container3 = styled.div`
-    padding:10px;
-    width:500px;
-    margin: 10px;
+    padding: 10px 0px 6px 0px;
 `;
-    
-const ImgContainer = styled.img`
-    height:100%;
-    max-width:400px;
-    margin-left:auto;
-    margin-right:auto;
-    padding:10px;
-    `;
     
 const SupportBtn = styled.button`
     text-align:center;
@@ -54,64 +40,137 @@ const SupportBtn = styled.button`
 const Content = styled.div`
     text-align:center;
 `;
-const Rewards = styled.div`
-    text-align:center;
-`;
-const Container4 = styled.div`
-    text-align:center;
-    display:grid;
-    grid-template-columns: repeat(2, 1fr);
-    margin:10px;
-`;
 
-const Category = styled.div`
-    text-align:center;
-    justify-content: center;
-`;
 const Title = styled.div`
     text-align:center;
     justify-content: center;
-    font-size:24px;
+    font-size:16px;
     font-weight:600;
     margin-top:5px;
+    margin-bottom:5px;
+`;
+const SubTitle = styled.div`
+    text-align:center;
+    justify-content: center;
+    font-size:15px;
+    font-weight:600;
+    margin-top:35px;
+    margin-bottom:5px;
 `;
 const Box = styled.div`
     padding:5px;
     margin:5px;
 `;
 
-const Bold = styled.div`
-    margin: 3px 0px 3px 0px;
-    font-size:20px;
-    font-weight:500;
+const FundingContainer = styled.div`
+    display:flex;
+    flex-direction: column;
+    padding-left:80px;
+    padding-right:80px;
+    padding-top:30px;
+    padding-bottom:30px;
+
 `;
-const Con1 = styled.div`
-  margin:10px;
-  padding:10px;
+const Category = styled.div`
+    margin-top:5px;
+    text-align:center;
+    font-weight:600;
+    justify-content: center;
+`;
+const FundingTitle = styled.div`
+    text-align:center;
+    justify-content: center;
+    font-size:24px;
+    font-weight:600;
+    margin-top:5px;
+
+`;
+const ImgContainer = styled.img`
+    width:400px;
+    padding:10px;
+`;
+const PreContent = styled.div`
+    margin-top:5px;
+    margin-bottom:15px;
+    padding:5px;
+    font-size:14px;
+    font-weight:500;
+    `;
+const RewardContainer = styled.div`
+    display:flex;
+    flex-direction: column;
+    margin:10px;
+    border-top: 0.6px solid rgb(194, 194, 194, 0.6);
+
+    width:60%;
 `;
 
 const Price = styled.div`
-  margin: 8px 0; 
+    text-align:center;
+    font-size: 16px;
+    font-weight:700;
+    margin-top:5px;
 `;
-
-const Subtitle = styled.div`
-  margin: 8px 0;
-`;
-
 
 const DeliveryDate = styled.div`
-  margin: 8px 0;
+    text-align:right;
+    margin: 8px 0;
+    padding-right:5px;
+    font-size:10px;
+    font-color:grey;
 `;
 const Input = styled.input`
   width: 500px;
   padding: 5px;
-  margin: 0;
+  border:none;
 `;
-const Textarea = styled.textarea`
-  width: 500px;
-  padding: 5px;
+const InputCss = styled.div`
   margin: 0;
+  border-bottom: 0.6px solid rgb(194, 194, 194, 0.6);
+  padding:10px;
 `;
+
+const AchievementRate = styled.div`
+    text-align:center;
+    font-weight:600;
+    font-size:12px;
+    opacity:0.9;
+    
+`;
+const Text = styled.div`
+    margin: 3px 0px 3px 0px;
+    font-size:10px;
+`;
+const Con1 = styled.div`
+    text-align:center;
+    cursor: pointer;
+    &:hover {
+        color: rgb(3,193,121, 0.6);
+    }
+
+`;
+const Result = styled.div`
+    text-align:right;
+    font-size:9px;
+    font-weight:500;
+    padding-left:10px;
+    padding-top:10px;
+
+`;
+
+const VerticalAlignContainer = styled.div`
+    display: flex;
+    flex-direction: column;
+    align-items: center; // 가로 중앙 정렬
+    padding: 20px;
+    // background:rgb(216, 230, 224, 0.4);
+`;
+const ButtonCenter = styled.div`
+    display: flex;
+    justify-content: center;
+    width: 100%;
+`;
+
 export default function FundingPledge() {
 
     const router = useRouter();
@@ -166,6 +225,29 @@ export default function FundingPledge() {
         const date = new Date(dateString);
         return date.toLocaleDateString('ko-KR');
     }; 
+    const renameCategory = (category) => {
+        switch (category) {
+            case 'stationery':
+            return '문구';
+            case 'book':
+            return '출판';
+            case 'game':
+            return '게임';
+            case 'living':
+            return '리빙';
+            case 'pet':
+            return '반려동물';
+            default:
+            return category;
+        }
+    }
+    const achievementRate = (nowamount, goalamount) => {
+        if (goalamount === 0) {
+          throw new Error("0으로 나눌 수 없음");
+        }
+      
+        return Math.round((nowamount / goalamount) * 100);
+      }; 
 
 
     const handleChange = (e) => {
@@ -217,39 +299,58 @@ export default function FundingPledge() {
     };
     return(
         <Container>
-            <div>abcde</div>
+        <Menubar/>
+        <MenuTitle> 후원하기 </MenuTitle>
             {reward.map((r) => (
           <Box key={r.rewardscode}>
-            <Con1>
-              <Price>{r.price}</Price>
-              <Title>{r.rewardtitle}</Title>
-              <Subtitle>{r.rewardsubtitle}</Subtitle>
-              <Content>{r.rewardcontent}</Content>
-              <DeliveryDate>배송 예정일 : {formatDate(r.delivery)}</DeliveryDate>
+            <VerticalAlignContainer>
+            <FundingContainer onClick={() => router.push(`/funding/fundingDetail?fundingcode=${r.fundingcode}`)}>
+                <SubTitle> 펀딩 </SubTitle>
+            <ImgContainer src={r.image}/><Con1>
+            <Category> {renameCategory(r.category)} </Category>
+            <Text>{formatDate(r.startdate)} ~ {formatDate(r.enddate)}</Text>
+            <FundingTitle>{r.title}</FundingTitle>
+            <AchievementRate>{r.nowamount}원, {achievementRate(r.nowamount, r.goalamount)}% 달성</AchievementRate>
+            <PreContent> {r.precontent} </PreContent>
+            
             </Con1>
+            </FundingContainer>  
+
+
+            <RewardContainer>
+                <SubTitle> 후원 리워드 </SubTitle>
+              <Price>{r.price}원 </Price>
+              <Title>{r.rewardtitle}</Title>
+              <Content>{r.rewardcontent}</Content>
+            </RewardContainer>
           <form onSubmit={handleSubmit}>
-            <div> 수량 입력 </div>
-            <Input
+              <DeliveryDate>배송 예정일 : {formatDate(r.delivery)}</DeliveryDate>
+            <InputCss> 수량 &nbsp;
+                <Input
                     type="number"
                     id="quantity"
                     name="quantity"
                     value={data.quantity}
                     onChange={handleChange}
-                    required />
-            <div> 주소 입력 </div>
-            <Input
+                    required /></InputCss>
+            <InputCss> 주소 &nbsp;
+                <Input
                     type="text"
                     id="address"
                     name="address"
                     value={data.address}
                     onChange={handleChange}
-                    required />
-            <div>
-                test : {price * data.quantity} </div>
+                    required /> </InputCss>
+           
+            <Result>{data.quantity}개, {price * data.quantity}원 후원합니다. <br/>
+                    펀딩 성공 시 {formatDate(r.enddate)} 익일 결제</Result>
+        <ButtonCenter>
         <SupportBtn type="submit">
             후원하기
         </SupportBtn>
+        </ButtonCenter>
             </form>
+            </VerticalAlignContainer>
             </Box>
               ))}
         </Container>

@@ -57,7 +57,7 @@ export default function Main (){
     return(
       <Container>
         <Feed>
-          {/* <FeedPage /> */}
+          <FeedPage />
         </Feed>
         <SideTab>
           <SideTab2>
@@ -65,7 +65,7 @@ export default function Main (){
           <LoginPages />
           </LoginTab> : null } 
            <WeatherTab>
-{/* <Weather />  */}
+<Weather /> 
            </WeatherTab>
            <News/>  
            </SideTab2>

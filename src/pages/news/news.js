@@ -44,7 +44,7 @@ export default function News(){
 
     useEffect(() => {
         console.log("news useEffect start")
-        axios.get(`http://localhost:8081/news/news_?limit=10`,{
+        axios.get(`http://localhost:8081/news/news_?limit=5`,{
             headers: {
                 Authorization: `Bearer ${(getAuthToken())}`
             }

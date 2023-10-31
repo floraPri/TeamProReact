@@ -135,7 +135,7 @@ export default function RewardAdd(){
                             </TableCell>
                         </TableRow>
                         <TableRow>
-                            <TableCell> 선물 목록 </TableCell>
+                            <TableCell> 선물 상세 </TableCell>
                             <TableCell>
                                 <Textarea
                                 id="content"

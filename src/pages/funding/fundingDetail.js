@@ -29,10 +29,12 @@ const Container3 = styled.div`
     
 const ImgContainer = styled.img`
     height:100%;
-    max-width:400px;
+    width:400px;
     margin-left:auto;
-    margin-right:auto;
+    margin-right:30px;;
     padding:10px;
+    align-items:right;
+    text-align:right;
     `;
     
 const SupportBtn = styled.div`
@@ -52,9 +54,14 @@ const SupportBtn = styled.div`
 `;
 const Content = styled.div`
     text-align:center;
+    font-size:12px;
+    margin-left:130px;
+    padding: 40px;
+    width:500px;
 `;
 const Rewards = styled.div`
     text-align:center;
+    width:380px;
 `;
 const Container4 = styled.div`
     text-align:center;
@@ -64,7 +71,9 @@ const Container4 = styled.div`
 `;
 
 const Category = styled.div`
+    margin-top:20px;
     text-align:center;
+    font-weight:600;
     justify-content: center;
 `;
 const Title = styled.div`
@@ -77,12 +86,17 @@ const Title = styled.div`
 const Box = styled.div`
     padding:5px;
     margin:5px;
+    width:300px;
 `;
 
 const Bold = styled.div`
     margin: 3px 0px 3px 0px;
     font-size:20px;
     font-weight:500;
+    `;
+const Right = styled.div`
+    text-align:right;
+    justify-content: right;
 `;
 
 
@@ -168,15 +182,17 @@ export default function FundingDetail(){
         <Category> {renameCategory(detail.category)} </Category>
         <Title> {detail.title}</Title>
         <Container2>
+            <Right>
             <ImgContainer src={detail.image}/>
+            </Right>
             <Container3>
                 <Box>
                     모인 금액 <br/>
                     <Bold> {detail.nowamount} <br/></Bold>
-                    남은 시간 (수정해야함)<br/>
+                    펀딩 기간<br/>
                     <Bold> {dueDate(parseDate(detail.enddate), parseDate(detail.startdate))} 일 <br/></Bold>
                     후원자 <br/>
-                    <Bold> 110명 <br/></Bold>
+                    <Bold> 5명 <br/></Bold>
                 </Box>
                 <Table>
                     <TableRow>
@@ -185,7 +201,7 @@ export default function FundingDetail(){
                     </TableRow>
                     <TableRow>
                         <TableCell> 펀딩기간 </TableCell>
-                        <TableCell> {formatDate(detail.startdate)} ~ {formatDate(detail.enddate)} ({dueDate(parseDate(detail.enddate), parseDate(detail.startdate))}일 진행) </TableCell>
+                        <TableCell> {formatDate(detail.startdate)} ~ {formatDate(detail.enddate)} </TableCell>
                     </TableRow>
                     <TableRow>
                         <TableCell> 결제 </TableCell>
@@ -200,9 +216,10 @@ export default function FundingDetail(){
         <Container4>
         <Content>
         {detail.content}
-
         </Content>
+        <Rewards>
         <RewardsList />
+        </Rewards>
 
 
         </Container4>

@@ -7,21 +7,29 @@ import Menubar from "@/component/funding/menubar";
 
 const Container = styled.div`
     display: flex;
+    flex-direction: column;
     min-width: 1000px;
     justify-content: center;
     align-items: center;
     text-align:center;
-    padding-top: 30px;
-    padding-bottom: 30px;
-    flex-direction: column;
     `;
-    
+
+const MenuTitle = styled.div`
+    text-align:center;
+    font-size:20px;
+    font-weight:600;
+    margin-top:20px;
+    margin-bottom:20px;
+    padding: 10px 0px 6px 0px;
+`;
+
 const ListContainer = styled.div`
     display:grid;
     grid-template-columns: repeat(3, 1fr);
-    padding-top: 20px
+    padding-top: 20px;
     justify-content: center;
-    width:90%;
+    justify-items: center;  // 가로 방향으로 아이템들을 가운데 정렬
+    width:900px;
 `;
 
 const Card = styled.div`
@@ -37,7 +45,7 @@ const FundingContainer = styled.div`
 	flex-direction: column;
 	justify-content: center;
 	align-items:center;
-	width:270px;
+	width:310px;
     cursor: pointer;
     &:hover {
         color: #03C179;
@@ -46,10 +54,10 @@ const FundingContainer = styled.div`
 
 const FundingImg = styled.img`
     width:100%;
-    width:250px;
-    height:auto;
+    height:300px;
     align-items:center;
     justify-content: center;
+    object-fit: cover;
 `;
 
 const Category = styled.div`
@@ -60,7 +68,7 @@ const Category = styled.div`
 
 const Title = styled.div`
     font-weight:600;
-    font-size:12px;
+    font-size:14px;
 `;
 
 const PreContent = styled.div`
@@ -84,12 +92,12 @@ const Edit = styled.div`
 `;
 
 const Box = styled.div`
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  background: #fff;
-  border: 1px solid #e0e0e0;
-  padding: 10px;
-  margin: 10px;
+    display: grid;
+    background: #fff;
+    border: 1px solid #e0e0e0;
+    padding: 20px;
+    margin: 10px 20px 10px 20px;
+    width:350px;
 `;
 
 const Price = styled.div`
@@ -115,7 +123,21 @@ const Con1 = styled.div`
   margin:10px;
   padding:10px;
 `;
-
+const RewardEdit = styled.button`
+  text-align:center;
+  justify-content: center;
+  width:80px;
+  padding:10px;
+  margin:auto;
+  font-size:10px;
+  font-weight:600;
+  background:rgba(3, 193, 121, 0.4);
+  border:none;
+  cursor: pointer;
+  &:hover {
+      color: #03C179;
+  }
+`;
     export default function MyOrganizeList(){
         const router = useRouter();
         const [fundings, setFundings] = useState([]);
@@ -196,7 +218,7 @@ const Con1 = styled.div`
     return (
         <Container>
             <Menubar />
-            <Title>MyOrganizeList</Title>
+            <MenuTitle> 올린 프로젝트 </MenuTitle>
             <ListContainer>
                 {fundings.map((funding) => (
                     <Card key={funding.fundingcode}>  					
@@ -216,7 +238,7 @@ const Con1 = styled.div`
                                     <Content>{present.content}</Content>
                                     <DeliveryDate>배송 예정일 : {formatDate(present.delivery)}</DeliveryDate>
                                 </Con1>
-                                <Edit onClick={() => router.push(`/funding/rewardEdit?rewardscode=${present.rewardscode}&fundingcode=${funding.fundingcode}`)}>수정하기</Edit>
+                                <RewardEdit onClick={() => router.push(`/funding/rewardEdit?rewardscode=${present.rewardscode}&fundingcode=${funding.fundingcode}`)}>수정하기</RewardEdit>
                             </Box>
                         ))}      
                     </Card>  
