@@ -33,10 +33,14 @@ const FundingContainer = styled.div`
     &:hover {
         color: #03C179;
     }
+    border-bottom : 2px solid rgb(194, 194, 194, 0.4);
+    padding-bottom:10px;
+    margin-bottom:20px;
+    width:100%;
 `;
 
 const FundingImg = styled.img`
-    width:270px;
+    width: 270px;
     height: 270px;
     object-fit: cover; // 비율 유지, 꽉차게 설정
     margin-top:10px;
@@ -56,9 +60,16 @@ const Title = styled.div`
 const PreContent = styled.div`
     margin-top:5px;
     font-size:10px;
-    color:lightgrey;
+    color:grey;
     opacity:0.9;
-    height:50px;
+    height:30px;
+    `;
+const AchievementRate = styled.div`
+    text-align:right;
+    font-weight:600;
+    font-size:12px;
+    opacity:0.9;
+    
 `;
 
 export default function Funding(){
@@ -102,7 +113,14 @@ export default function Funding(){
             default:
             return category;
         }
-    }        
+    }
+    const achievementRate = (nowamount, goalamount) => {
+        if (goalamount === 0) {
+          throw new Error("0으로 나눌 수 없음");
+        }
+      
+        return Math.round((nowamount / goalamount) * 100);
+      };        
     return(
 
     <Container>
@@ -114,8 +132,9 @@ export default function Funding(){
                 <FundingImg src={funding.image} alt="Funding Image"/>
                 <div>
                     <Category> {renameCategory(funding.category)} </Category>
-                    <Title> {funding.title} </Title>
+                    <Title> {funding.title}</Title>
                     <PreContent> {funding.precontent} </PreContent>
+                    <AchievementRate>{achievementRate(funding.nowamount, funding.goalamount)}% 달성</AchievementRate>
                 </div>
                 </div>
             </FundingContainer>
