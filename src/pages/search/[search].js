@@ -6,6 +6,8 @@ import { useRouter } from "next/router";
 import axios from "axios";
 import { getAuthToken } from "@/component/user/axios_helper";
 import SearchRank from "@/component/common/searchrank";
+import Weather from "@/component/auction/weather";
+import News from "@/pages/news/news";
 
 
 export default function Searchresult (){
@@ -114,7 +116,9 @@ export default function Searchresult (){
           <Searchcategory>
             <SearchContentTitle>경매검색결과</SearchContentTitle>
             <SearchContent>
-              {auctionDataSlice.map(ad => (
+              {auctionDataSlice.map((ad) => {
+                   const auctioncontent = ad.auctioncontent.length > 100 ? ad.auctioncontent.substring(0, 100) + "..." : ad.auctioncontent;
+                   return (
                 <ContentCard key={ad.auctionno} onClick={() => {
                   // if (!auction.isAuctionEnded) { // 경매가 종료되지 않았을 때만 입장가능
                     //router.push(`/auction/auctionDetail`);
@@ -124,13 +128,14 @@ export default function Searchresult (){
               >
                 <CardLeft>
                   <CardTitle>{highlightText(ad.auctiontitle, search)}</CardTitle>
-                  <CardContent>{highlightText(ad.auctioncontent, search)}</CardContent>
+                  <CardContent>{highlightText(auctioncontent, search)}</CardContent>
                 </CardLeft>
                 <CardRight>
                   <CardImg src={ad.image} />
                 </CardRight>
               </ContentCard>
-              ))}
+              );
+            })}
             </SearchContent>
           </Searchcategory> 
           : null }
@@ -138,17 +143,20 @@ export default function Searchresult (){
             <Searchcategory>
             <SearchContentTitle>펀딩검색결과</SearchContentTitle>
             <SearchContent>
-              {fundingDataSlice.map(ad => (
+              {fundingDataSlice.map((ad) => {
+                   const fundingcontent = ad.content.length > 100 ? ad.content.substring(0, 100) + "..." : ad.content;
+                   return (
                 <ContentCard key={ad.fundingcode} onClick={() => router.push(`/funding/fundingDetail?fundingcode=${ad.fundingcode}`)}>
                 <CardLeft>
                   <CardTitle>{highlightText(ad.title, search)}</CardTitle>
-                  <CardContent>{highlightText(ad.content, search)}</CardContent>
+                  <CardContent>{highlightText(fundingcontent, search)}</CardContent>
                 </CardLeft>
                 <CardRight>
                   <CardImg src={ad.image} />
                 </CardRight>
               </ContentCard>
-              ))}
+              );
+            })}
             </SearchContent>
             </Searchcategory>
           : null }
@@ -157,17 +165,20 @@ export default function Searchresult (){
             <Searchcategory>
               <SearchContentTitle>피드검색결과</SearchContentTitle>
               <SearchContent>
-                {feedDataSlice.map(ad => (
+                {feedDataSlice.map((ad) => {
+                   const feedcontent = ad.feedcontent.length > 100 ? ad.feedcontent.substring(0, 100) + "..." : ad.feedcontent;
+                   return (
                   <ContentCard key={ad.feedcode}>
                   <CardLeft>
                     <CardTitle>{highlightText(ad.feedtitle, search)}</CardTitle>
-                    <CardContent>{highlightText(ad.feedcontent, search)}</CardContent>
+                    <CardContent>{highlightText(feedcontent, search)}</CardContent>
                   </CardLeft>
                   <CardRight>
                     <CardImg src={ad.feedimg} />
                   </CardRight>
                 </ContentCard>
-                ))}
+                   );
+                })}
               </SearchContent>
             </Searchcategory>
           : null }
@@ -182,18 +193,14 @@ export default function Searchresult (){
 
       </SearchMain>
       <SideTab>
-        <SideTab2>
-        {token === null || token === 'null' ? <LoginTab>
-        <LoginPages />
-        </LoginTab> : null } 
-          <WeatherTab>
-            {/* <Weather />  */}
-          </WeatherTab>  
-          <SearchRankTab>
-            <SearchRank />
-          </SearchRankTab> 
-          </SideTab2>
-      </SideTab>
+          <SideTab2>
+         {token === null || token === 'null' ? <LoginTab>
+          <LoginPages />
+          </LoginTab> : null } 
+           <Weather /> 
+           <News/>  
+           </SideTab2>
+        </SideTab>
     </Container>
   )
 }

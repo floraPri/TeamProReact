@@ -45,7 +45,7 @@ render() {
                     <input type="text" name="email" placeholder="email" onChange={this.onChangeHandler} required/>
                   </EmailInput>
                   <PasswordInput>
-                    <input type="text" name="password" placeholder="password" onChange={this.onChangeHandler} required/>
+                    <input type="password" name="password" placeholder="password" onChange={this.onChangeHandler} required/>
                   </PasswordInput>
                   <PhoneInput>
                     <input type="text" name="phone" placeholder="phone" onChange={this.onChangeHandler} required/>

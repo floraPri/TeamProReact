@@ -58,7 +58,7 @@ export default function News(){
             }
           })
           .catch(error => {
-            console.log(error);
+            console.log('newerror',error);
           })
      
         }, []);

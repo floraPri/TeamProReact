@@ -64,9 +64,6 @@ export default function Main (){
          {token === null || token === 'null' ? <LoginTab>
           <LoginPages />
           </LoginTab> : null } 
-           {/* <WeatherTab>
-              <Weather /> 
-           </WeatherTab>   */}
            <Weather /> 
            <News/>  
            </SideTab2>

@@ -39,7 +39,7 @@ const router = useRouter();
         <WhiteBox>
           <Title>weAround</Title>
           <InputField type="text" name= "email" placeholder="email" onChange={onChangeHandler} required />
-          <InputField type="text" name="password" placeholder="password" onChange={onChangeHandler} required />
+          <InputField type="password" name="password" placeholder="password" onChange={onChangeHandler} required />
           <GreenButton type="submit">Login</GreenButton>
           <ORLine>
             <BorderLine />
