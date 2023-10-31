@@ -28,13 +28,16 @@ const NewsContainer = styled.div`
 const Section = styled.div`
     font-weight:600;
     width: 37px;
+    font-size: 12px;
     `;
 const NewsTitle = styled.div`
     width:220px;
+    font-size: 12px;
 
 `;
 const RegDate = styled.div`
     text-align:right;
+    font-size: 12px;
 
 `;
 
@@ -44,7 +47,7 @@ export default function News(){
 
     useEffect(() => {
         console.log("news useEffect start")
-        axios.get(`http://localhost:8081/news/news_?limit=10`,{
+        axios.get(`http://localhost:8081/news/news_?limit=5`,{
             headers: {
                 Authorization: `Bearer ${(getAuthToken())}`
             }
@@ -58,7 +61,7 @@ export default function News(){
             }
           })
           .catch(error => {
-            console.log(error);
+            console.log('newerror',error);
           })
      
         }, []);

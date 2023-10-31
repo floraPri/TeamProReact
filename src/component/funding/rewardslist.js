@@ -5,22 +5,19 @@ import axios from 'axios';
 import { getAuthToken } from "@/component/user/axios_helper";
 
 const Container = styled.div`
-  display: grid;
-  grid-template-columns: repeat(1, 1fr);
-  flex-wrap: wrap;
+  display: flex;
+  flex-direction: column;
   justify-content: right;
-  max-width: 800px;
   margin: 0 auto;
   `;
   
 const Box = styled.div`
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
   background: #fff;
   border: 1px solid #e0e0e0;
-  padding: 10px;
-  margin: 10px;
-  min-width: 180px;
+  padding: 20px;
+  margin: 10px 20px 10px 20px;
+  width:390px;
 `;
 
 const Price = styled.div`
@@ -30,10 +27,6 @@ const Price = styled.div`
 const Title = styled.div`
   font-size: 16px;
   font-weight: bold;
-  margin: 8px 0;
-`;
-
-const Subtitle = styled.div`
   margin: 8px 0;
 `;
 
@@ -53,7 +46,7 @@ const Con1 = styled.div`
 const SupportBtn = styled.button`
   text-align:center;
   justify-content: center;
-  width:100px;
+  width:80px;
   padding:10px;
   margin:auto;
   margin-top:20px;
@@ -110,13 +103,12 @@ export default function RewardsList(){
             <Con1>
               <Price>{present.price}</Price>
               <Title>{present.title}</Title>
-              <Subtitle>{present.subtitle}</Subtitle>
               <Content>{present.content}</Content>
               <DeliveryDate>배송 예정일 : {formatDate(present.delivery)}</DeliveryDate>
-            </Con1>  
               <SupportBtn onClick={() => router.push(`/funding/fundingPledge?fundingcode=${fundingcode}&rewardscode=${present.rewardscode}`)}>
                   후원하기
               </SupportBtn>
+            </Con1>  
             </Box>
           ))}
     </Container>

@@ -6,8 +6,8 @@ import NavDropdown from 'react-bootstrap/NavDropdown';
 const Container = styled.div`
     display: flex;
     min-width:1280px;
-    padding-left: 10px;
-    padding-top: 10px;
+    margin-top: -10px;
+    padding-left: 15px;
     padding-bottom: 10px;
     border-bottom : 1px solid #E7E7E7;
 `;
