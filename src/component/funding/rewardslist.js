@@ -22,12 +22,13 @@ const Box = styled.div`
 
 const Price = styled.div`
   margin: 8px 0; 
+  font-weight:600;
 `;
 
 const Title = styled.div`
   font-size: 16px;
   font-weight: bold;
-  margin: 8px 0;
+  margin: 2px 0;
 `;
 
 const Content = styled.div`
@@ -101,7 +102,7 @@ export default function RewardsList(){
       {reward.map((present) => (
           <Box key={present.fundingcode}>
             <Con1>
-              <Price>{present.price}</Price>
+              <Price>{present.price}원</Price>
               <Title>{present.title}</Title>
               <Content>{present.content}</Content>
               <DeliveryDate>배송 예정일 : {formatDate(present.delivery)}</DeliveryDate>

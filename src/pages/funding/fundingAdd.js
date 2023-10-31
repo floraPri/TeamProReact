@@ -38,8 +38,6 @@ const Textarea = styled.textarea`
   margin: 0;
 `;
 
-const FileInput = styled.input`
-`;
 
 const cellStyle = {
     border: 'none',
@@ -127,6 +125,7 @@ export default function FundingAdd(){
                     <option value="book"> 출판 </option>
                     <option value="game"> 게임 </option>
                     <option value="living"> 리빙 </option>
+                    <option value="pet"> 반려동물 </option>
                     <option value="pet"> 반려동물 </option>
                     </select>
 

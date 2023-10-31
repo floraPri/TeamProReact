@@ -27,9 +27,9 @@ const Title = styled.div`
     text-align:center;
     font-size:20px;
     font-weight:600;
-    margin:5px;
-    padding: 20px;
-    border-bottom : 1px solid #E7E7E7;
+    margin-top:20px;
+    margin-bottom:20px;
+    padding: 10px 0px 6px 0px;
 `;
 
 const Input = styled.input`
@@ -43,6 +43,7 @@ const Textarea = styled.textarea`
   width: 500px;
   padding: 5px;
   margin: 0;
+  border:none;
 `;
 
 const FileInput = styled.input`

@@ -32,10 +32,11 @@ const FundingContainer = styled.div`
     cursor: pointer;
     &:hover {
         color: #03C179;
+        background:rgb(3,193,121, 0.1);
+        border-radius: 8px;
     }
-    border-bottom : 2px solid rgb(194, 194, 194, 0.4);
-    padding-bottom:10px;
-    margin-bottom:20px;
+    padding:10px;
+    margin-bottom:25px;
     width:100%;
 `;
 
@@ -134,7 +135,7 @@ export default function Funding(){
                     <Category> {renameCategory(funding.category)} </Category>
                     <Title> {funding.title}</Title>
                     <PreContent> {funding.precontent} </PreContent>
-                    <AchievementRate>{achievementRate(funding.nowamount, funding.goalamount)}% 달성</AchievementRate>
+                    <AchievementRate>{funding.nowamount}원, {achievementRate(funding.nowamount, funding.goalamount)}% 달성</AchievementRate>
                 </div>
                 </div>
             </FundingContainer>

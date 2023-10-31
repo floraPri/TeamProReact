@@ -17,7 +17,6 @@ const MenuTitle = styled.div`
     font-size:20px;
     font-weight:600;
     margin-top:20px;
-    margin-bottom:20px;
     padding: 10px 0px 6px 0px;
 `;
     
@@ -65,10 +64,7 @@ const Box = styled.div`
 const FundingContainer = styled.div`
     display:flex;
     flex-direction: column;
-    padding-left:80px;
-    padding-right:80px;
-    padding-top:30px;
-    padding-bottom:30px;
+
 
 `;
 const Category = styled.div`
@@ -87,7 +83,7 @@ const FundingTitle = styled.div`
 `;
 const ImgContainer = styled.img`
     width:400px;
-    padding:10px;
+    padding:30px;
 `;
 const PreContent = styled.div`
     margin-top:5px;
@@ -100,6 +96,8 @@ const RewardContainer = styled.div`
     display:flex;
     flex-direction: column;
     margin:10px;
+    margin-bottom:20px;
+    padding:10px;
     border-top: 0.6px solid rgb(194, 194, 194, 0.6);
 
     width:60%;
@@ -169,6 +167,12 @@ const ButtonCenter = styled.div`
     display: flex;
     justify-content: center;
     width: 100%;
+`;
+
+const Form1 = styled.form`
+    border: 1px solid #e0e0e0; 
+    padding: 20px; 
+    border-radius: 8px;
 `;
 
 export default function FundingPledge() {
@@ -318,12 +322,12 @@ export default function FundingPledge() {
 
 
             <RewardContainer>
-                <SubTitle> 후원 리워드 </SubTitle>
+            <SubTitle> 후원 리워드 </SubTitle>
               <Price>{r.price}원 </Price>
               <Title>{r.rewardtitle}</Title>
               <Content>{r.rewardcontent}</Content>
             </RewardContainer>
-          <form onSubmit={handleSubmit}>
+          <Form1 onSubmit={handleSubmit}>
               <DeliveryDate>배송 예정일 : {formatDate(r.delivery)}</DeliveryDate>
             <InputCss> 수량 &nbsp;
                 <Input
@@ -349,7 +353,7 @@ export default function FundingPledge() {
             후원하기
         </SupportBtn>
         </ButtonCenter>
-            </form>
+            </Form1>
             </VerticalAlignContainer>
             </Box>
               ))}

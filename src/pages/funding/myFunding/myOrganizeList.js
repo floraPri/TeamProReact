@@ -80,14 +80,16 @@ const PreContent = styled.div`
 
 const Edit = styled.div`
     width:90%;
+    height:auto;
     margin: 5px;
+    font-size:12px;
     display: flex;
 	justify-content: center;
 	align-items:center;
 
     cursor: pointer;
     &:hover {
-        background: #03C179;
+        background: rgb(3, 193, 121, 0.4);
     }
 `;
 
@@ -95,13 +97,15 @@ const Box = styled.div`
     display: grid;
     background: #fff;
     border: 1px solid #e0e0e0;
-    padding: 20px;
+    padding: 10px;
     margin: 10px 20px 10px 20px;
     width:350px;
+    height:250px;
 `;
 
 const Price = styled.div`
   margin: 8px 0; 
+  font-weight:600;
 `;
 
 const RewardTitle = styled.div`
@@ -229,11 +233,11 @@ const RewardEdit = styled.button`
                             <Price>{funding.nowamount}원, {achievementRate(funding.nowamount, funding.goalamount)}% 달성</Price>
                             <PreContent>{funding.precontent}</PreContent>
                         </FundingContainer>
-                            <Edit onClick={() => router.push(`/funding/fundingEdit?fundingcode=${funding.fundingcode}`)}>edit</Edit>
+                            <Edit onClick={() => router.push(`/funding/fundingEdit?fundingcode=${funding.fundingcode}`)}> 수정 </Edit>
                         {funding.rewards && funding.rewards.map((present) => (
                             <Box key={present.fundingcode}>
                                 <Con1>
-                                    <Price>{present.price}</Price>
+                                    <Price>{present.price}원 </Price>
                                     <RewardTitle>{present.title}</RewardTitle>
                                     <Content>{present.content}</Content>
                                     <DeliveryDate>배송 예정일 : {formatDate(present.delivery)}</DeliveryDate>
