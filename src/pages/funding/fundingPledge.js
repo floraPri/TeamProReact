@@ -17,7 +17,6 @@ const MenuTitle = styled.div`
     font-size:20px;
     font-weight:600;
     margin-top:20px;
-    margin-bottom:20px;
     padding: 10px 0px 6px 0px;
 `;
     
@@ -39,6 +38,9 @@ const SupportBtn = styled.button`
 `;
 const Content = styled.div`
     text-align:center;
+    font-size:14px;
+    font-weight:500;
+    opacity:0.7;
 `;
 
 const Title = styled.div`
@@ -65,11 +67,6 @@ const Box = styled.div`
 const FundingContainer = styled.div`
     display:flex;
     flex-direction: column;
-    padding-left:80px;
-    padding-right:80px;
-    padding-top:30px;
-    padding-bottom:30px;
-
 `;
 const Category = styled.div`
     margin-top:5px;
@@ -80,26 +77,29 @@ const Category = styled.div`
 const FundingTitle = styled.div`
     text-align:center;
     justify-content: center;
-    font-size:24px;
+    font-size:20px;
     font-weight:600;
     margin-top:5px;
 
 `;
 const ImgContainer = styled.img`
     width:400px;
-    padding:10px;
+    padding:30px;
 `;
 const PreContent = styled.div`
-    margin-top:5px;
     margin-bottom:15px;
+    padding-bottom:10px;
     padding:5px;
     font-size:14px;
     font-weight:500;
+    opacity:0.7;
     `;
 const RewardContainer = styled.div`
     display:flex;
     flex-direction: column;
     margin:10px;
+    margin-bottom:20px;
+    padding:10px;
     border-top: 0.6px solid rgb(194, 194, 194, 0.6);
 
     width:60%;
@@ -116,7 +116,7 @@ const DeliveryDate = styled.div`
     text-align:right;
     margin: 8px 0;
     padding-right:5px;
-    font-size:10px;
+    font-size:11px;
     font-color:grey;
 `;
 const Input = styled.input`
@@ -128,18 +128,19 @@ const InputCss = styled.div`
   margin: 0;
   border-bottom: 0.6px solid rgb(194, 194, 194, 0.6);
   padding:10px;
+  font-size:13px;
 `;
 
 const AchievementRate = styled.div`
     text-align:center;
     font-weight:600;
-    font-size:12px;
+    font-size:13px;
     opacity:0.9;
     
 `;
 const Text = styled.div`
     margin: 3px 0px 3px 0px;
-    font-size:10px;
+    font-size:12px;
 `;
 const Con1 = styled.div`
     text-align:center;
@@ -147,28 +148,31 @@ const Con1 = styled.div`
     &:hover {
         color: rgb(3,193,121, 0.6);
     }
-
 `;
 const Result = styled.div`
     text-align:right;
-    font-size:9px;
+    font-size:11px;
     font-weight:500;
     padding-left:10px;
     padding-top:10px;
-
 `;
 
 const VerticalAlignContainer = styled.div`
     display: flex;
     flex-direction: column;
-    align-items: center; // 가로 중앙 정렬
+    align-items: center; 
     padding: 20px;
-    // background:rgb(216, 230, 224, 0.4);
 `;
 const ButtonCenter = styled.div`
     display: flex;
     justify-content: center;
     width: 100%;
+`;
+
+const Form1 = styled.form`
+    border: 1px solid #e0e0e0; 
+    padding: 20px; 
+    border-radius: 8px;
 `;
 
 export default function FundingPledge() {
@@ -186,7 +190,6 @@ export default function FundingPledge() {
         userno:"",
         quantity: 0,
         address: "",
-        // price: 0,
         nowamount: 0,
     });
 
@@ -198,7 +201,6 @@ export default function FundingPledge() {
             }
         })
           .then(response => {
-            // console.log("api:", response.data)
             console.log('axios - reward')
             console.log(fundingcode, rewardscode)
             console.log(response.data)
@@ -208,7 +210,6 @@ export default function FundingPledge() {
                 setPrice(response.data.price);
             } else if (typeof response.data === 'object') {
                 console.log("2");
-                // 객체를 배열로 감싸서 설정
                 setReward([response.data]);
                 setPrice(response.data.price);
             }
@@ -220,7 +221,7 @@ export default function FundingPledge() {
           
           
         }, [rewardscode]);
-    // 날짜 문자열을 원하는 형식으로 변환
+    // 날짜 형식 변환
     const formatDate = (dateString) => {
         const date = new Date(dateString);
         return date.toLocaleDateString('ko-KR');
@@ -245,7 +246,6 @@ export default function FundingPledge() {
         if (goalamount === 0) {
           throw new Error("0으로 나눌 수 없음");
         }
-      
         return Math.round((nowamount / goalamount) * 100);
       }; 
 
@@ -270,8 +270,6 @@ export default function FundingPledge() {
         const confirmed = window.confirm("후원을 진행하시겠습니까?");
         
         if (confirmed) {
-            // const totalAmount = r.price * data.quantity;
-            console.log('total', totalAmount);
             try{
                 const response = await axios.post(`http://localhost:8081/funding/contributeFunding`, {
                         fundingcode: fundingcode,
@@ -318,12 +316,12 @@ export default function FundingPledge() {
 
 
             <RewardContainer>
-                <SubTitle> 후원 리워드 </SubTitle>
+            <SubTitle> 후원 리워드 </SubTitle>
               <Price>{r.price}원 </Price>
               <Title>{r.rewardtitle}</Title>
               <Content>{r.rewardcontent}</Content>
             </RewardContainer>
-          <form onSubmit={handleSubmit}>
+          <Form1 onSubmit={handleSubmit}>
               <DeliveryDate>배송 예정일 : {formatDate(r.delivery)}</DeliveryDate>
             <InputCss> 수량 &nbsp;
                 <Input
@@ -349,7 +347,7 @@ export default function FundingPledge() {
             후원하기
         </SupportBtn>
         </ButtonCenter>
-            </form>
+            </Form1>
             </VerticalAlignContainer>
             </Box>
               ))}

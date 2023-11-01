@@ -43,6 +43,7 @@ const Textarea = styled.textarea`
   width: 500px;
   padding: 5px;
   margin: 0;
+  border:none;
 `;
 
 const FileInput = styled.input`
@@ -143,7 +144,6 @@ export default function RewardEdit(){
     return(
     <Container>
         <Container2>
-            {/* <Rewardslist/> */}
             <AddContainer>
                 <Title> REWARD EDIT </Title>
                 <form onSubmit={handleSubmit}>

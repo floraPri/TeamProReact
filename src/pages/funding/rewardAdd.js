@@ -27,9 +27,9 @@ const Title = styled.div`
     text-align:center;
     font-size:20px;
     font-weight:600;
-    margin:5px;
-    padding: 20px;
-    border-bottom : 1px solid #E7E7E7;
+    margin-top:20px;
+    margin-bottom:20px;
+    padding: 10px 0px 6px 0px;
 `;
 
 const Input = styled.input`
@@ -43,9 +43,7 @@ const Textarea = styled.textarea`
   width: 500px;
   padding: 5px;
   margin: 0;
-`;
-
-const FileInput = styled.input`
+  border:none;
 `;
 
 const cellStyle = {
@@ -64,7 +62,7 @@ export default function RewardAdd(){
       });
       
     const handleChange = (e) => {
-        const { name, value, type } = e.target;
+        const { name, value } = e.target;
         setRewardData((prevData) => ({
             ...prevData,
             [name]: value,
@@ -113,13 +111,13 @@ export default function RewardAdd(){
                         <TableRow>
                             <TableCell> 가격 </TableCell>
                             <TableCell>
-                            <Input
-                                type="number"
-                                id="price"
-                                name="price"
-                                value={rewardData.price}
-                                onChange={handleChange}
-                                />
+                                <Input
+                                    type="number"
+                                    id="price"
+                                    name="price"
+                                    value={rewardData.price}
+                                    onChange={handleChange}
+                                    />
                             </TableCell>
                         </TableRow>
                         <TableRow>
