@@ -5,7 +5,7 @@ import { Table, TableCell, TableHead, TableRow } from "@mui/material";
 import axios from 'axios';
 import Menubar from "@/component/funding/menubar";
 import { getAuthToken } from "@/component/user/axios_helper";
-import RewardsList from "@/component/funding/rewardsList";
+import RewardsList from "@/component/funding/rewardslist";
 
 const Container = styled.div`
     display: grid;
@@ -37,14 +37,14 @@ const ImgContainer = styled.img`
     text-align:right;
     `;
     
-const SupportBtn = styled.div`
+const Btn = styled.div`
     text-align:center;
     justify-content: center;
-    width:100px;
+    width:80px;
     padding:10px;
     margin:auto;
     margin-top:20px;
-    font-size:14px;
+    font-size:13px;
     font-weight:600;
     background:rgba(3, 193, 121, 0.4);
     cursor: pointer;
@@ -93,7 +93,7 @@ const Bold = styled.div`
     margin: 3px 0px 3px 0px;
     font-size:20px;
     font-weight:500;
-    `;
+`;
 const Right = styled.div`
     text-align:right;
     justify-content: right;
@@ -106,12 +106,12 @@ export default function FundingDetail(){
 
     const [funding, setFunding] = useState([]);
 
-    // 날짜 문자열을 Date 객체로 변환
+    // 계산을 위해 날짜 문자열 Date 객체로 변환
     const parseDate = (dateString) => {
         return new Date(dateString);
     };
 
-    // 두 날짜의 차이 계산
+    // 두 날짜 차이 계산
     const dueDate = (endDate, startDate) => {
         const timeDifference = endDate - startDate;
         return Math.ceil(timeDifference / (1000 * 60 * 60 * 24));
@@ -121,7 +121,6 @@ export default function FundingDetail(){
         if (goalamount === 0) {
           throw new Error("0으로 나눌 수 없음");
         }
-      
         return Math.round((nowamount / goalamount) * 100);
       };
 
@@ -149,13 +148,11 @@ export default function FundingDetail(){
             }
         })
           .then(response => {
-            // console.log("api:", response.data)
             console.log('axios - fundingDetail')
             console.log(response.data)
             if (Array.isArray(response.data)) {
                 setFunding(response.data);
             } else if (typeof response.data === 'object') {
-                // 객체를 배열로 감싸서 설정
                 setFunding([response.data]);
             }
           })
@@ -165,7 +162,7 @@ export default function FundingDetail(){
           
           
         }, [fundingcode]);
-    // 날짜 문자열을 원하는 형식으로 변환
+    // 날짜 형식 변환
     const formatDate = (dateString) => {
         const date = new Date(dateString);
         return date.toLocaleDateString('ko-KR');
@@ -174,7 +171,6 @@ export default function FundingDetail(){
 
         
     return(
-        
         <Container>
         <Menubar/>
         {funding.map((detail)=> (
@@ -191,8 +187,8 @@ export default function FundingDetail(){
                     <Bold> {detail.nowamount} <br/></Bold>
                     펀딩 기간<br/>
                     <Bold> {dueDate(parseDate(detail.enddate), parseDate(detail.startdate))} 일 <br/></Bold>
-                    후원자 <br/>
-                    <Bold> 5명 <br/></Bold>
+                    {/* 후원자 <br/>
+                    <Bold> 5명 <br/></Bold> */}
                 </Box>
                 <Table>
                     <TableRow>
@@ -208,9 +204,9 @@ export default function FundingDetail(){
                         <TableCell> {formatDate(detail.enddate)} 익일 결제 </TableCell>
                     </TableRow> 
                 </Table>
-                <SupportBtn onClick={() => router.push('/funding/funding')}>
+                <Btn onClick={() => router.push('/funding/funding')}>
                     목록으로
-                </SupportBtn>
+                </Btn>
             </Container3>       
         </Container2>
         <Container4>
@@ -218,10 +214,8 @@ export default function FundingDetail(){
         {detail.content}
         </Content>
         <Rewards>
-        <RewardsList />
+            <RewardsList />
         </Rewards>
-
-
         </Container4>
         </div> 
             ))}    

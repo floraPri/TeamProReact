@@ -6,11 +6,12 @@ import axios from 'axios';
 import { getAuthToken } from "@/component/user/axios_helper";
 
 const Container = styled.div`
-    display: grid;
-    min-width: 1280px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     justify-content: center;
-    text-align: center;
-    padding: 20px 0;
+    height: 100%;
+    margin-bottom:30px;
 `;
 
 const MenuTitle = styled.div`
@@ -19,50 +20,54 @@ const MenuTitle = styled.div`
     font-weight:600;
     margin-top:20px;
     margin-bottom:20px;
-    padding: 10px 0px 6px 0px;
+    width:1280px;
+
 `;
 
 const ListContainer = styled.div`
     display: grid;
     grid-template-columns: repeat(2, 1fr);
-    // flex-direction: column;
     gap: 20px;
     width:90%;
     align-items: center;
     justify-content: center;
+    max-width:1280px;
 `;
 
 const Container2 = styled.div`
     display:grid;
     grid-template-columns: repeat(2, 1fr);
-    width:550px;
+    justify-items: center;
     padding: 30px;
     background-color: #fff;
     border: 1px solid #e0e0e0;
     border-radius: 8px;
-
+    height:380px;
 `;
 
 const FundingContainer = styled.div`
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding: 15px;
     cursor: pointer;
     &:hover {
         color: rgb(3,193,121, 0.6);
     }
+    margin-right:5px;
 `;
 
 const FundingImg = styled.img`
-    width: 200px;
-    margin: 0 auto 20px;
+    height: 200px;
+    max-width:200px;
+    object-fit: cover;
+    margin: 0 auto 10px;
 `;
 
 const Category = styled.div`
-    margin-top: 5px;
+    margin-top: 2px;
     text-align:center;
     font-weight:600;
+    font-size:12px;
 `;
 
 const Title = styled.div`
@@ -72,45 +77,70 @@ const Title = styled.div`
 `;
 
 const PreContent = styled.div`
-    font-size: 14px;
+    font-size: 12px;
     font-weight: 500;
+    color:grey;
 `;
 
 const RewardContainer = styled.div`
     display:flex;
     flex-direction: column;
-    background-color: #f9f9f9;
+    height:100%;
+    margin-left:15px;
 `;
 const RewardTitle = styled.div`
     text-align:center;
     justify-content: center;
-    font-size:16px;
-    font-weight:600;
-    margin-top:5px;
-    margin-bottom:5px;
+    font-size:17px;
+    font-weight:700;
 `;
 const SubTitle = styled.div`
     text-align:center;
     justify-content: center;
-    font-size:15px;
+    font-size:14px;
     font-weight:600;
     margin-top:35px;
     margin-bottom:5px;
 `;
 const Content = styled.div`
     text-align:center;
+    margin-bottom:30px;
+    font-size:14px;
+    color:grey;
 `;
 const DeliveryDate = styled.div`
     text-align:right;
     margin: 8px 0;
     padding-right:5px;
-    font-size:10px;
+    font-size:11px;
     font-color:grey;
 `;
 
 const Center = styled.div`
     text-align:center;
+    justify-content:center;
 `;
+const NowAmount = styled.div`
+    text-align:center;
+    justify-content:center;
+    font-weight:500;
+    margin-top:2px;
+    font-size:13px;
+`;
+
+const Table = styled.table`
+    width:350px;
+`;
+
+const Cell = styled.td`
+    border-bottom:1px solid rgb(0,0,0,0.1);
+    color: rgb(0,0,0,0.8);
+    padding:8px;
+    padding-left:20px;
+    font-size:13px;
+
+`;
+
 
 export default function MyPledges(){
     const router = useRouter();
@@ -176,35 +206,55 @@ export default function MyPledges(){
     return(
     <Container>
         <Menubar/>
-        <MenuTitle> 후원한 목록 </MenuTitle>
-<ListContainer>
+
+        <MenuTitle> 후원정보 </MenuTitle>
+    <ListContainer>
         {data.map((view) => (
             <div key={view.userno}>
+                <Center>
             <Container2>
             <FundingContainer onClick={() => router.push(`/funding/fundingDetail?fundingcode=${view.fundingcode}`)}>
-
             <FundingImg src={view.image}/>
             <Center>
                 <Category> {renameCategory(view.category)} </Category>
                 <Title> {view.title} </Title>
                 <PreContent> {view.precontent} </PreContent>
-                <Center>{view.nowamount}원, {achievementRate(view.nowamount,view.goalamount)}% 달성 <br/></Center>
+                <NowAmount>{view.nowamount}원, {achievementRate(view.nowamount,view.goalamount)}% 달성 <br/></NowAmount>
             </Center>
             </FundingContainer>
             <RewardContainer>
-                <SubTitle> 후원 리워드 </SubTitle>
+                <SubTitle> 후원 선물 정보 </SubTitle>
                 <RewardTitle> {view.rewardtitle} </RewardTitle>
                 <Content>{view.rewardcontent}</Content>
-                주소 : {view.address}<br/>
-                갯수 : {view.quantity}<br/>
-                후원액 : {view.quantity * view.price}<br/>
-                후원일 : {formatDate(view.regdate)}<br/>
+                <Table>
+                    <tbody>
+                        <tr>
+                            <Cell align="left"> 개수 </Cell>
+                            <Cell> {view.quantity} </Cell>
+                        </tr>
+                        <tr>
+                            <Cell align="left"> 후원액 </Cell>
+                            <Cell> {view.quantity * view.price} </Cell>
+                        </tr>
+                        <tr>
+                            <Cell align="left"> 후원일 </Cell>
+                            <Cell> {formatDate(view.regdate)} </Cell>
+                        </tr>
+                        <tr>
+                            <Cell align="left"> 주소 </Cell>
+                            <Cell> {view.address} </Cell>
+                        </tr>
+                    </tbody>
+                </Table>
+               
                 <DeliveryDate> {formatDate(view.delivery)} 배송 예정 </DeliveryDate>
             </RewardContainer>
             </Container2>
+            </Center>
             </div>
             ))}
-</ListContainer>
+    </ListContainer>
+    
     </Container>
         
     )

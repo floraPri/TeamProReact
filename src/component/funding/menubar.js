@@ -22,20 +22,24 @@ const Move = styled.div`
     }
 `;
 
+const Text = styled.div`
+    font-size:14px;
+
+`;
 
 export default function Menubar(){
     const router = useRouter();
     return(
     <Container>
         <NavDropdown title="My" id="navbarScrollingDropdown">
-              <NavDropdown.Item href="/funding/fundingAdd">add</NavDropdown.Item>
+              <NavDropdown.Item href="/funding/fundingAdd"><Text>프로젝트 등록</Text></NavDropdown.Item>
               <NavDropdown.Divider />
               <NavDropdown.Item href="/funding/myFunding/myOrganizeList">
-                올린 프로젝트
+                <Text>올린 프로젝트</Text>
               </NavDropdown.Item>
               <NavDropdown.Divider />
               <NavDropdown.Item href="/funding/myFunding/myPledges">
-                후원 목록
+                <Text>후원 목록</Text>
               </NavDropdown.Item>
         </NavDropdown> &nbsp; &nbsp;
 

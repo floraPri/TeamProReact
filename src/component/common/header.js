@@ -121,7 +121,7 @@ export default function Header() {
 
                             <Dropdown.Menu>
                                 <Dropdown.Item href="/myPage/feedAdd">피드</Dropdown.Item>
-                                <Dropdown.Item href="/funding/fundingadd">펀딩</Dropdown.Item>
+                                <Dropdown.Item href="/funding/fundingAdd">펀딩</Dropdown.Item>
                                 <Dropdown.Item href="/auction/auctionAdd">경매</Dropdown.Item>
                             </Dropdown.Menu>
                         </Dropdown>

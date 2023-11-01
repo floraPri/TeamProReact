@@ -5,7 +5,7 @@ import axios from 'axios';
 
 const WeatherTab = styled.div`
   width: 300px;
-  height: 245px;
+  height: 300px;
   border: 1px solid #d9d9d9;
   padding: 15px;
   margin-bottom: 40px;
