@@ -27,17 +27,18 @@ const Title = styled.div`
 `;
 
 const Input = styled.input`
-  width: 500px;
-  padding: 5px;
-  margin: 0;
+    width: 500px;
+    padding: 5px;
+    margin: 0;
+    font-size:12px;
 `;
 
 const Textarea = styled.textarea`
-  width: 500px;
-  padding: 5px;
-  margin: 0;
+    width: 500px;
+    padding: 5px;
+    margin: 0;
+    font-size:12px;
 `;
-
 
 const cellStyle = {
     border: 'none',
@@ -113,8 +114,7 @@ export default function FundingAdd(){
             <TableRow>
                 <TableCell> 카테고리 </TableCell>
                 <TableCell>
-
-                    <select
+                <select
                     id="category"
                     name="category"
                     value={fundingData.category}
@@ -126,91 +126,89 @@ export default function FundingAdd(){
                     <option value="game"> 게임 </option>
                     <option value="living"> 리빙 </option>
                     <option value="pet"> 반려동물 </option>
-                    <option value="pet"> 반려동물 </option>
-                    </select>
-
+                </select>
                 </TableCell>
             </TableRow>
             <TableRow>
-                <TableCell> title </TableCell>
+                <TableCell> 펀딩 제목 </TableCell>
                 <TableCell>
                     <Input
-                    type="text"
-                    id="title"
-                    name="title"
-                    value={fundingData.title}
-                    onChange={handleChange}
+                        type="text"
+                        id="title"
+                        name="title"
+                        value={fundingData.title}
+                        onChange={handleChange}
                     />
                     </TableCell>
             </TableRow>
             <TableRow>
                 <TableCell> 이미지 </TableCell>
                 <TableCell>
-                <Input
-                    type="file"
-                    id="image"
-                    name="image"
-                    accept="image/*" 
-                    onChange={handleChange}
-                    />
+                    <Input
+                        type="file"
+                        id="image"
+                        name="image"
+                        accept="image/*" 
+                        onChange={handleChange}
+                        />
                 </TableCell>    
             </TableRow>
             <TableRow>
-                <TableCell> content </TableCell>
+                <TableCell> 상세 내용 </TableCell>
                 <TableCell>
-                <Textarea
-                    id="content"
-                    name="content"
-                    value={fundingData.content}
-                    onChange={handleChange}
-                    />
-            </TableCell>
+                    <Textarea
+                        id="content"
+                        name="content"
+                        value={fundingData.content}
+                        onChange={handleChange}
+                        />
+                </TableCell>
             </TableRow>    
             <TableRow>
-                <TableCell> precontent </TableCell>
+                <TableCell> 요약 내용 </TableCell>
                 <TableCell>
-                <Textarea
-                    id="precontent"
-                    name="precontent"
-                    value={fundingData.precontent}
-                    onChange={handleChange}
-                    />
-            </TableCell>    
+                    <Textarea
+                        id="precontent"
+                        name="precontent"
+                        value={fundingData.precontent}
+                        onChange={handleChange}
+                        />
+                </TableCell>    
             </TableRow>
             <TableRow>
-                <TableCell> start </TableCell>
+                <TableCell> 시작일 </TableCell>
                 <TableCell>
-                <Input
-                    type="Date"
-                    id="startdate"
-                    name="startdate"
-                    value={fundingData.startdate}
-                    onChange={handleChange}
-                    />    
+                    <Input
+                        type="Date"
+                        id="startdate"
+                        name="startdate"
+                        value={fundingData.startdate}
+                        onChange={handleChange}
+                        />    
                 </TableCell>
             </TableRow>
             <TableRow>
-                <TableCell> end </TableCell>
+                <TableCell> 마감일 </TableCell>
                 <TableCell>
-                <Input
-                    type="Date"
-                    id="enddate"
-                    name="enddate"
-                    value={fundingData.enddate}
-                    onChange={handleChange}
-                    />    
+                    <Input
+                        type="Date"
+                        id="enddate"
+                        name="enddate"
+                        value={fundingData.enddate}
+                        onChange={handleChange}
+                        />    
                 </TableCell>
             </TableRow>
             <TableRow>
-                <TableCell> goalamount </TableCell>
+                <TableCell> 목표금액 </TableCell>
                 <TableCell>
-                <Input
-                    type="number"
-                    id="goalamount"
-                    name="goalamount"
-                    value={fundingData.goalamount}
-                    onChange={handleChange}
-                    />
+                    <Input
+                        type="number"
+                        id="goalamount"
+                        name="goalamount"
+                        value={fundingData.goalamount}
+                        onChange={handleChange}
+                        />
                 </TableCell>
             </TableRow>
             <TableRow>

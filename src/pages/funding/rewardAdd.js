@@ -46,9 +46,6 @@ const Textarea = styled.textarea`
   border:none;
 `;
 
-const FileInput = styled.input`
-`;
-
 const cellStyle = {
     border: 'none',
   };
@@ -65,7 +62,7 @@ export default function RewardAdd(){
       });
       
     const handleChange = (e) => {
-        const { name, value, type } = e.target;
+        const { name, value } = e.target;
         setRewardData((prevData) => ({
             ...prevData,
             [name]: value,
@@ -114,13 +111,13 @@ export default function RewardAdd(){
                         <TableRow>
                             <TableCell> 가격 </TableCell>
                             <TableCell>
-                            <Input
-                                type="number"
-                                id="price"
-                                name="price"
-                                value={rewardData.price}
-                                onChange={handleChange}
-                                />
+                                <Input
+                                    type="number"
+                                    id="price"
+                                    name="price"
+                                    value={rewardData.price}
+                                    onChange={handleChange}
+                                    />
                             </TableCell>
                         </TableRow>
                         <TableRow>

@@ -21,7 +21,6 @@ const ListContainer = styled.div`
     grid-template-columns: repeat(4, 1fr);
     align-items: center;
     justify-items: center;
-    width: 80%;
 `;
 
 const FundingContainer = styled.div`
@@ -37,7 +36,7 @@ const FundingContainer = styled.div`
     }
     padding:10px;
     margin-bottom:25px;
-    width:100%;
+    width:300px;
 `;
 
 const FundingImg = styled.img`

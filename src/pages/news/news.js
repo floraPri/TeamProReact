@@ -26,15 +26,20 @@ const NewsContainer = styled.div`
     }
 `;
 const Section = styled.div`
+    font-size:13px;
     font-weight:600;
-    width: 37px;
+    width: 45px;
+    padding-left:2px;
+    padding-right:2px;
     `;
 const NewsTitle = styled.div`
     width:220px;
+    font-size:13px;
 
 `;
 const RegDate = styled.div`
     text-align:right;
+    font-size:12px;
 
 `;
 
@@ -69,6 +74,8 @@ export default function News(){
             return '사회';
             case 103:
             return '생활';
+            case 104:
+            return '세계';
             default:
             return newssection;
         }

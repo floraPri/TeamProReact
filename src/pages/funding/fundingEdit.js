@@ -175,25 +175,23 @@ export default function FundingEdit(){
             <TableRow>
                 <TableCell> 카테고리 </TableCell>
                 <TableCell colSpan={2}>
-
                     <select
-                    id="category"
-                    name="category"
-                    value={fundingData.category}
-                    onChange={handleChange}
-                    >
-                    <option value=""> 카테고리 </option>
-                    <option value="stationery"> 문구 </option>
-                    <option value="book"> 출판 </option>
-                    <option value="game"> 게임 </option>
-                    <option value="living"> 리빙 </option>
-                    <option value="pet"> 반려동물 </option>
+                        id="category"
+                        name="category"
+                        value={fundingData.category}
+                        onChange={handleChange}
+                        >
+                        <option value=""> 카테고리 </option>
+                        <option value="stationery"> 문구 </option>
+                        <option value="book"> 출판 </option>
+                        <option value="game"> 게임 </option>
+                        <option value="living"> 리빙 </option>
+                        <option value="pet"> 반려동물 </option>
                     </select>
-
                 </TableCell>
             </TableRow>
             <TableRow>
-                <TableCell> title </TableCell>
+                <TableCell> 펀딩 제목 </TableCell>
                 <TableCell colSpan={2}>
                     <Input
                     type="text"
@@ -205,24 +203,22 @@ export default function FundingEdit(){
                     </TableCell>
             </TableRow>
             <TableRow>
-                <TableCell>
-                    이미지
-                </TableCell>
+                <TableCell> 이미지 </TableCell>
                 <TableCell>
                     {fundingData.image && <img src={fundingData.image} alt="Funding Image" style={{ width: '100px', height: '100px' }} />}
                 </TableCell>
                 <TableCell>
-                <Input
-                    type="file"
-                    id="image"
-                    name="image"
-                    accept="image/*" 
-                    onChange={handleChange}
-                    />
+                    <Input
+                        type="file"
+                        id="image"
+                        name="image"
+                        accept="image/*" 
+                        onChange={handleChange}
+                        />
                 </TableCell>    
             </TableRow>
             <TableRow>
-                <TableCell> content </TableCell>
+                <TableCell> 상세 내용 </TableCell>
                 <TableCell colSpan={2}>
                 <Textarea
                     id="content"
@@ -233,7 +229,7 @@ export default function FundingEdit(){
             </TableCell>
             </TableRow>    
             <TableRow>
-                <TableCell> precontent </TableCell>
+                <TableCell> 요약 내용 </TableCell>
                 <TableCell colSpan={2}>
                 <Textarea
                     id="precontent"
@@ -245,7 +241,7 @@ export default function FundingEdit(){
             </TableRow>
             <TableRow>
                 {/* 시작일 수정불가 */}
-                <TableCell> start </TableCell> 
+                <TableCell> 시작일 </TableCell> 
                 <TableCell colSpan={2}>
                 <Input
                     type="Date"
@@ -258,7 +254,7 @@ export default function FundingEdit(){
                 </TableCell>
             </TableRow>
             <TableRow>
-                <TableCell> end </TableCell>
+                <TableCell> 마감일 </TableCell>
                 <TableCell colSpan={2}>
                 <Input
                     type="Date"
@@ -270,7 +266,7 @@ export default function FundingEdit(){
                 </TableCell>
             </TableRow>
             <TableRow>
-                <TableCell> goalamount </TableCell>
+                <TableCell> 목표금액 </TableCell>
                 <TableCell colSpan={2}>
                 <Input
                     type="number"

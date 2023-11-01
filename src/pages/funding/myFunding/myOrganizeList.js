@@ -28,13 +28,13 @@ const ListContainer = styled.div`
     grid-template-columns: repeat(3, 1fr);
     padding-top: 20px;
     justify-content: center;
-    justify-items: center;  // 가로 방향으로 아이템들을 가운데 정렬
+    justify-items: center;
     width:900px;
 `;
 
 const Card = styled.div`
     display: flex;
-    flex-direction: column;  // 이 부분은 세로 방향으로 아이템들을 배열하려는 경우에 추가합니다.
+    flex-direction: column;
     align-items:center;
 
 `;
@@ -62,20 +62,19 @@ const FundingImg = styled.img`
 
 const Category = styled.div`
     margin-top:5px;
-    font-size:10px;
-    
+    margin-bottom:2px;
+    font-size:11px;
 `;
 
 const Title = styled.div`
     font-weight:600;
-    font-size:14px;
+    font-size:15px;
 `;
 
 const PreContent = styled.div`
-    margin-top:5px;
-    font-size:10px;
-    color:lightgrey;
-    opacity:0.9;
+    margin-top:1px;
+    font-size:12px;
+    opacity:0.5;
 `;
 
 const Edit = styled.div`
@@ -103,6 +102,11 @@ const Box = styled.div`
     height:250px;
 `;
 
+const FundingPrice = styled.div`
+  margin: 2px 0; 
+  font-size:14px;
+  font-weight:600;
+`;
 const Price = styled.div`
   margin: 8px 0; 
   font-weight:600;
@@ -115,17 +119,20 @@ const RewardTitle = styled.div`
 `;
 
 const Content = styled.div`
-  font-size: 12px;
+  font-size: 14px;
   margin: 8px 0;
 `;
 
 const DeliveryDate = styled.div`
-  margin: 8px 0;
+  margin: 3px;
+  font-size:12px;
 `;
 
 const Con1 = styled.div`
   margin:10px;
+  margin-bottom:5px;
   padding:10px;
+  padding-bottom:5px;
 `;
 const RewardEdit = styled.button`
   text-align:center;
@@ -133,7 +140,7 @@ const RewardEdit = styled.button`
   width:80px;
   padding:10px;
   margin:auto;
-  font-size:10px;
+  font-size:11px;
   font-weight:600;
   background:rgba(3, 193, 121, 0.4);
   border:none;
@@ -206,11 +213,12 @@ const RewardEdit = styled.button`
         }
     }
 
-    // 날짜 문자열을 원하는 형식으로 변환
+    // 날짜 형식 변환
     const formatDate = (dateString) => {
         const date = new Date(dateString);
         return date.toLocaleDateString('ko-KR');
     };
+    // 달성률 계산
     const achievementRate = (nowamount, goalamount) => {
         if (goalamount === 0) {
           throw new Error("0으로 나눌 수 없음");
@@ -230,7 +238,7 @@ const RewardEdit = styled.button`
                             <FundingImg src={funding.image} />
                             <Category>{renameCategory(funding.category)}</Category>
                             <Title>{funding.title}</Title>
-                            <Price>{funding.nowamount}원, {achievementRate(funding.nowamount, funding.goalamount)}% 달성</Price>
+                            <FundingPrice>{funding.nowamount}원, {achievementRate(funding.nowamount, funding.goalamount)}% 달성</FundingPrice>
                             <PreContent>{funding.precontent}</PreContent>
                         </FundingContainer>
                             <Edit onClick={() => router.push(`/funding/fundingEdit?fundingcode=${funding.fundingcode}`)}> 수정 </Edit>

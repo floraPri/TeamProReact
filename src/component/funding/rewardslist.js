@@ -32,7 +32,7 @@ const Title = styled.div`
 `;
 
 const Content = styled.div`
-  font-size: 12px;
+  font-size: 13px;
   margin: 8px 0;
 `;
 
@@ -51,7 +51,7 @@ const SupportBtn = styled.button`
   padding:10px;
   margin:auto;
   margin-top:20px;
-  font-size:10px;
+  font-size:12px;
   font-weight:600;
   background:rgba(3, 193, 121, 0.4);
   border:none;
@@ -75,13 +75,11 @@ export default function RewardsList(){
             }
         })
           .then(response => {
-            // console.log("api:", response.data)
             console.log('axios - reward')
             console.log(response.data)
             if (Array.isArray(response.data)) {
                 setReward(response.data);
             } else if (typeof response.data === 'object') {
-                // 객체를 배열로 감싸서 설정
                 setReward([response.data]);
             }
           })
@@ -91,7 +89,7 @@ export default function RewardsList(){
           
           
         }, [fundingcode]);
-    // 날짜 문자열을 원하는 형식으로 변환
+    // 날짜 형식으로 변환
     const formatDate = (dateString) => {
         const date = new Date(dateString);
         return date.toLocaleDateString('ko-KR');

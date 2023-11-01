@@ -42,7 +42,7 @@ const Container2 = styled.div`
     background-color: #fff;
     border: 1px solid #e0e0e0;
     border-radius: 8px;
-    height:400px;
+    height:380px;
 `;
 
 const FundingContainer = styled.div`
@@ -53,6 +53,7 @@ const FundingContainer = styled.div`
     &:hover {
         color: rgb(3,193,121, 0.6);
     }
+    margin-right:5px;
 `;
 
 const FundingImg = styled.img`
@@ -63,9 +64,10 @@ const FundingImg = styled.img`
 `;
 
 const Category = styled.div`
-    margin-top: 5px;
+    margin-top: 2px;
     text-align:center;
     font-weight:600;
+    font-size:12px;
 `;
 
 const Title = styled.div`
@@ -77,21 +79,20 @@ const Title = styled.div`
 const PreContent = styled.div`
     font-size: 12px;
     font-weight: 500;
+    color:grey;
 `;
 
 const RewardContainer = styled.div`
     display:flex;
     flex-direction: column;
     height:100%;
-    margin-left:10px;
+    margin-left:15px;
 `;
 const RewardTitle = styled.div`
     text-align:center;
     justify-content: center;
-    font-size:16px;
-    font-weight:600;
-    margin-top:5px;
-    margin-bottom:5px;
+    font-size:17px;
+    font-weight:700;
 `;
 const SubTitle = styled.div`
     text-align:center;
@@ -103,14 +104,15 @@ const SubTitle = styled.div`
 `;
 const Content = styled.div`
     text-align:center;
-    margin-top:10px;
-    margin-bottom:20px;
+    margin-bottom:30px;
+    font-size:14px;
+    color:grey;
 `;
 const DeliveryDate = styled.div`
     text-align:right;
     margin: 8px 0;
     padding-right:5px;
-    font-size:10px;
+    font-size:11px;
     font-color:grey;
 `;
 
@@ -121,8 +123,9 @@ const Center = styled.div`
 const NowAmount = styled.div`
     text-align:center;
     justify-content:center;
-    font-weight:600;
+    font-weight:500;
     margin-top:2px;
+    font-size:13px;
 `;
 
 const Table = styled.table`
@@ -134,13 +137,10 @@ const Cell = styled.td`
     color: rgb(0,0,0,0.8);
     padding:8px;
     padding-left:20px;
+    font-size:13px;
 
 `;
 
-const Con2 = styled.div`
-    margin:0 auto;
-
-`;
 
 export default function MyPledges(){
     const router = useRouter();
