@@ -59,7 +59,7 @@ const FundingImg = styled.img`
     height: 200px;
     max-width:200px;
     object-fit: cover;
-    margin: 0 auto 20px;
+    margin: 0 auto 10px;
 `;
 
 const Category = styled.div`
@@ -117,6 +117,12 @@ const DeliveryDate = styled.div`
 const Center = styled.div`
     text-align:center;
     justify-content:center;
+`;
+const NowAmount = styled.div`
+    text-align:center;
+    justify-content:center;
+    font-weight:600;
+    margin-top:2px;
 `;
 
 const Table = styled.table`
@@ -213,7 +219,7 @@ export default function MyPledges(){
                 <Category> {renameCategory(view.category)} </Category>
                 <Title> {view.title} </Title>
                 <PreContent> {view.precontent} </PreContent>
-                <Center>{view.nowamount}원, {achievementRate(view.nowamount,view.goalamount)}% 달성 <br/></Center>
+                <NowAmount>{view.nowamount}원, {achievementRate(view.nowamount,view.goalamount)}% 달성 <br/></NowAmount>
             </Center>
             </FundingContainer>
             <RewardContainer>
