@@ -2,7 +2,7 @@ import styled from "styled-components";
 import * as React from 'react';
 import { useState, useEffect } from "react";
 import axios from "axios";
-import { AiFillCheckCircle } from "react-icons/Ai";
+import { AiFillCheckCircle } from "react-icons/ai";
 import {Table ,TableCell, TableRow, TableBody, Button, TableContainer} from "@mui/material";
 import { Form } from "react-bootstrap";
 import { useRouter } from "next/router";
