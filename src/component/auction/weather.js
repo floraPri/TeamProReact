@@ -54,20 +54,20 @@ function Weather() {
 
     const temperatureColor = (temper) => {
         console.log('색변경 테스트');
-        if (temper >= 28) {
+        if (temper >= 27.1) {
             return '#ff2414';
-        } else if (temper <= 27 && temper >= 23) {
+        } else if (temper <= 27 && temper >= 22.01) {
             return '#e64629';
-        } else if (temper <= 22 && temper >= 20) {
+        } else if (temper <= 22 && temper >= 19.01) {
             return '#ffbf29';
-        } else if (temper <= 19 && temper >= 17) {
+        } else if (temper <= 19 && temper >= 16.01) {
             return '#71fc58';
-        } else if (temper <= 16 && temper >= 12) {
+        } else if (temper <= 16 && temper >= 11.0) {
             console.log('색변경 테스트2');
             return '#52faa9';
-        } else if (temper <= 11 & temper >= 9) {
+        } else if (temper <= 11 & temper >= 8.01) {
             return '#52bfff';
-        } else if (temper <= 8 & temper >= 5) {
+        } else if (temper <= 8 & temper >= 0.01) {
             return '#408fff';
         } else {
             return '#4026ff';
